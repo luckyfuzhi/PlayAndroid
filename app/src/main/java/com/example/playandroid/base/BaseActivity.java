@@ -2,13 +2,11 @@ package com.example.playandroid.base;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.playandroid.contract.LoginContract;
-import com.example.playandroid.view.ActivityCollector;
+import com.example.playandroid.view.activity.ActivityCollector;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements View.OnClickListener{
 

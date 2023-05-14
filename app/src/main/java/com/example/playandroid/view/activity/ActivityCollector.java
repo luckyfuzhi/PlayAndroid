@@ -1,4 +1,4 @@
-package com.example.playandroid.view;
+package com.example.playandroid.view.activity;
 
 
 import android.app.Activity;

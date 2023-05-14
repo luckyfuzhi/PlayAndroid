@@ -1,5 +1,6 @@
-package com.example.playandroid.view;
+package com.example.playandroid.view.activity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,6 +55,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public <ERROR> void responseError(ERROR error, Throwable throwable) {
         Toast.makeText(this, "登录异常", Toast.LENGTH_SHORT).show();
+        Log.e("LoginActivity", "responseError: 登录异常/" + error, null);
+        throwable.printStackTrace();
     }
 
     @Override

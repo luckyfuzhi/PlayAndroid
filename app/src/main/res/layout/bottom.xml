@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:layout_gravity="bottom"
+    android:stateListAnimator="@null"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/home_page"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/first_page_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside"
+            android:background="@color/white"
+            android:clickable="false"
+            android:src="@drawable/home_page_btn_animator"
+            />
+
+        <TextView
+            android:id="@+id/first_page_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="首页"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/knowledge_system"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/knowledge_system_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside"
+            android:background="@color/white"
+            android:clickable="false"
+            android:src="@drawable/knowledge_system_btn_animator"
+            />
+
+        <TextView
+            android:id="@+id/knowledge_system_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="知识体系"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/project"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/project_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside"
+            android:background="@color/white"
+            android:clickable="false"
+            android:src="@drawable/project_btn_animator"
+            />
+
+        <TextView
+            android:id="@+id/project_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="项目"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

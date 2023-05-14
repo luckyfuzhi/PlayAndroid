@@ -1,14 +1,18 @@
-package com.example.playandroid.view;
+package com.example.playandroid.view.activity;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
+import android.widget.Toast;
 
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.base.BasePresenter;
 
+/**
+ *  启动画面
+ */
 public class SplashActivity extends BaseActivity {
 
     public static int SPLASH_DISPLAY_LENGTH = 1000;
@@ -17,7 +21,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SplashActivity.this, BottomActivity.class);
                 startActivity(intent);
                 destroy();
             }
@@ -49,7 +53,9 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void responseError(Object o, Throwable throwable) {
-
+        Toast.makeText(this, "打开应用失败", Toast.LENGTH_SHORT).show();
+        Log.e("SplashActivity", "responseError: 打开应用失败" + o, null);
+        throwable.printStackTrace();
     }
 
     @Override

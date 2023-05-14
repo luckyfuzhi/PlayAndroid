@@ -5,7 +5,7 @@ import android.util.Log;
 import com.example.playandroid.base.BasePresenter;
 import com.example.playandroid.contract.LoginContract;
 import com.example.playandroid.model.LoginModel;
-import com.example.playandroid.view.LoginActivity;
+import com.example.playandroid.view.activity.LoginActivity;
 
 public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel>  implements LoginContract.VP {
 
