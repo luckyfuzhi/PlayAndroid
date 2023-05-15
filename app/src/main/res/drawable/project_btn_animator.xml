@@ -2,7 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_window_focused="false"  android:drawable="@drawable/project_img" />
-    <item android:state_pressed="true"  android:drawable="@drawable/project_img_selected" />
     <item android:state_selected="true"  android:drawable="@drawable/project_img_selected" />
 
 </selector>

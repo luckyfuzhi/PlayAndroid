@@ -1,17 +1,23 @@
 package com.example.playandroid.view.activity;
 
-import android.graphics.Color;
+import android.app.ActionBar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.playandroid.MyApplication;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.base.BasePresenter;
+import com.example.playandroid.view.fragment.FirstPageFragment;
+import com.example.playandroid.view.fragment.KnowledgeSystemFragment;
+import com.example.playandroid.view.fragment.ProjectFragment;
 
 
 /**
@@ -19,22 +25,33 @@ import com.example.playandroid.base.BasePresenter;
  */
 public class BottomActivity extends BaseActivity {
 
-    private ImageButton firstPageButton;
-    private ImageButton knowledgeSystemButton;
-    private ImageButton projectButton;
+    private ImageView firstPageButton;
+    private ImageView knowledgeSystemButton;
+    private ImageView projectButton;
 
     private TextView firstPageText;
     private TextView knowledgeSystemText;
     private TextView projectText;
+    private LinearLayout firstPage;
+    private LinearLayout knowledgeSystem;
+    private LinearLayout project;
 
     @Override
     public void initView() {
+        //初始化底部导航栏控件
         firstPageButton = findViewById(R.id.first_page_img);
         knowledgeSystemButton = findViewById(R.id.knowledge_system_img);
         projectButton = findViewById(R.id.project_img);
         firstPageText = findViewById(R.id.first_page_text);
         knowledgeSystemText = findViewById(R.id.knowledge_system_text);
         projectText = findViewById(R.id.project_text);
+        firstPage=findViewById(R.id.home_page);
+        knowledgeSystem=findViewById(R.id.knowledge_system);
+        project=findViewById(R.id.project);
+        setSelectedState(R.id.first_page_img);
+        replaceFragment(new FirstPageFragment());
+
+
     }
 
     @Override
@@ -43,9 +60,9 @@ public class BottomActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-        firstPageButton.setOnClickListener(this);
-        knowledgeSystemButton.setOnClickListener(this);
-        projectButton.setOnClickListener(this);
+        firstPage.setOnClickListener(this);
+        knowledgeSystem.setOnClickListener(this);
+        project.setOnClickListener(this);
     }
 
     @Override
@@ -71,36 +88,58 @@ public class BottomActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.first_page_img){
-            //设置选中状态
-            findViewById(R.id.knowledge_system_img).setSelected(false);
-            findViewById(R.id.project_img).setSelected(false);
-            knowledgeSystemText.setTextColor(Color.BLACK);
-            projectText.setTextColor(Color.BLACK);
-            firstPageText.setTextColor(Color.GREEN);
-            view.setSelected(true);
+        int id = view.getId();
+        if (id == R.id.home_page) {
+            setSelectedState(R.id.first_page_img);
+            replaceFragment(new FirstPageFragment());
 
+        } else if (id == R.id.knowledge_system) {
+            setSelectedState(R.id.knowledge_system_img);
+            replaceFragment(new KnowledgeSystemFragment());
 
+        } else if (id == R.id.project) {
+            setSelectedState(R.id.project_img);
+            replaceFragment(new ProjectFragment());
 
-        } else if (view.getId() == R.id.knowledge_system_img) {
-            //设置选中状态
-            findViewById(R.id.first_page_img).setSelected(false);
-            findViewById(R.id.project_img).setSelected(false);
-            firstPageText.setTextColor(Color.BLACK);
-            projectText.setTextColor(Color.BLACK);
-            knowledgeSystemText.setTextColor(Color.parseColor("#1AB5A6"));
-            view.setSelected(true);
-
-
-
-        } else if (view.getId() == R.id.project_img) {
-            //设置选中状态
-            findViewById(R.id.first_page_img).setSelected(false);
-            findViewById(R.id.knowledge_system_img).setSelected(false);
-            firstPageText.setTextColor(Color.BLACK);
-            knowledgeSystemText.setTextColor(Color.BLACK);
-            projectText.setTextColor(Color.parseColor("#0787DD"));
-            view.setSelected(true);
         }
+
+
+    }
+
+    /**
+     *  设置选中状态
+     * @param id
+     */
+    public void setSelectedState(int id) {
+        knowledgeSystemText.setTextColor(getResources().getColor(R.color.black));
+        projectText.setTextColor(getResources().getColor(R.color.black));
+        firstPageText.setTextColor(getResources().getColor(R.color.black));
+        knowledgeSystemButton.setSelected(false);
+        projectButton.setSelected(false);
+        firstPageButton.setSelected(false);
+
+        if (id == R.id.first_page_img) {
+            firstPageButton.setSelected(true);
+            firstPageText.setTextColor(getResources().getColor(R.color.green));
+
+
+        } else if (id == R.id.knowledge_system_img) {
+            knowledgeSystemButton.setSelected(true);
+            knowledgeSystemText.setTextColor(getResources().getColor(R.color.shallow_blue));
+
+
+        } else if (id == R.id.project_img) {
+            projectButton.setSelected(true);
+            projectText.setTextColor(getResources().getColor(R.color.blue));
+
+
+        }
+    }
+
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content_frag, fragment);
+        transaction.commit();
     }
 }

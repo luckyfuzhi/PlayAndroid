@@ -1,93 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
-    android:layout_gravity="bottom"
-    android:stateListAnimator="@null"
+    android:layout_height="match_parent"
     android:background="@color/white">
 
-    <LinearLayout
-        android:id="@+id/home_page"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+    <!-- 顶部标题 -->
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_gravity="top"
+        android:background="@color/blue">
 
-        <ImageButton
-            android:id="@+id/first_page_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:scaleType="centerInside"
-            android:background="@color/white"
-            android:clickable="false"
-            android:src="@drawable/home_page_btn_animator"
-            />
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/search" />
 
         <TextView
-            android:id="@+id/first_page_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="首页"
-            android:textColor="@color/black"/>
+            android:layout_centerInParent="true"
+            android:text="玩Android"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
 
-    </LinearLayout>
 
+    </RelativeLayout>
+
+
+
+    <!-- 中部内容 -->
     <LinearLayout
-        android:id="@+id/knowledge_system"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:id="@+id/content_frag"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"
+        android:orientation="vertical"
+        />
 
-        <ImageButton
-            android:id="@+id/knowledge_system_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:scaleType="centerInside"
-            android:background="@color/white"
-            android:clickable="false"
-            android:src="@drawable/knowledge_system_btn_animator"
-            />
 
-        <TextView
-            android:id="@+id/knowledge_system_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="知识体系"
-            android:textColor="@color/black"/>
 
-    </LinearLayout>
-
+    <!-- 底部导航栏 -->
     <LinearLayout
-        android:id="@+id/project"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_marginBottom="0dp"
+        android:background="@color/white">
 
-        <ImageButton
-            android:id="@+id/project_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:scaleType="centerInside"
-            android:background="@color/white"
-            android:clickable="false"
-            android:src="@drawable/project_btn_animator"
-            />
+        <LinearLayout
+            android:id="@+id/home_page"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/project_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="项目"
-            android:textColor="@color/black"/>
 
+            <ImageView
+                android:id="@+id/first_page_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/home_page_btn_animator" />
+
+            <TextView
+                android:id="@+id/first_page_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="首页"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/knowledge_system"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/knowledge_system_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/knowledge_system_btn_animator"
+                />
+
+            <TextView
+                android:id="@+id/knowledge_system_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="知识体系"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/project"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/project_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/project_btn_animator"
+                />
+
+            <TextView
+                android:id="@+id/project_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="项目"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
     </LinearLayout>
+
+
 
 
 </LinearLayout>

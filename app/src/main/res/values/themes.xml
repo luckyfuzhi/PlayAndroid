@@ -9,4 +9,6 @@
     </style>
 
     <style name="Theme.PlayAndroid" parent="Base.Theme.PlayAndroid" />
+    
+    <style name="MyStyle" parent="Theme.AppCompat.Light.NoActionBar"/>
 </resources>
