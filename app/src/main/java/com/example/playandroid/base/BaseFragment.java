@@ -30,15 +30,14 @@ public abstract class BaseFragment<P extends BasePresenterForFragment> extends F
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(getFragmentId(), container, false);
-
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
         initData();
+        initView();
     }
 
     public abstract int getFragmentId();

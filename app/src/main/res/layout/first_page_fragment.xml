@@ -5,18 +5,39 @@
     android:layout_height="match_parent">
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/banner"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/fp_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="228dp">
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="227dp">
+            </androidx.viewpager.widget.ViewPager>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/first_page_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 
-    </androidx.viewpager.widget.ViewPager>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/first_page_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
 
 </LinearLayout>
