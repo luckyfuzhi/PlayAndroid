@@ -140,11 +140,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     //加载更多文章数据
     public void loadMoreArticle() {
-        isLoading = true;
         progressBar.setVisibility(View.VISIBLE);
         page++;
         requestArticleData(page);
-        isLoading = false;
     }
 
 
@@ -155,21 +153,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         @Override
         public void handleMessage(@NonNull Message message) {
             switch (message.what) {
-                case MSG_UPDATE_VIEW://接收设置图片的消息
-                    ImageView imageView = new ImageView(root.getContext());
-
-                    //ImageView imageView = root.findViewById(R.id.vp_img);
-                    //使用这个会报异常：The specified child already has a parent.
-                    //               You must call removeView() on the child's parent first.
-
-                    imageView.setImageBitmap(bitmap);
-                    imageViewList.add(imageView);
-                    bannerAdapter.notifyDataSetChanged();//必须设置这个来通知适配器数据变化了，要进行更新
-                    if (imageViewList.size() == 3) {
-                        mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 2000);
-                    }
-                    break;
-
                 case TOP_ARTICLE_READY:
                     flag1++;
                 case NORMAL_ARTICLE_READY:
@@ -179,8 +162,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                         progressBar.setVisibility(View.VISIBLE);
                         setArticleRecyclerView();
                     }
-                    articleRecyclerAdapter.notifyDataSetChanged();
-
+                    Log.d("test111", articleRecyclerAdapter.toString());
+                    articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
                     break;
 
                 default:
@@ -210,7 +193,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         }
     };
 
-    public void parseImageData(String imgUrl) {
+    public void setImageData(String imgUrl) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -219,9 +202,18 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                     @Override
                     public void onSuccess(InputStream data) {
                         bitmap = BitmapFactory.decodeStream(data);
-                        Message msg = new Message();
-                        msg.what = MSG_UPDATE_VIEW;//消息发送的标志
-                        handler.sendMessage(msg);
+                        ImageView imageView = new ImageView(root.getContext());
+                        //ImageView imageView = root.findViewById(R.id.vp_img);
+                        //使用这个会报异常：The specified child already has a parent.
+                        //               You must call removeView() on the child's parent first.
+
+                        imageView.setImageBitmap(bitmap);
+                        Log.d("test222", bitmap.toString());
+                        imageViewList.add(imageView);
+                        bannerAdapter.notifyDataSetChanged();//必须设置这个来通知适配器数据变化了，要进行更新
+                        if (imageViewList.size() == 3) {
+                            mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 0);
+                        }
                     }
 
                     @Override
@@ -243,7 +235,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     public void requestBannerDataResult(List<Banner> bannerList) {
         this.bannerList = bannerList;
         for (Banner banner : bannerList) {
-            parseImageData(banner.getImagePath());
+            setImageData(banner.getImagePath());
         }
     }
 

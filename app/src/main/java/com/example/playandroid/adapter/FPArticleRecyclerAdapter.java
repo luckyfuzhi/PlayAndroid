@@ -1,6 +1,8 @@
 package com.example.playandroid.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playandroid.R;
 import com.example.playandroid.entity.FPArticle;
+import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.List;
 
 public class FPArticleRecyclerAdapter extends RecyclerView.Adapter<FPArticleRecyclerAdapter.ViewHolder>{
 
     List<FPArticle> mArticleList;
+
+    private Context mContext;
 
     public FPArticleRecyclerAdapter(List<FPArticle> articleList) {
         this.mArticleList = articleList;
@@ -49,6 +54,7 @@ public class FPArticleRecyclerAdapter extends RecyclerView.Adapter<FPArticleRecy
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fp_article_item, parent,
                  false);
         ViewHolder holder = new ViewHolder(view);
+        mContext = parent.getContext();
         return holder;
     }
 
@@ -60,6 +66,16 @@ public class FPArticleRecyclerAdapter extends RecyclerView.Adapter<FPArticleRecy
         holder.author.setText("作者：" + article.getAuthor());
         holder.type.setText("类别：" + article.getSuperChapterName() + "/" + article.getChapterName());
         holder.time.setText("时间：" + article.getNiceShareDate());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ArticleDetailActivity.class);
+                intent.setAction("sendArticleData");
+                intent.putExtra("articleLink", article.getLink());
+                intent.putExtra("title", article.getTitle());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

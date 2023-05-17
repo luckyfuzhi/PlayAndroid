@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#2CB5F3"
+        >
+
+        <ImageView
+            android:id="@+id/article_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/back"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/article_detail_title"
+            android:layout_width="270dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:text=""
+            android:lines="1"
+            android:ellipsize="end"/>
+
+        <ProgressBar
+            android:id="@+id/load_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            />
+    </RelativeLayout>
+
+
+
+<!--    style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--    android:progress="0"-->
+<!--    android:max="100"-->
+
+    <WebView
+        android:id="@+id/wv_article"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"/>
+
+
+</LinearLayout>
