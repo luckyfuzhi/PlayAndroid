@@ -14,10 +14,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     public P mPresenter;
 
+    public Bundle mSavedInstanceState;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
+        mSavedInstanceState = savedInstanceState;
 
         //隐藏状态栏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -162,7 +162,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                         progressBar.setVisibility(View.VISIBLE);
                         setArticleRecyclerView();
                     }
-                    Log.d("test111", articleRecyclerAdapter.toString());
                     articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
                     break;
 
@@ -208,7 +207,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                         //               You must call removeView() on the child's parent first.
 
                         imageView.setImageBitmap(bitmap);
-                        Log.d("test222", bitmap.toString());
                         imageViewList.add(imageView);
                         bannerAdapter.notifyDataSetChanged();//必须设置这个来通知适配器数据变化了，要进行更新
                         if (imageViewList.size() == 3) {

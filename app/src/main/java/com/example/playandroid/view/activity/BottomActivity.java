@@ -36,6 +36,12 @@ public class BottomActivity extends BaseActivity {
     private LinearLayout knowledgeSystem;
     private LinearLayout project;
 
+    private FragmentManager fragmentManager;
+    private Fragment currentFragment;
+    private FirstPageFragment firstPageFragment;
+    private KnowledgeSystemFragment knowledgeSystemFragment;
+    private ProjectFragment projectFragment;
+
     @Override
     public void initView() {
         //初始化底部导航栏控件
@@ -45,17 +51,34 @@ public class BottomActivity extends BaseActivity {
         firstPageText = findViewById(R.id.first_page_text);
         knowledgeSystemText = findViewById(R.id.knowledge_system_text);
         projectText = findViewById(R.id.project_text);
-        firstPage=findViewById(R.id.home_page);
-        knowledgeSystem=findViewById(R.id.knowledge_system);
-        project=findViewById(R.id.project);
-        setSelectedState(R.id.first_page_img);
-        replaceFragment(new FirstPageFragment());
-
+        firstPage = findViewById(R.id.home_page);
+        knowledgeSystem = findViewById(R.id.knowledge_system);
+        project = findViewById(R.id.project);
+        currentFragment = new FirstPageFragment();
+        fragmentManager = getSupportFragmentManager();
 
     }
 
     @Override
     public void initData() {
+        if (mSavedInstanceState != null) {
+            firstPageFragment = (FirstPageFragment) fragmentManager.findFragmentByTag(FirstPageFragment.class.getName());
+            knowledgeSystemFragment = (KnowledgeSystemFragment) fragmentManager.findFragmentByTag(KnowledgeSystemFragment.class.getName());
+            projectFragment = (ProjectFragment) fragmentManager.findFragmentByTag(ProjectFragment.class.getName());
+
+            fragmentManager.beginTransaction().show(firstPageFragment).hide(knowledgeSystemFragment)
+                    .hide(projectFragment).commit();
+
+            currentFragment = firstPageFragment;//记录当前显示的Fragment
+
+        } else { //正常启动时调用
+            firstPageFragment = new FirstPageFragment();
+            knowledgeSystemFragment = new KnowledgeSystemFragment();
+            projectFragment = new ProjectFragment();
+
+            showFragment(firstPageFragment);
+            setSelectedState(R.id.first_page_img);
+        }
     }
 
     @Override
@@ -91,15 +114,15 @@ public class BottomActivity extends BaseActivity {
         int id = view.getId();
         if (id == R.id.home_page) {
             setSelectedState(R.id.first_page_img);
-            replaceFragment(new FirstPageFragment());
+            showFragment(firstPageFragment);
 
         } else if (id == R.id.knowledge_system) {
             setSelectedState(R.id.knowledge_system_img);
-            replaceFragment(new KnowledgeSystemFragment());
+            showFragment(knowledgeSystemFragment);
 
         } else if (id == R.id.project) {
             setSelectedState(R.id.project_img);
-            replaceFragment(new ProjectFragment());
+            showFragment(projectFragment);
 
         }
 
@@ -107,7 +130,8 @@ public class BottomActivity extends BaseActivity {
     }
 
     /**
-     *  设置选中状态
+     * 设置选中状态
+     *
      * @param id
      */
     public void setSelectedState(int id) {
@@ -136,10 +160,30 @@ public class BottomActivity extends BaseActivity {
         }
     }
 
-    public void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
+//    public void replaceFragment(Fragment fragment) {
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.replace(R.id.content_frag, fragment);
+//        transaction.commit();
+//    }
+
+
+    //替换上面的replaceFragment方法
+    private void showFragment(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content_frag, fragment);
+
+        if (!fragment.isAdded()) {//如果之前没有添加过
+            transaction
+                    .hide(currentFragment)
+                    .add(R.id.content_frag, fragment, fragment.getClass().getName());  //第三个参数为当前的fragment绑定一个tag，tag为当前绑定fragment的类名
+        } else {
+            transaction
+                    .hide(currentFragment)
+                    .show(fragment);
+        }
+
+        currentFragment = fragment;//记录当前Fragment
+
         transaction.commit();
+
     }
 }

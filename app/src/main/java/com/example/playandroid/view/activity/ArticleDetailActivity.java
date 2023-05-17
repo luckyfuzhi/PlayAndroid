@@ -111,8 +111,9 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.article_back){
-            Intent intent = new Intent(this, BottomActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, BottomActivity.class);
+//            startActivity(intent);
+            finish();
         }
     }
 }
