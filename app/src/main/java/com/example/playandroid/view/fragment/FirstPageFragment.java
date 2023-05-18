@@ -1,6 +1,7 @@
 package com.example.playandroid.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -33,14 +35,16 @@ import com.example.playandroid.entity.Banner;
 import com.example.playandroid.entity.FPArticle;
 import com.example.playandroid.presenter.FirstPagePresenter;
 import com.example.playandroid.util.WebUtil;
+import com.example.playandroid.view.activity.ArticleDetailActivity;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implements FirstPageContract.VP {
 
-    private final int MSG_UPDATE_VIEW = 1;
+    private final int SET_IMG = 1;
     private final int MSG_RECYCLE_VIEW = 0;
     private final int TOP_ARTICLE_READY = 2;
     private final int NORMAL_ARTICLE_READY = 3;
@@ -48,7 +52,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     private int flag = 0;
     private int flag1 = 0;
-    private boolean isLoading = false;
+    private boolean isAutoBanner = true;
     private ProgressBar progressBar;
     private BannerAdapter bannerAdapter;
     private ViewPager bannerViewPager;
@@ -61,10 +65,11 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private List<Banner> bannerList;
     private List<ImageView> imageViewList;
 
-    private List<FPArticle> articleList;
-    private List<FPArticle> topArticleList;
-
     private List<FPArticle> finalArticleList;
+
+    private String imgArticleLink;
+    private String imgArticleTitle;
+
 
     private Bitmap bitmap;
 
@@ -83,8 +88,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     @Override
     public void initData() {
         imageViewList = new ArrayList<>();
-        topArticleList = new ArrayList<>();
-        articleList = new ArrayList<>();
         finalArticleList = new ArrayList<>();
     }
 
@@ -97,10 +100,10 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         bannerViewPager = requireActivity().findViewById(R.id.banner);
         progressBar = requireActivity().findViewById(R.id.progressBar);
         articleRecyclerView = root.findViewById(R.id.first_page_recycler);
+        bannerAdapter = new BannerAdapter(imageViewList);
         requestBannerData();//请求banner数据
         requestTopArticleData();//请求置顶文章数据
         requestArticleData(0);//请求普通文章数据
-        bannerAdapter = new BannerAdapter(imageViewList);
         bannerViewPager.setAdapter(bannerAdapter);
     }
 
@@ -184,43 +187,100 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                 int index = bannerViewPager.getCurrentItem();
                 index = (index + 1) % count;
                 bannerViewPager.setCurrentItem(index);
-                //循环发送
-                mHandler.sendEmptyMessageDelayed(0, 2000);
+
+                if (isAutoBanner) {//循环发送
+                    mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 2000);
+                }
             } else {
                 bannerAdapter.notifyDataSetChanged();
             }
         }
     };
 
-    public void setImageData(String imgUrl) {
+    public Handler mHandlerForImg = new Handler(Looper.getMainLooper()) {
+        @SuppressLint("NotifyDataSetChanged")
+        public void handleMessage(Message msg) {
+            if (msg.what == SET_IMG) {
+                ImageView imageView = new ImageView(root.getContext());
+
+                //ImageView imageView = root.findViewById(R.id.vp_img);
+                //使用这个会报异常：The specified child already has a parent.
+                //               You must call removeView() on the child's parent first.
+
+                imageView.setImageBitmap(bitmap);
+                Log.d("test222", bitmap.toString());
+                imageView.setOnClickListener(new View.OnClickListener() {//设置轮播图点击事件
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(root.getContext(), ArticleDetailActivity.class);
+                        intent.setAction("sendArticleData");
+                        intent.putExtra("articleLink", imgArticleLink);
+                        intent.putExtra("title", imgArticleTitle);
+                        root.getContext().startActivity(intent);
+                    }
+                });
+//                    imageView.setOnTouchListener(new View.OnTouchListener() {
+//                        @SuppressLint("ClickableViewAccessibility")
+//                        @Override
+//                        public boolean onTouch(View view, MotionEvent motionEvent) {
+//                            switch (motionEvent.getAction()){
+//                                case MotionEvent.ACTION_DOWN:
+//                                    Log.d("test444:", "down");
+//                                    isAutoBanner = false;
+//                                    break;
+//
+//                                case MotionEvent.ACTION_UP:
+//                                    Log.d("test444:", "up");
+//                                    isAutoBanner = true;
+//                                    Message message = new Message();
+//                                    message.what = MSG_RECYCLE_VIEW;
+//                                    mHandler.sendMessage(message);
+////                                        mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 2000);
+////                                                break;
+//                                default:
+//                                    break;
+//                            }
+//                            return false;
+//                        }
+//                    });
+
+                imageViewList.add(imageView);
+                bannerAdapter.notifyDataSetChanged();//必须设置这个来通知适配器数据变化了，要进行更新
+                if (imageViewList.size() == 3) {
+                    mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 2000);
+                }
+            }
+        }
+    };
+
+    public void setImageData(String imgUrl, String articleLink, String title) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 WebUtil.getImageData(imgUrl, new DataCallBackForImage() {
+                    @SuppressLint("ClickableViewAccessibility")
                     @Override
                     public void onSuccess(InputStream data) {
                         bitmap = BitmapFactory.decodeStream(data);
-                        ImageView imageView = new ImageView(root.getContext());
-                        //ImageView imageView = root.findViewById(R.id.vp_img);
-                        //使用这个会报异常：The specified child already has a parent.
-                        //               You must call removeView() on the child's parent first.
+                        Log.d("test111", bitmap.toString());
+                        imgArticleLink = articleLink;
+                        imgArticleTitle = title;
+                        Message message = new Message();
+                        message.what = SET_IMG;
+                        mHandlerForImg.sendMessage(message);
 
-                        imageView.setImageBitmap(bitmap);
-                        imageViewList.add(imageView);
-                        bannerAdapter.notifyDataSetChanged();//必须设置这个来通知适配器数据变化了，要进行更新
-                        if (imageViewList.size() == 3) {
-                            mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 0);
-                        }
                     }
-
                     @Override
                     public void onFailure(Exception e) {
+                        Log.e("图片数据请求：", "网络请求错误/" + e);
                     }
                 });
 
             }
+
         }).start();
+
+
     }
 
 
@@ -233,7 +293,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     public void requestBannerDataResult(List<Banner> bannerList) {
         this.bannerList = bannerList;
         for (Banner banner : bannerList) {
-            setImageData(banner.getImagePath());
+            setImageData(banner.getImagePath(), banner.getUrl(), banner.getTitle());
         }
     }
 
@@ -244,7 +304,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Override
     public void requestArticleDataResult(List<FPArticle> articleList) {
-        this.articleList = articleList;
         finalArticleList.addAll(articleList);
         Message msg = new Message();//发送普通文章数据就绪的信号
         msg.what = NORMAL_ARTICLE_READY;
@@ -258,7 +317,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Override
     public void requestTopArticleDataResult(List<FPArticle> topArticleList) {
-        this.topArticleList = topArticleList;
         finalArticleList.addAll(topArticleList);
         Message msg = new Message();//发送置顶文章数据就绪的信号
         msg.what = TOP_ARTICLE_READY;

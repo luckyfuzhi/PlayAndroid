@@ -91,7 +91,6 @@ public class WebUtil {
                     Log.e(TAG, "getImageData: 图片访问错误");
                     callBack.onFailure(e);
                 } finally {
-
                     if (connection != null){
                         connection.disconnect();
                     }

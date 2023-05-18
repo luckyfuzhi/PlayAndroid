@@ -61,7 +61,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
 
             @Override
             public void onFailure(Exception e) {
-
+                Log.e(TAG, "" + e);
             }
         });
     }

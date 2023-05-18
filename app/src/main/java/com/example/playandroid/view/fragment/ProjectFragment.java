@@ -11,23 +11,54 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.playandroid.R;
+import com.example.playandroid.base.BaseFragment;
+import com.example.playandroid.contract.ProjectContract;
+import com.example.playandroid.entity.Project;
+import com.example.playandroid.entity.ProjectType;
+import com.example.playandroid.presenter.ProjectPresenter;
 
-public class ProjectFragment extends Fragment {
+import java.util.List;
 
-    private View root;
+public class ProjectFragment extends BaseFragment<ProjectPresenter> implements ProjectContract.VP {
 
-    private ImageView imageView;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int getFragmentId() {
+        return R.layout.project_fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.project_fragment, container, false);
-        imageView = root.findViewById(R.id.project_text);
-        return root;
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public ProjectPresenter getPresenterInstance() {
+        return new ProjectPresenter();
+    }
+
+    @Override
+    public void requestProjectTypeData() {
+
+    }
+
+    @Override
+    public void requestProjectTypeDataResult(List<ProjectType> projectTypeList) {
+
+    }
+
+    @Override
+    public void requestProjectData() {
+
+    }
+
+    @Override
+    public void requestProjectDataResult(List<Project> projectList) {
+
     }
 }
