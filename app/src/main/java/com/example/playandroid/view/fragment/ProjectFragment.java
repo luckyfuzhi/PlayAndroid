@@ -44,7 +44,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
 
     @Override
     public void requestProjectTypeData() {
-
+        mPresenter.requestProjectTypeData();
     }
 
     @Override

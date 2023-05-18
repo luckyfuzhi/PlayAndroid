@@ -17,7 +17,7 @@ public class ProjectPresenter extends BasePresenterForFragment<ProjectFragment, 
 
     @Override
     public void requestProjectTypeData() {
-
+        mModel.requestProjectTypeData();
     }
 
     @Override

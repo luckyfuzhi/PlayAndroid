@@ -1,6 +1,7 @@
 package com.example.playandroid.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,10 +73,20 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private String imgArticleTitle;
 
 
+    private int isStop = 0;
+
+    private int i = 0;
+    private int j = 0;
+    private int k = 0;
     private Bitmap bitmap;
+    private List<Bitmap> bitmapList = new ArrayList<>();
+    private List<String> urlList = new ArrayList<>();
+    private List<String> titleList = new ArrayList<>();
 
 
     private static final String TAG = "FirstPageFragment";
+
+    private FragmentActivity activity;
 
     @Override
     public int getFragmentId() {
@@ -149,6 +161,12 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     }
 
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        activity = requireActivity();
+    }
+
     /**
      * 消息处理器
      */
@@ -165,7 +183,13 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                         progressBar.setVisibility(View.VISIBLE);
                         setArticleRecyclerView();
                     }
-                    articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
+
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
+                        }
+                    });
                     break;
 
                 default:
@@ -187,7 +211,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                 int index = bannerViewPager.getCurrentItem();
                 index = (index + 1) % count;
                 bannerViewPager.setCurrentItem(index);
-
                 if (isAutoBanner) {//循环发送
                     mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 2000);
                 }
@@ -207,16 +230,37 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                 //使用这个会报异常：The specified child already has a parent.
                 //               You must call removeView() on the child's parent first.
 
-                imageView.setImageBitmap(bitmap);
-                Log.d("test222", bitmap.toString());
+                imageView.setImageBitmap(bitmapList.get(i++));
+                //Log.d("test222", bitmap.toString());
                 imageView.setOnClickListener(new View.OnClickListener() {//设置轮播图点击事件
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(root.getContext(), ArticleDetailActivity.class);
                         intent.setAction("sendArticleData");
-                        intent.putExtra("articleLink", imgArticleLink);
-                        intent.putExtra("title", imgArticleTitle);
+                        intent.putExtra("articleLink", urlList.get(j++));
+                        intent.putExtra("title", titleList.get(k++));
                         root.getContext().startActivity(intent);
+                    }
+                });
+                bannerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+                        System.out.println(state);
+                        if (state == 1) {
+                            mHandler.removeCallbacksAndMessages(null);
+                            isStop = 1;
+                        } else if (state == 0 && isStop == 1) {
+                            mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 2000);
+                            isStop = 0;
+                        }
                     }
                 });
 //                    imageView.setOnTouchListener(new View.OnTouchListener() {
@@ -261,15 +305,19 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
                     public void onSuccess(InputStream data) {
-                        bitmap = BitmapFactory.decodeStream(data);
-                        Log.d("test111", bitmap.toString());
-                        imgArticleLink = articleLink;
-                        imgArticleTitle = title;
+                        //bitmap = BitmapFactory.decodeStream(data);
+                        bitmapList.add(BitmapFactory.decodeStream(data));
+                        //Log.d("test111", bitmap.toString());
+                        //imgArticleLink = articleLink;
+                        urlList.add(articleLink);
+                        //imgArticleTitle = title;
+                        titleList.add(title);
                         Message message = new Message();
                         message.what = SET_IMG;
                         mHandlerForImg.sendMessage(message);
 
                     }
+
                     @Override
                     public void onFailure(Exception e) {
                         Log.e("图片数据请求：", "网络请求错误/" + e);
