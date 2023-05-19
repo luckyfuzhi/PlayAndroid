@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.playandroid.R;
 import com.example.playandroid.contract.DataCallBackForImage;
 import com.example.playandroid.entity.Project;
-import com.example.playandroid.util.MyApplication;
 import com.example.playandroid.util.WebUtil;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 

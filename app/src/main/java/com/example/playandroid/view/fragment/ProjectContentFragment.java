@@ -122,35 +122,9 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case SET_PROJECT_ARTICLE:
-                    if (isFirstLord) {//第一次加载则设置适配器
-                        isFirstLord = false;
-                        if (projectList.size() != 0) {
-//                            LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false) ;
-//                            articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mActivity);
-//                            articleRecycleView.setLayoutManager(mLayoutManager);
-//                            articleRecycleView.addItemDecoration(new DividerItemDecoration(root.getContext(),
-//                                    DividerItemDecoration.VERTICAL));//设置分界线
-//                            articleRecycleView.setAdapter(articleRecyclerAdapter);
-//
-//                            articleRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                                @Override
-//                                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                                    int lastPosition = -1;
-//                                    if(newState == RecyclerView.SCROLL_STATE_IDLE){
-//                                        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-//                                        lastPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-//                                        if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 1){
-//                                            loadMoreProject(typeId);
-//                                        }
-//                                    }
-//                                }
-//                            });
-                        }
-                    }
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            System.out.println(projectList.size());
                             articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
                         }
                     });
@@ -205,7 +179,6 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         Message message = new Message();
         message.what = SET_PROJECT_ARTICLE;
         handler.sendMessage(message);
-
     }
 
 }
