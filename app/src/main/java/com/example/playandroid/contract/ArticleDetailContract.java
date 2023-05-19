@@ -1,7 +1,6 @@
 package com.example.playandroid.contract;
 
-import com.example.playandroid.entity.Banner;
-import com.example.playandroid.entity.FPArticle;
+import com.example.playandroid.entity.Article;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public interface ArticleDetailContract {
     interface VP{
 
         void requestDetailArticleData(int page);//请求文章数据
-        void requestArticleDataResult(List<FPArticle> articleList);//返回文章数据
+        void requestArticleDataResult(List<Article> articleList);//返回文章数据
 
     }
 }

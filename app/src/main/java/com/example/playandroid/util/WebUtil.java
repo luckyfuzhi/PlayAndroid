@@ -1,9 +1,13 @@
 package com.example.playandroid.util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.playandroid.contract.DataCallBack;
+import com.example.playandroid.contract.DataCallBackForBitmap;
 import com.example.playandroid.contract.DataCallBackForImage;
+import com.example.playandroid.contract.DataCallBackForProjectType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -99,5 +103,36 @@ public class WebUtil {
         }).start();
 
     }
+
+    public static void getImageData(String imageUrl, DataCallBackForBitmap callBack){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+
+                try {
+                    URL url = new URL(imageUrl);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    InputStream inputStream = connection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    callBack.onSuccess(bitmap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "getImageData: 图片访问错误");
+                    callBack.onFailure(e);
+                } finally {
+                    if (connection != null){
+                        connection.disconnect();
+                    }
+                }
+            }
+        }).start();
+
+    }
+
+
 
 }

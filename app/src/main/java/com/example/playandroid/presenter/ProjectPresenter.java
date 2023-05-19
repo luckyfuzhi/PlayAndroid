@@ -22,16 +22,7 @@ public class ProjectPresenter extends BasePresenterForFragment<ProjectFragment, 
 
     @Override
     public void requestProjectTypeDataResult(List<ProjectType> projectTypeList) {
-
+        mView.requestProjectTypeDataResult(projectTypeList);
     }
 
-    @Override
-    public void requestProjectData() {
-
-    }
-
-    @Override
-    public void requestProjectDataResult(List<Project> projectList) {
-
-    }
 }

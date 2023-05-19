@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface DataCallBackForBanner {
     void onSuccess(List<Banner> bannerList);
+
     void onFailure(Exception e);
 
 }

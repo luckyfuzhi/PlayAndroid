@@ -4,7 +4,7 @@ package com.example.playandroid.presenter;
 import com.example.playandroid.base.BasePresenterForFragment;
 import com.example.playandroid.contract.FirstPageContract;
 import com.example.playandroid.entity.Banner;
-import com.example.playandroid.entity.FPArticle;
+import com.example.playandroid.entity.Article;
 import com.example.playandroid.model.FirstPageModel;
 import com.example.playandroid.view.fragment.FirstPageFragment;
 
@@ -34,7 +34,7 @@ public class FirstPagePresenter extends BasePresenterForFragment<FirstPageFragme
     }
 
     @Override
-    public void requestArticleDataResult(List<FPArticle> articleList) {
+    public void requestArticleDataResult(List<Article> articleList) {
         mView.requestArticleDataResult(articleList);
     }
 
@@ -44,7 +44,7 @@ public class FirstPagePresenter extends BasePresenterForFragment<FirstPageFragme
     }
 
     @Override
-    public void requestTopArticleDataResult(List<FPArticle> topArticleList) {
+    public void requestTopArticleDataResult(List<Article> topArticleList) {
         mView.requestTopArticleDataResult(topArticleList);
     }
 }

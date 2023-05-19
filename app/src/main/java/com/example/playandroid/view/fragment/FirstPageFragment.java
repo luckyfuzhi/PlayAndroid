@@ -5,21 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -34,12 +29,11 @@ import com.example.playandroid.base.BaseFragment;
 import com.example.playandroid.contract.DataCallBackForImage;
 import com.example.playandroid.contract.FirstPageContract;
 import com.example.playandroid.entity.Banner;
-import com.example.playandroid.entity.FPArticle;
+import com.example.playandroid.entity.Article;
 import com.example.playandroid.presenter.FirstPagePresenter;
 import com.example.playandroid.util.WebUtil;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +49,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private int flag = 0;
     private int flag1 = 0;
     private boolean isAutoBanner = true;
+
+    private FragmentActivity mActivity;
     private ProgressBar progressBar;
     private BannerAdapter bannerAdapter;
     private ViewPager bannerViewPager;
@@ -67,11 +63,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private List<Banner> bannerList;
     private List<ImageView> imageViewList;
 
-    private List<FPArticle> finalArticleList;
-
-    private String imgArticleLink;
-    private String imgArticleTitle;
-
+    private List<Article> finalArticleList;
 
     private int isStop = 0;
 
@@ -86,7 +78,13 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     private static final String TAG = "FirstPageFragment";
 
-    private FragmentActivity activity;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mActivity = requireActivity();
+    }
+
 
     @Override
     public int getFragmentId() {
@@ -161,12 +159,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     }
 
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        activity = requireActivity();
-    }
-
     /**
      * 消息处理器
      */
@@ -184,10 +176,12 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                         setArticleRecyclerView();
                     }
 
-                    activity.runOnUiThread(new Runnable() {
+                    mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
+                            if(articleRecyclerAdapter != null) {
+                                articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
+                            }
                         }
                     });
                     break;
@@ -253,7 +247,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
                     @Override
                     public void onPageScrollStateChanged(int state) {
-                        System.out.println(state);
                         if (state == 1) {
                             mHandler.removeCallbacksAndMessages(null);
                             isStop = 1;
@@ -351,7 +344,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     }
 
     @Override
-    public void requestArticleDataResult(List<FPArticle> articleList) {
+    public void requestArticleDataResult(List<Article> articleList) {
         finalArticleList.addAll(articleList);
         Message msg = new Message();//发送普通文章数据就绪的信号
         msg.what = NORMAL_ARTICLE_READY;
@@ -364,7 +357,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     }
 
     @Override
-    public void requestTopArticleDataResult(List<FPArticle> topArticleList) {
+    public void requestTopArticleDataResult(List<Article> topArticleList) {
         finalArticleList.addAll(topArticleList);
         Message msg = new Message();//发送置顶文章数据就绪的信号
         msg.what = TOP_ARTICLE_READY;

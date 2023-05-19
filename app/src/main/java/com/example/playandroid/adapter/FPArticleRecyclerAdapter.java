@@ -13,18 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playandroid.R;
-import com.example.playandroid.entity.FPArticle;
+import com.example.playandroid.entity.Article;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.List;
 
 public class FPArticleRecyclerAdapter extends RecyclerView.Adapter<FPArticleRecyclerAdapter.ViewHolder>{
 
-    List<FPArticle> mArticleList;
+    List<Article> mArticleList;
 
     private Context mContext;
 
-    public FPArticleRecyclerAdapter(List<FPArticle> articleList) {
+    public FPArticleRecyclerAdapter(List<Article> articleList) {
         this.mArticleList = articleList;
     }
 
@@ -51,7 +51,7 @@ public class FPArticleRecyclerAdapter extends RecyclerView.Adapter<FPArticleRecy
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fp_article_item, parent,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_item, parent,
                  false);
         ViewHolder holder = new ViewHolder(view);
         mContext = parent.getContext();
@@ -61,7 +61,7 @@ public class FPArticleRecyclerAdapter extends RecyclerView.Adapter<FPArticleRecy
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FPArticle article = mArticleList.get(position);
+        Article article = mArticleList.get(position);
         holder.title.setText(article.getTitle());
         holder.author.setText("作者：" + article.getAuthor());
         holder.type.setText("类别：" + article.getSuperChapterName() + "/" + article.getChapterName());

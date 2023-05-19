@@ -8,7 +8,7 @@ import com.example.playandroid.contract.DataCallBackForArticle;
 import com.example.playandroid.contract.DataCallBackForBanner;
 import com.example.playandroid.contract.FirstPageContract;
 import com.example.playandroid.entity.Banner;
-import com.example.playandroid.entity.FPArticle;
+import com.example.playandroid.entity.Article;
 import com.example.playandroid.presenter.FirstPagePresenter;
 import com.example.playandroid.util.WebUtil;
 
@@ -80,7 +80,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
                 //解析获取到的数据
                 parseArticleData(data.substring(startIndex, endIndex + 1), new DataCallBackForArticle() {
                     @Override
-                    public void onSuccess(List<FPArticle> articleList) {
+                    public void onSuccess(List<Article> articleList) {
                         //若成功解析，则返回获取到的FPArticle对象集合数据
                         mPresenter.requestArticleDataResult(articleList);
                     }
@@ -114,7 +114,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
                 //解析获取到的数据
                 parseArticleData(data.substring(startIndex, endIndex + 1), new DataCallBackForArticle() {
                     @Override
-                    public void onSuccess(List<FPArticle> articleList) {
+                    public void onSuccess(List<Article> articleList) {
                         //若成功解析，则返回获取到的置顶文章对象集合数据
                         mPresenter.requestTopArticleDataResult(articleList);
                     }
@@ -175,12 +175,12 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
      */
     public void parseArticleData(String data, DataCallBackForArticle dataCallBack) {
 
-        List<FPArticle> articleList = new ArrayList<>();
+        List<Article> articleList = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(data);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                FPArticle article = new FPArticle();
+                Article article = new Article();
                 article.setTitle(jsonObject.getString("title"));
                 article.setId(jsonObject.getInt("id"));
                 article.setAuthor(jsonObject.getString("author").equals("") ?

@@ -3,12 +3,31 @@ package com.example.playandroid.entity;
 public class Project {
 
     private int chapterId;
+    private String superChapterName;
     private String chapterName;
     private String title;
     private String desc;
     private String link;
     private String author;
     private String niceShareDate;
+
+    private String imgLink;
+
+    public String getImgLink() {
+        return imgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        this.imgLink = imgLink;
+    }
+
+    public String getSuperChapterName() {
+        return superChapterName;
+    }
+
+    public void setSuperChapterName(String superChapterName) {
+        this.superChapterName = superChapterName;
+    }
 
     public int getChapterId() {
         return chapterId;

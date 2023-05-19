@@ -1,6 +1,6 @@
 package com.example.playandroid.entity;
 
-public class FPArticle {
+public class Article {
     private String title;
 
     private String author;

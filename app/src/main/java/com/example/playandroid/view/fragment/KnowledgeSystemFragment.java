@@ -12,22 +12,29 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.playandroid.R;
+import com.example.playandroid.base.BaseFragment;
+import com.example.playandroid.presenter.KnowledgeSystemPresenter;
 
-public class KnowledgeSystemFragment extends Fragment {
+public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresenter> {
 
-    private View root;
-    private ImageView imageView;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int getFragmentId() {
+        return R.layout.knowledge_system_fragement;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.knowledge_system_fragement, container, false);
-        imageView = root.findViewById(R.id.knowledge_system_test_img);
-        return root;
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public KnowledgeSystemPresenter getPresenterInstance() {
+        return new KnowledgeSystemPresenter();
     }
 }
