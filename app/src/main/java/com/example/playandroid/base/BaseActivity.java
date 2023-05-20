@@ -21,6 +21,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
         mSavedInstanceState = savedInstanceState;
+        mPresenter = getPresenterInstance();
 
         //隐藏状态栏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -35,7 +36,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         initView();
         initData();
         initListener();
-        mPresenter = getPresenterInstance();
+
         if(mPresenter != null) {
             mPresenter.bindView(this);
         }

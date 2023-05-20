@@ -47,7 +47,6 @@ public class BottomActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        //初始化底部导航栏控件
         firstPageButton = findViewById(R.id.first_page_img);
         knowledgeSystemButton = findViewById(R.id.knowledge_system_img);
         projectButton = findViewById(R.id.project_img);

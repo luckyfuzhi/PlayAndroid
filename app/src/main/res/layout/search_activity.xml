@@ -27,6 +27,7 @@
             android:layout_height="match_parent"
             android:layout_weight="7"
             android:theme="@style/MyEditStyle"
+            android:maxLines="1"
             android:hint="输入点什么吧~"
             />
 
@@ -41,13 +42,13 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/hot_word_textview"
+    <LinearLayout
+        android:id="@+id/search_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="18dp"
-        android:textColor="@color/shallow_blue"
+        android:orientation="vertical"
         />
+
 
 
 
