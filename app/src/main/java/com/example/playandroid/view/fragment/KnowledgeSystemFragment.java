@@ -39,6 +39,8 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
 
     private List<String> childNameList = new ArrayList<>();
 
+    private List<String> oneChildNameList = new ArrayList<>();
+
     private KsTypeRecyclerAdapter ksTypeRecyclerAdapter = new KsTypeRecyclerAdapter(knowledgeTypeList, childNameList);
 
 
@@ -103,7 +105,7 @@ int k = 0;
 
             StringBuilder stringBuilder = new StringBuilder();
             for (int j = 0; j < (knowledgeTypeList.get(i).getChildList()).size(); j++) {
-                stringBuilder.append(knowledgeTypeList.get(i).getChildList().get(j).optString("name") + "  ");
+                stringBuilder.append(knowledgeTypeList.get(i).getChildList().get(j).getName() + "  ");
 
             }
             childNameList.add(stringBuilder.toString());

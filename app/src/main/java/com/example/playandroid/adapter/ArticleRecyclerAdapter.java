@@ -18,13 +18,13 @@ import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.List;
 
-public class FPArticleRecyclerAdapter extends RecyclerView.Adapter<FPArticleRecyclerAdapter.ViewHolder>{
+public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecyclerAdapter.ViewHolder>{
 
     List<Article> mArticleList;
 
     private Context mContext;
 
-    public FPArticleRecyclerAdapter(List<Article> articleList) {
+    public ArticleRecyclerAdapter(List<Article> articleList) {
         this.mArticleList = articleList;
     }
 

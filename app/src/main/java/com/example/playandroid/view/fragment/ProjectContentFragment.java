@@ -2,7 +2,6 @@ package com.example.playandroid.view.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,24 +20,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playandroid.R;
-import com.example.playandroid.adapter.FPArticleRecyclerAdapter;
 import com.example.playandroid.adapter.ProjectArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
 import com.example.playandroid.contract.DataCallBackForBitmap;
-import com.example.playandroid.contract.DataCallBackForImage;
 import com.example.playandroid.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
 import com.example.playandroid.presenter.ProjectContentPresenter;
 import com.example.playandroid.util.WebUtil;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter> implements ProjectArticleContract.VP {
 
-    private final static int SET_PROJECT_ARTICLE = 1;
-    private boolean isFirstLord = true;
+    private final static int UPDATE_PROJECT_ARTICLE = 1;
 
     private FragmentActivity mActivity;
     private Context mContext;
@@ -95,7 +89,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
                 DividerItemDecoration.VERTICAL));//设置分界线
         articleRecycleView.setAdapter(articleRecyclerAdapter);
 
-        articleRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        articleRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {//滑到底则加载更多数据
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 int lastPosition = -1;
@@ -121,7 +115,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
-                case SET_PROJECT_ARTICLE:
+                case UPDATE_PROJECT_ARTICLE:
                     articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
 //                    mActivity.runOnUiThread(new Runnable() {
 //                        @Override
@@ -178,7 +172,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         }
         this.projectList.addAll(projectList);
         Message message = new Message();
-        message.what = SET_PROJECT_ARTICLE;
+        message.what = UPDATE_PROJECT_ARTICLE;
         handler.sendMessage(message);
     }
 

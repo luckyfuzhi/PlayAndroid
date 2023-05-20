@@ -122,7 +122,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
                     @Override
                     public void onFailure(Exception e) {
                         e.printStackTrace();
-                        Log.e(TAG, "onFailure: 获取置顶文章数据失败");
+                        Log.e(TAG, "onFailure: 获取置顶文章数据失败/" + e);
                     }
                 });
             }
@@ -130,7 +130,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
             @Override
             public void onFailure(Exception e) {
                 e.printStackTrace();
-                Log.e(TAG, "onFailure: 获取网络数据失败");
+                Log.e(TAG, "onFailure: 获取网络数据失败" + e);
             }
         });
     }
@@ -171,7 +171,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
      * 解析Article的Json数据
      *
      * @param data Json数据
-     * @return FPArticle对象的集合
+     * @return Article对象的集合
      */
     public void parseArticleData(String data, DataCallBackForArticle dataCallBack) {
 

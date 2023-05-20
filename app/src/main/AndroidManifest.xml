@@ -37,6 +37,10 @@
             android:exported="true"
             />
 
+        <activity android:name=".view.activity.KsChildActivity"
+            android:exported="true"
+            />
+
         <activity
             android:name=".view.activity.LoginActivity"
             android:exported="true"/>

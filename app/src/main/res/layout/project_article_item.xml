@@ -10,6 +10,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:src="@drawable/no_img"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
         android:background="#F4F5F8"
         />
 
@@ -25,6 +27,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="2"
+            android:paddingTop="7dp"
+            android:paddingLeft="7dp"
             android:textSize="20dp" />
 
         <TextView
@@ -34,6 +38,7 @@
             android:layout_below="@+id/project_article_title"
             android:ellipsize="end"
             android:lines="2"
+            android:paddingLeft="7dp"
             android:textColor="@color/gray"
             android:textSize="15dp" />
 
@@ -53,6 +58,7 @@
                     android:id="@+id/project_article_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="7dp"
                     android:textSize="15dp"
                     android:text="作者："
                     />
@@ -60,6 +66,7 @@
                     android:id="@+id/project_article_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="7dp"
                     android:textSize="15dp"
                     android:layout_below="@+id/project_article_author"
                     android:text="时间："

@@ -24,7 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.playandroid.R;
 import com.example.playandroid.adapter.BannerAdapter;
-import com.example.playandroid.adapter.FPArticleRecyclerAdapter;
+import com.example.playandroid.adapter.ArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
 import com.example.playandroid.contract.DataCallBackForImage;
 import com.example.playandroid.contract.FirstPageContract;
@@ -57,7 +57,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     private NestedScrollView nestedScrollView;
     private RecyclerView articleRecyclerView;
-    private FPArticleRecyclerAdapter articleRecyclerAdapter;
+    private ArticleRecyclerAdapter articleRecyclerAdapter;
 
     private int page = 0;
     private List<Banner> bannerList;
@@ -136,7 +136,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         articleRecyclerView.setLayoutManager(mLayoutManager);
         articleRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(),
                 DividerItemDecoration.VERTICAL));//设置分界线
-        articleRecyclerAdapter = new FPArticleRecyclerAdapter(finalArticleList);
+        articleRecyclerAdapter = new ArticleRecyclerAdapter(finalArticleList);
         articleRecyclerView.setAdapter(articleRecyclerAdapter);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @SuppressLint("NotifyDataSetChanged")

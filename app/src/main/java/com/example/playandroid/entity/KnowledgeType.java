@@ -3,35 +3,27 @@ package com.example.playandroid.entity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class KnowledgeType {
-    private JSONArray childrenChapter;
-    private List<JSONObject> childList;
-    private int id;
+public class KnowledgeType implements Serializable {
+    private List<KnowledgeType> childList;
+    private Integer id;
     private String name;
 
-    public List<JSONObject> getChildList() {
+    public List<KnowledgeType> getChildList() {
         return childList;
     }
 
-    public void setChildList(List<JSONObject> childList) {
+    public void setChildList(List<KnowledgeType> childList) {
         this.childList = childList;
     }
 
-    public JSONArray getChildrenChapter() {
-        return childrenChapter;
-    }
-
-    public void setChildrenChapter(JSONArray childrenChapter) {
-        this.childrenChapter = childrenChapter;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

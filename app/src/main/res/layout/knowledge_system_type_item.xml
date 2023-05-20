@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:textSize="18dp"
             android:text="知识类别名"
+            android:paddingLeft="7dp"
             android:paddingTop="7dp"
             />
 
@@ -27,6 +28,7 @@
             android:layout_marginTop="9dp"
             android:text="知识类别内容"
             android:textColor="@color/gray"
+            android:paddingLeft="7dp"
             android:paddingBottom="7dp"
             />
 

@@ -69,8 +69,8 @@ public class KsTypeRecyclerAdapter extends RecyclerView.Adapter<KsTypeRecyclerAd
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, KsChildActivity.class);
-                intent.setAction("sendTypeId");
-                intent.putExtra("TypeId", knowledgeType.getId());
+                intent.setAction("sendKnowledgeType");
+                intent.putExtra("KnowledgeTypeData", knowledgeType);
                 mContext.startActivity(intent);
             }
         });
