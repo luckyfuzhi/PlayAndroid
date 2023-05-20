@@ -3,13 +3,17 @@ package com.example.playandroid.view.activity;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -35,9 +39,14 @@ public class BottomActivity extends BaseActivity {
     private TextView knowledgeSystemText;
     private TextView projectText;
     private Button searchButton;
+    
+    private Button menuButton;
     private LinearLayout firstPage;
     private LinearLayout knowledgeSystem;
     private LinearLayout project;
+    private RelativeLayout loginEntry;
+
+    private DrawerLayout mDrawerLayout;
 
     private FragmentManager fragmentManager;
     private Fragment currentFragment;
@@ -59,6 +68,9 @@ public class BottomActivity extends BaseActivity {
         currentFragment = new FirstPageFragment();
         fragmentManager = getSupportFragmentManager();
         searchButton = findViewById(R.id.main_search_button);
+        menuButton = findViewById(R.id.menu_button);
+        mDrawerLayout = findViewById(R.id.bottom_drawer_layout);
+        loginEntry = findViewById(R.id.login_entry);
 
     }
 
@@ -90,6 +102,8 @@ public class BottomActivity extends BaseActivity {
         knowledgeSystem.setOnClickListener(this);
         project.setOnClickListener(this);
         searchButton.setOnClickListener(this);
+        menuButton.setOnClickListener(this);
+        loginEntry.setOnClickListener(this);
     }
 
     @Override
@@ -130,6 +144,11 @@ public class BottomActivity extends BaseActivity {
 
         } else if (id == R.id.main_search_button) {
             Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.menu_button) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        } else if (id == R.id.login_entry) {
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
 

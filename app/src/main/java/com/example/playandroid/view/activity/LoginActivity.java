@@ -18,6 +18,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private EditText passwordEdit;
 
     private Button loginButton;
+    
+    private Button registerButton;
+    
+    private Button backButton;
 
 
 
@@ -26,6 +30,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         accountEdit = findViewById(R.id.account_edit);
         passwordEdit = findViewById(R.id.password_edit);
         loginButton = findViewById(R.id.login_button);
+        registerButton = findViewById(R.id.register_button);
+        backButton = findViewById(R.id.login_back);
     }
 
     @Override
@@ -35,6 +41,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void initListener() {
         loginButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+        registerButton.setOnClickListener(this);
     }
 
     @Override
@@ -61,10 +69,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onClick(View view) {
-        String account = accountEdit.getText().toString();
-        String password = passwordEdit.getText().toString();
-
-        requestLogin(account, password);
+        if(view.getId() == R.id.login_button) {
+            String account = accountEdit.getText().toString();
+            String password = passwordEdit.getText().toString();
+            requestLogin(account, password);
+        } else if (view.getId() == R.id.login_back) {
+            finish();
+        } else if (view.getId() == R.id.register_button) {
+            
+        }
     }
 
 
