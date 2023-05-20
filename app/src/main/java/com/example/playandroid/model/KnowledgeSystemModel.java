@@ -3,11 +3,10 @@ package com.example.playandroid.model;
 import android.util.Log;
 
 import com.example.playandroid.base.BaseModelForFragment;
-import com.example.playandroid.contract.DataCallBack;
-import com.example.playandroid.contract.DataCallBackForKnowledgeType;
-import com.example.playandroid.contract.KnowledgeSystemContract;
+import com.example.playandroid.interf.datacallback.DataCallBack;
+import com.example.playandroid.interf.datacallback.DataCallBackForKnowledgeType;
+import com.example.playandroid.interf.contract.KnowledgeSystemContract;
 import com.example.playandroid.entity.KnowledgeType;
-import com.example.playandroid.entity.Project;
 import com.example.playandroid.presenter.KnowledgeSystemPresenter;
 import com.example.playandroid.util.WebUtil;
 

@@ -4,14 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.example.playandroid.contract.DataCallBack;
-import com.example.playandroid.contract.DataCallBackForBitmap;
-import com.example.playandroid.contract.DataCallBackForImage;
-import com.example.playandroid.contract.DataCallBackForPost;
-import com.example.playandroid.contract.DataCallBackForProjectType;
+import com.example.playandroid.interf.datacallback.DataCallBack;
+import com.example.playandroid.interf.datacallback.DataCallBackForBitmap;
+import com.example.playandroid.interf.datacallback.DataCallBackForImage;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;

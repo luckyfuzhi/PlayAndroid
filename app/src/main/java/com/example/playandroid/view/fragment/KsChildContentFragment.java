@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.playandroid.R;
 import com.example.playandroid.adapter.ArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
-import com.example.playandroid.contract.KsChildContract;
+import com.example.playandroid.interf.contract.KsChildContract;
 import com.example.playandroid.entity.Article;
 import com.example.playandroid.presenter.KsChildContentPresenter;
 

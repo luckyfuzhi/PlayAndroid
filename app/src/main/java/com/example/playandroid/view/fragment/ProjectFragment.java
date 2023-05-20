@@ -1,12 +1,9 @@
 package com.example.playandroid.view.fragment;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,8 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseFragment;
-import com.example.playandroid.contract.ProjectContract;
-import com.example.playandroid.entity.Project;
+import com.example.playandroid.interf.contract.ProjectContract;
 import com.example.playandroid.entity.ProjectType;
 import com.example.playandroid.presenter.ProjectPresenter;
 import com.google.android.material.tabs.TabLayout;

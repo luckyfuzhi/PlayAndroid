@@ -1,4 +1,4 @@
-package com.example.playandroid.contract;
+package com.example.playandroid.interf.datacallback;
 
 import com.example.playandroid.entity.ProjectType;
 

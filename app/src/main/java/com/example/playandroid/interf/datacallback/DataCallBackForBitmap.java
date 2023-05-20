@@ -1,9 +1,6 @@
-package com.example.playandroid.contract;
+package com.example.playandroid.interf.datacallback;
 
 import android.graphics.Bitmap;
-
-
-import java.util.List;
 
 public interface DataCallBackForBitmap {
     void onSuccess(Bitmap bitmapList);

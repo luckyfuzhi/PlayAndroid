@@ -3,11 +3,9 @@ package com.example.playandroid.view.activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
-import com.example.playandroid.contract.SearchContract;
+import com.example.playandroid.interf.contract.SearchContract;
 import com.example.playandroid.presenter.SearchPresenter;
 import com.example.playandroid.view.fragment.HotWordFragment;
 

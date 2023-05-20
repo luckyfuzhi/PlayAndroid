@@ -1,4 +1,4 @@
-package com.example.playandroid.contract;
+package com.example.playandroid.interf.datacallback;
 
 
 public interface DataCallBackForPost {

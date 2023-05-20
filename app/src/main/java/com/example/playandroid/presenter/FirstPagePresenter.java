@@ -2,7 +2,7 @@ package com.example.playandroid.presenter;
 
 
 import com.example.playandroid.base.BasePresenterForFragment;
-import com.example.playandroid.contract.FirstPageContract;
+import com.example.playandroid.interf.contract.FirstPageContract;
 import com.example.playandroid.entity.Banner;
 import com.example.playandroid.entity.Article;
 import com.example.playandroid.model.FirstPageModel;

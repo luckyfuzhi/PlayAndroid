@@ -1,7 +1,7 @@
 package com.example.playandroid.presenter;
 
 import com.example.playandroid.base.BasePresenter;
-import com.example.playandroid.contract.SearchContract;
+import com.example.playandroid.interf.contract.SearchContract;
 import com.example.playandroid.model.SearchModel;
 import com.example.playandroid.view.activity.SearchActivity;
 

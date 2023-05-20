@@ -1,8 +1,7 @@
 package com.example.playandroid.presenter;
 
 import com.example.playandroid.base.BasePresenterForFragment;
-import com.example.playandroid.contract.ProjectContract;
-import com.example.playandroid.entity.Project;
+import com.example.playandroid.interf.contract.ProjectContract;
 import com.example.playandroid.entity.ProjectType;
 import com.example.playandroid.model.ProjectModel;
 import com.example.playandroid.view.fragment.ProjectFragment;

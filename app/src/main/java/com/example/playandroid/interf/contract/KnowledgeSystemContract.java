@@ -1,6 +1,5 @@
-package com.example.playandroid.contract;
+package com.example.playandroid.interf.contract;
 
-import com.example.playandroid.entity.Article;
 import com.example.playandroid.entity.KnowledgeType;
 
 import java.util.List;

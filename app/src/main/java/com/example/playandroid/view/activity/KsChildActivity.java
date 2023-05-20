@@ -1,11 +1,8 @@
 package com.example.playandroid.view.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,14 +13,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
-import com.example.playandroid.contract.KsChildContract;
-import com.example.playandroid.entity.Article;
 import com.example.playandroid.entity.KnowledgeType;
 import com.example.playandroid.presenter.KsChildPresenter;
 import com.example.playandroid.view.fragment.KsChildContentFragment;
 import com.google.android.material.tabs.TabLayout;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

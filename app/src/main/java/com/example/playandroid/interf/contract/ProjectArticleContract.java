@@ -1,7 +1,6 @@
-package com.example.playandroid.contract;
+package com.example.playandroid.interf.contract;
 
 import com.example.playandroid.entity.Project;
-import com.example.playandroid.entity.ProjectType;
 
 import java.util.List;
 

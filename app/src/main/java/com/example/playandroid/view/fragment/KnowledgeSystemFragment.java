@@ -4,26 +4,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.playandroid.R;
 import com.example.playandroid.adapter.KsTypeRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
-import com.example.playandroid.contract.KnowledgeSystemContract;
-import com.example.playandroid.entity.Article;
+import com.example.playandroid.interf.contract.KnowledgeSystemContract;
 import com.example.playandroid.entity.KnowledgeType;
 import com.example.playandroid.presenter.KnowledgeSystemPresenter;
 

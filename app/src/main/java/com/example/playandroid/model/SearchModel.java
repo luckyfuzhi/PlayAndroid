@@ -3,9 +3,9 @@ package com.example.playandroid.model;
 import android.util.Log;
 
 import com.example.playandroid.base.BaseModel;
-import com.example.playandroid.contract.DataCallBack;
-import com.example.playandroid.contract.DataCallBackForWords;
-import com.example.playandroid.contract.SearchContract;
+import com.example.playandroid.interf.datacallback.DataCallBack;
+import com.example.playandroid.interf.datacallback.DataCallBackForWords;
+import com.example.playandroid.interf.contract.SearchContract;
 import com.example.playandroid.presenter.SearchPresenter;
 import com.example.playandroid.util.WebUtil;
 

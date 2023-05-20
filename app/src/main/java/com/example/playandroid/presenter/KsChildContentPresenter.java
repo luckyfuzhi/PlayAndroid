@@ -1,7 +1,7 @@
 package com.example.playandroid.presenter;
 
 import com.example.playandroid.base.BasePresenterForFragment;
-import com.example.playandroid.contract.KsChildContract;
+import com.example.playandroid.interf.contract.KsChildContract;
 import com.example.playandroid.entity.Article;
 import com.example.playandroid.model.KsChildContentModel;
 import com.example.playandroid.view.fragment.KsChildContentFragment;

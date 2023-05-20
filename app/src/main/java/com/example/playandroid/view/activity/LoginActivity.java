@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
-import com.example.playandroid.contract.LoginContract;
+import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.presenter.LoginPresenter;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.VP {

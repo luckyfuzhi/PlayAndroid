@@ -1,7 +1,7 @@
 package com.example.playandroid.model;
 
 import com.example.playandroid.base.BaseModel;
-import com.example.playandroid.contract.LoginContract;
+import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.presenter.LoginPresenter;
 
 public class LoginModel extends BaseModel<LoginPresenter> implements LoginContract.M {

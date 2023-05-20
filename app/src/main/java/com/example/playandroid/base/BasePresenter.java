@@ -1,7 +1,5 @@
 package com.example.playandroid.base;
 
-import com.example.playandroid.contract.LoginContract;
-
 public abstract class BasePresenter<V extends BaseActivity, M extends BaseModel>{
 
     public V mView;

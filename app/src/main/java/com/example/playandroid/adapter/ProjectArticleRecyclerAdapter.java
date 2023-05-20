@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playandroid.R;
-import com.example.playandroid.contract.DataCallBackForImage;
 import com.example.playandroid.entity.Project;
-import com.example.playandroid.util.WebUtil;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectArticleRecyclerAdapter.ViewHolder>{

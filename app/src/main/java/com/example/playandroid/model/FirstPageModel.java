@@ -3,10 +3,10 @@ package com.example.playandroid.model;
 import android.util.Log;
 
 import com.example.playandroid.base.BaseModelForFragment;
-import com.example.playandroid.contract.DataCallBack;
-import com.example.playandroid.contract.DataCallBackForArticle;
-import com.example.playandroid.contract.DataCallBackForBanner;
-import com.example.playandroid.contract.FirstPageContract;
+import com.example.playandroid.interf.datacallback.DataCallBack;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticle;
+import com.example.playandroid.interf.datacallback.DataCallBackForBanner;
+import com.example.playandroid.interf.contract.FirstPageContract;
 import com.example.playandroid.entity.Banner;
 import com.example.playandroid.entity.Article;
 import com.example.playandroid.presenter.FirstPagePresenter;

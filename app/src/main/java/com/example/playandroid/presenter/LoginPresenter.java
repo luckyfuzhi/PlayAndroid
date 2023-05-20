@@ -3,7 +3,7 @@ package com.example.playandroid.presenter;
 import android.util.Log;
 
 import com.example.playandroid.base.BasePresenter;
-import com.example.playandroid.contract.LoginContract;
+import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.model.LoginModel;
 import com.example.playandroid.view.activity.LoginActivity;
 
