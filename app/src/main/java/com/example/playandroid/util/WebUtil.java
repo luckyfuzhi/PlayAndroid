@@ -176,7 +176,7 @@ public class WebUtil {
                     }
 
                     callBack.onSuccess(response.toString());
-
+                    Log.d("test1234", response.toString());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -226,6 +226,7 @@ public class WebUtil {
 
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 
+        Log.d("test1231", stringBuilder.toString());
         return stringBuilder.toString();
     }
 

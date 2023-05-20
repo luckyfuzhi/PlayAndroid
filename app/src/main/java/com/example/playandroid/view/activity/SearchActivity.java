@@ -6,6 +6,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.interf.contract.SearchContract;
 import com.example.playandroid.presenter.SearchPresenter;
 import com.example.playandroid.view.fragment.HotWordFragment;
+import com.example.playandroid.view.fragment.SearchResultFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +32,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     private EditText editText;
 
     private Button searchButton;
-
-    private String editContent;
 
     private HotWordFragment hotWordFragment;
 
@@ -51,12 +51,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     public void initData() {
         requestHotWord();
-        editContent = editText.getText().toString();
     }
 
     @Override
     public void initListener() {
         backButton.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
     }
 
     @Override
@@ -83,6 +83,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     public void onClick(View view) {
         if(view.getId() == R.id.search_back){
             finish();
+        } else if (view.getId() == R.id.search_activity_button) {
+            if(editText.length() != 0) {
+                replaceFragment(new SearchResultFragment(editText.getText().toString()));
+            }else {
+                Toast.makeText(this, "输入不能为空哦", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

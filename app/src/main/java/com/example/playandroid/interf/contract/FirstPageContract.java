@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FirstPageContract {
     interface M {
-        void requestBannerData();//返回文章数据
+        void requestBannerData();//返回banner数据
 
         void requestArticleData(int page);//返回文章数据
 

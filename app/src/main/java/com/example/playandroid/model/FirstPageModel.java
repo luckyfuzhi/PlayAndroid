@@ -81,7 +81,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
                 parseArticleData(data.substring(startIndex, endIndex + 1), new DataCallBackForArticle() {
                     @Override
                     public void onSuccess(List<Article> articleList) {
-                        //若成功解析，则返回获取到的FPArticle对象集合数据
+                        //若成功解析，则返回获取到的Article对象集合数据
                         mPresenter.requestArticleDataResult(articleList);
                     }
 
@@ -96,7 +96,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
             @Override
             public void onFailure(Exception e) {
                 e.printStackTrace();
-                Log.e(TAG, "onFailure: 获取网络数据失败");
+                Log.e(TAG, "onFailure: 获取网络数据失败/" + e);
             }
         });
     }

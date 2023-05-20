@@ -3,6 +3,7 @@ package com.example.playandroid.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,10 +63,10 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Article article = mArticleList.get(position);
-        holder.title.setText(article.getTitle());
         holder.author.setText("作者：" + article.getAuthor());
         holder.type.setText("类别：" + article.getSuperChapterName() + "/" + article.getChapterName());
         holder.time.setText("时间：" + article.getNiceShareDate());
+        holder.title.setText(Html.fromHtml(article.getTitle()));//解决返回带有html代码的数据问题
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
