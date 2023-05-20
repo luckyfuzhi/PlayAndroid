@@ -70,7 +70,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private int i = 0;
     private int j = 0;
     private int k = 0;
-    private Bitmap bitmap;
     private List<Bitmap> bitmapList = new ArrayList<>();
     private List<String> urlList = new ArrayList<>();
     private List<String> titleList = new ArrayList<>();

@@ -28,7 +28,7 @@ public class KnowledgeSystemModel extends BaseModelForFragment<KnowledgeSystemPr
             public void onSuccess(String data) {
                 int startIndex = data.indexOf("[");
                 int endIndex = data.lastIndexOf("]");
-                parseKsTypeData(data.substring(startIndex, endIndex - 1), new DataCallBackForKnowledgeType() {
+                parseKsTypeData(data.substring(startIndex, endIndex + 1), new DataCallBackForKnowledgeType() {
                     @Override
                     public void onSuccess(List<KnowledgeType> knowledgeTypeList) {
                         mPresenter.requestKsDataResult(knowledgeTypeList);
@@ -54,18 +54,26 @@ public class KnowledgeSystemModel extends BaseModelForFragment<KnowledgeSystemPr
         List<KnowledgeType> knowledgeTypeList = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(data);
+            List<JSONObject> childList = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 KnowledgeType knowledgeType = new KnowledgeType();
                 knowledgeType.setId(jsonObject.getInt("id"));
-                knowledgeType.setName(jsonObject.getString("name"));
-                knowledgeType.setChildrenChapter(jsonObject.getString("children"));
+                knowledgeType.setName(jsonObject.optString("name"));
+
+                JSONArray jsonArray1 = jsonObject.getJSONArray("children");
+                //knowledgeType.setChildrenChapter(jsonObject.getJSONArray("children"));
+                for (int j = 0; j < jsonArray1.length(); j++) {
+                    childList.add(jsonArray1.getJSONObject(j));
+                }
+                knowledgeType.setChildList(childList);
+
                 knowledgeTypeList.add(knowledgeType);
             }
             callBackForKnowledgeType.onSuccess(knowledgeTypeList);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("parseKsTypeData", "parseKsTypeData: 解析数据出现异常");
+            Log.e("parseKsTypeData", "parseKsTypeData: 解析数据出现异常/" + e);
             callBackForKnowledgeType.onFailure(e);
         }
     }

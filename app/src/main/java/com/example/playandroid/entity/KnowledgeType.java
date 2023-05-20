@@ -1,15 +1,29 @@
 package com.example.playandroid.entity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
+
 public class KnowledgeType {
-    private String childrenChapter;
+    private JSONArray childrenChapter;
+    private List<JSONObject> childList;
     private int id;
     private String name;
 
-    public String getChildrenChapter() {
+    public List<JSONObject> getChildList() {
+        return childList;
+    }
+
+    public void setChildList(List<JSONObject> childList) {
+        this.childList = childList;
+    }
+
+    public JSONArray getChildrenChapter() {
         return childrenChapter;
     }
 
-    public void setChildrenChapter(String childrenChapter) {
+    public void setChildrenChapter(JSONArray childrenChapter) {
         this.childrenChapter = childrenChapter;
     }
 

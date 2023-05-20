@@ -122,12 +122,13 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case SET_PROJECT_ARTICLE:
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
-                        }
-                    });
+                    articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+//                    mActivity.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                        }
+//                    });
                     break;
                 default:
                     break;
@@ -155,7 +156,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     @Override
     public void requestProjectDataResult(List<Project> projectList) {
         for (int i = 0; i < projectList.size(); i++) {
-            WebUtil.getImageData(projectList.get(i).getImgLink(), new DataCallBackForBitmap() {
+            WebUtil.getImageData(projectList.get(i).getImgLink(), new DataCallBackForBitmap() {//设置图片资源（原本在适配器中直接解析，但是这样图片无法正常显示）
                 @Override
                 public void onSuccess(Bitmap data) {
                     mActivity.runOnUiThread(new Runnable() {
