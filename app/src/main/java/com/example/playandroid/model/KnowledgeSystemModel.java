@@ -54,15 +54,15 @@ public class KnowledgeSystemModel extends BaseModelForFragment<KnowledgeSystemPr
         List<KnowledgeType> knowledgeTypeList = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(data);
-            List<JSONObject> childList = new ArrayList<>();
+
             for (int i = 0; i < jsonArray.length(); i++) {
+                List<JSONObject> childList = new ArrayList<>();
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 KnowledgeType knowledgeType = new KnowledgeType();
                 knowledgeType.setId(jsonObject.getInt("id"));
                 knowledgeType.setName(jsonObject.optString("name"));
 
                 JSONArray jsonArray1 = jsonObject.getJSONArray("children");
-                //knowledgeType.setChildrenChapter(jsonObject.getJSONArray("children"));
                 for (int j = 0; j < jsonArray1.length(); j++) {
                     childList.add(jsonArray1.getJSONObject(j));
                 }

@@ -15,18 +15,19 @@
             android:id="@+id/ks_type_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:textSize="18dp"
             android:text="知识类别名"
-            android:paddingTop="5dp"
+            android:paddingTop="7dp"
             />
 
         <TextView
             android:id="@+id/ks_type_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="9dp"
             android:text="知识类别内容"
             android:textColor="@color/gray"
-            android:paddingBottom="5dp"
+            android:paddingBottom="7dp"
             />
 
     </LinearLayout>

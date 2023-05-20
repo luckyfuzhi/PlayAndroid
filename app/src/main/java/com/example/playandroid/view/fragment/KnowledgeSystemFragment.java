@@ -98,6 +98,7 @@ int k = 0;
     public void requestKsDataResult(List<KnowledgeType> knowledgeTypeList) {
 
         this.knowledgeTypeList.addAll(knowledgeTypeList);
+
         for (int i = 0; i < knowledgeTypeList.size(); i++) {
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -105,7 +106,6 @@ int k = 0;
                 stringBuilder.append(knowledgeTypeList.get(i).getChildList().get(j).optString("name") + "  ");
 
             }
-            Log.d("test222", stringBuilder.toString());
             childNameList.add(stringBuilder.toString());
 
         }
