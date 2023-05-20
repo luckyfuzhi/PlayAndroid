@@ -1,8 +1,10 @@
 package com.example.playandroid.view.activity;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ public class BottomActivity extends BaseActivity {
     private TextView firstPageText;
     private TextView knowledgeSystemText;
     private TextView projectText;
+    private Button searchButton;
     private LinearLayout firstPage;
     private LinearLayout knowledgeSystem;
     private LinearLayout project;
@@ -56,6 +59,7 @@ public class BottomActivity extends BaseActivity {
         project = findViewById(R.id.project);
         currentFragment = new FirstPageFragment();
         fragmentManager = getSupportFragmentManager();
+        searchButton = findViewById(R.id.main_search_button);
 
     }
 
@@ -86,6 +90,7 @@ public class BottomActivity extends BaseActivity {
         firstPage.setOnClickListener(this);
         knowledgeSystem.setOnClickListener(this);
         project.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
     }
 
     @Override
@@ -124,6 +129,9 @@ public class BottomActivity extends BaseActivity {
             setSelectedState(R.id.project_img);
             showFragment(projectFragment);
 
+        } else if (id == R.id.main_search_button) {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
         }
 
 

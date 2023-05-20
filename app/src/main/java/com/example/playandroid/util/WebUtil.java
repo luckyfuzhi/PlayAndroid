@@ -7,14 +7,19 @@ import android.util.Log;
 import com.example.playandroid.contract.DataCallBack;
 import com.example.playandroid.contract.DataCallBackForBitmap;
 import com.example.playandroid.contract.DataCallBackForImage;
+import com.example.playandroid.contract.DataCallBackForPost;
 import com.example.playandroid.contract.DataCallBackForProjectType;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -25,7 +30,7 @@ public class WebUtil {
     private static final String TAG = "WebUtil";
 
     /**
-     * 从网路上获取数据
+     * 从网络上获取数据
      * @param urlString 网址字符串
      * @return 数据
      */
@@ -75,6 +80,11 @@ public class WebUtil {
 //        return response.toString();
     }
 
+    /**
+     *  通过图片路径获取图片
+     * @param imageUrl 图片路径
+     * @param callBack 数据回调接口
+     */
     public static void getImageData(String imageUrl, DataCallBackForImage callBack){
         final InputStream[] inputStream = new InputStream[1];
         new Thread(new Runnable() {
@@ -134,5 +144,92 @@ public class WebUtil {
     }
 
 
+    /**
+     *  发送数据到网络
+     * @param urlString 网络路径
+     * @param paramMap 要发送的数据
+     * @return 发送是否成功
+     */
+    public static void postDataToWeb(String urlString, Map<String, String> paramMap, DataCallBack callBack){
+        StringBuilder response = new StringBuilder();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                OutputStream outputStream = null;
+                BufferedReader reader = null;
+                try {
+                    URL url = new URL(urlString);
+                    connection = (HttpURLConnection) url.openConnection();
+                    String paramData = paramMapToString(paramMap);
+
+                    connection.setRequestMethod("POST");
+                    connection.setConnectTimeout(8000);
+                    connection.setRequestProperty("Content_Length", String.valueOf(paramData.length()));
+                    connection.setDoOutput(true);
+
+                    outputStream = connection.getOutputStream();
+                    outputStream.write(paramData.getBytes());
+
+                    InputStream inputStream = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(inputStream));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+
+                    callBack.onSuccess(response.toString());
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "postDataToWeb: 发送数据错误");
+                    callBack.onFailure(e);
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    if (outputStream != null) {
+                        try {
+                            outputStream.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    if (connection != null){
+                        connection.disconnect();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    /**
+     *  将post数据转换为相应格式字符串
+     * @param paramMap post数据
+     * @return 字符串
+     */
+    private static String paramMapToString(Map<String, String> paramMap){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        Set<Map.Entry<String, String>> entries = paramMap.entrySet();
+
+        for (Map.Entry<String, String> entry : entries) {
+            stringBuilder.append(entry.getKey())
+                    .append("=")
+                    .append(entry.getValue())
+                    .append("&");
+        }
+
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+        return stringBuilder.toString();
+    }
 
 }

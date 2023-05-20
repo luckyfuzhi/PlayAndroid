@@ -6,6 +6,7 @@ import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,7 +17,7 @@ import com.example.playandroid.presenter.ArticleDetailPresenter;
 
 public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> {
     private WebView contentWebView;
-    private ImageView back;
+    private Button back;
     private TextView articleTitle;
 
     private String articleLink;

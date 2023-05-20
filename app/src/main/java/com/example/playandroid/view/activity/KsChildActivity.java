@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ import java.util.List;
 
 public class KsChildActivity extends BaseActivity<KsChildPresenter>{
 
-    private ImageView backImg;
+    private Button backImg;
 
     private TextView title;
 

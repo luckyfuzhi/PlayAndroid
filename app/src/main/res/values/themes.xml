@@ -11,4 +11,11 @@
     <style name="Theme.PlayAndroid" parent="Base.Theme.PlayAndroid" />
     
     <style name="MyStyle" parent="Theme.AppCompat.Light.NoActionBar"/>
+    
+    <style name="MyEditStyle">
+
+        <item name="android:textColorHint"> @color/gray</item>
+        <item name="colorControlNormal"> @color/white</item>
+
+    </style>
 </resources>

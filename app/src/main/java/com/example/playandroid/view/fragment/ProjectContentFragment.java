@@ -103,6 +103,8 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
                     if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 1) {
                         loadMoreProject(typeId);
                     }
+
+
                 }
             }
         });
@@ -117,12 +119,6 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
             switch (msg.what) {
                 case UPDATE_PROJECT_ARTICLE:
                     articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
-//                    mActivity.runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                        }
-//                    });
                     break;
                 default:
                     break;
@@ -158,7 +154,6 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
                         public void run() {
                             bitmapList.add(data);
                             articleRecyclerAdapter.notifyItemChanged(bitmapList.size() - 1);//刷新界面
-                            //articleRecyclerAdapter.notifyDataSetChanged();
                         }
                     });
                 }
