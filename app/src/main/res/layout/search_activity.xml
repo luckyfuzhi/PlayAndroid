@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@color/blue">
+        android:background="#035FC4">
 
         <Button
             android:id="@+id/search_back"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:layout_gravity="center"
             android:background="@drawable/back"
             app:tint="@color/white"
@@ -25,7 +25,8 @@
             android:id="@+id/search_edit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="7"
+            android:layout_weight="9"
+            android:textColor="@color/white"
             android:theme="@style/MyEditStyle"
             android:maxLines="1"
             android:hint="输入点什么吧~"
@@ -34,8 +35,8 @@
         <Button
             android:id="@+id/search_activity_button"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:layout_gravity="center"
             android:background="@drawable/search"
             />

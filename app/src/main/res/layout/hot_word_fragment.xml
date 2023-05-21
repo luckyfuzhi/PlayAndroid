@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/search_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,16 +18,17 @@
             android:layout_height="match_parent"
             android:src="@drawable/fire"
             android:paddingLeft="7dp"
-            app:tint="@color/warm_red"/>
+            app:tint="@color/peal_white"/>
 
         <TextView
             android:id="@+id/hot_word_tip"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="热门搜索>>"
-            android:textSize="30dp"
+            android:text="热门搜索:"
+            android:textSize="25dp"
+            android:gravity="center_vertical"
             android:paddingLeft="7dp"
-            android:textColor="@color/warm_red"
+            android:textColor="@color/peal_white"
             />
 
     </LinearLayout>
@@ -36,9 +38,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="7dp"
-        android:textSize="30dp"
+        android:paddingLeft="7dp"
+        android:textSize="22dp"
         android:lineSpacingExtra="10dp"
-        android:textColor="@color/shallow_blue"
+        android:textColor="@color/peal_white"
         />
 
 

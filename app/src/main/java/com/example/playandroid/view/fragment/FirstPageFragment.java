@@ -255,30 +255,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                         }
                     }
                 });
-//                    imageView.setOnTouchListener(new View.OnTouchListener() {
-//                        @SuppressLint("ClickableViewAccessibility")
-//                        @Override
-//                        public boolean onTouch(View view, MotionEvent motionEvent) {
-//                            switch (motionEvent.getAction()){
-//                                case MotionEvent.ACTION_DOWN:
-//                                    Log.d("test444:", "down");
-//                                    isAutoBanner = false;
-//                                    break;
-//
-//                                case MotionEvent.ACTION_UP:
-//                                    Log.d("test444:", "up");
-//                                    isAutoBanner = true;
-//                                    Message message = new Message();
-//                                    message.what = MSG_RECYCLE_VIEW;
-//                                    mHandler.sendMessage(message);
-////                                        mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 2000);
-////                                                break;
-//                                default:
-//                                    break;
-//                            }
-//                            return false;
-//                        }
-//                    });
 
                 imageViewList.add(imageView);
                 bannerAdapter.notifyDataSetChanged();//必须设置这个来通知适配器数据变化了，要进行更新
@@ -297,12 +273,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
                     public void onSuccess(InputStream data) {
-                        //bitmap = BitmapFactory.decodeStream(data);
                         bitmapList.add(BitmapFactory.decodeStream(data));
-                        //Log.d("test111", bitmap.toString());
-                        //imgArticleLink = articleLink;
                         urlList.add(articleLink);
-                        //imgArticleTitle = title;
                         titleList.add(title);
                         Message message = new Message();
                         message.what = SET_IMG;

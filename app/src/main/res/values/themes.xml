@@ -14,7 +14,7 @@
     
     <style name="MyEditStyle">
 
-        <item name="android:textColorHint"> @color/gray</item>
+        <item name="android:textColorHint">@color/peal_white</item>
         <item name="colorControlNormal"> @color/white</item>
 
     </style>
