@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KsChildContentModel extends BaseModelForFragment<KsChildContentPresenter> implements KsChildContract.M {
+
+    //知识体系某种类的具体文章列表网址
     private final static String KS_CHILD_ARTICLE_URL = "https://www.wanandroid.com/article/list/";
 
     public KsChildContentModel(KsChildContentPresenter mPresenter) {

@@ -68,6 +68,7 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
     public void initView() {
         progressDialog = new ProgressDialog(requireContext());
         progressDialog.setMessage("正在努力加载中");
+        progressDialog.setCancelable(false);
         progressDialog.show();
     }
 

@@ -58,6 +58,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
     public void initView() {
         progressDialog = new ProgressDialog(requireContext());
         progressDialog.setMessage("正在努力加载");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         projectTypeTl = mActivity.findViewById(R.id.project_type_tl);
         projectArticleVp = mActivity.findViewById(R.id.project_content_vp);
@@ -93,11 +94,6 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
                         public CharSequence getPageTitle(int position) {
                             return mProjectTypeList.get(position).getName();
                         }
-//                        @Override
-//                        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-//                            super.destroyItem(container, position, object);
-//                            //使得不能销毁碎片,避免了切换Fragment时重新加载的问题
-//                        }
                     });
 
                     //设置TabLayout和ViewPager的联动

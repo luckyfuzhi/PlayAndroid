@@ -29,7 +29,7 @@ import com.example.playandroid.view.fragment.SucceedLoginFragment;
 
 
 /**
- * 下方导航栏类
+ * 程序主类，包含各个模块功能的切换入口
  */
 public class BottomActivity extends BaseActivity {
 
@@ -167,7 +167,7 @@ public class BottomActivity extends BaseActivity {
     /**
      * 设置选中状态
      *
-     * @param id
+     * @param id 被选中的控件id
      */
     public void setSelectedState(int id) {
         knowledgeSystemText.setTextColor(getResources().getColor(R.color.black));
@@ -195,6 +195,10 @@ public class BottomActivity extends BaseActivity {
         }
     }
 
+    /**
+     *  切换碎片
+     * @param fragment 要切换的碎片
+     */
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.user_drawer_content, fragment);
@@ -202,7 +206,11 @@ public class BottomActivity extends BaseActivity {
     }
 
 
-    //替换上面的replaceFragment方法
+    /**
+     * 用于切换程序三大模块的碎片
+     * @param fragment 要切换的碎片
+     */
+    //替换上面的replaceFragment方法，防止出现碎片切换空白问题
     private void showFragment(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 

@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/project_article_title"
             android:ellipsize="end"
-            android:lines="2"
+            android:lines="3"
             android:paddingLeft="7dp"
             android:textColor="@color/gray"
             android:textSize="15dp" />
@@ -61,6 +61,7 @@
                     android:paddingLeft="7dp"
                     android:textSize="15dp"
                     android:text="作者："
+                    android:textColor="@color/light_blue"
                     />
                 <TextView
                     android:id="@+id/project_article_time"
@@ -68,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="7dp"
                     android:textSize="15dp"
-                    android:layout_below="@+id/project_article_author"
+                    android:layout_below="@id/project_article_author"
+                    android:textColor="@color/light_blue"
                     android:text="时间："
                     />
             </LinearLayout>

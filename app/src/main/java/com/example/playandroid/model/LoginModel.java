@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class LoginModel extends BaseModel<LoginPresenter> implements LoginContract.M {
 
+    //登录网址
     private final static String LOGIN_URL = "https://www.wanandroid.com/user/login";
 
     public LoginModel(LoginPresenter mPresenter) {

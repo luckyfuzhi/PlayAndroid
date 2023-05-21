@@ -19,6 +19,10 @@ import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.List;
 
+
+/**
+ *  文章RecyclerView的适配器
+ */
 public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecyclerAdapter.ViewHolder>{
 
     List<Article> mArticleList;

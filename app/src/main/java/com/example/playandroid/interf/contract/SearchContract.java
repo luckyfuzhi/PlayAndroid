@@ -5,15 +5,15 @@ import java.util.List;
 public interface SearchContract {
 
     interface M {
-        void requestHotWord();
+        void requestHotWord();//返回搜索热词数据
 
     }
 
     interface VP {
 
-        void requestHotWord();
+        void requestHotWord();////请求搜索热词数据
 
-        void requestHotWordResult(List<String> hotWordList);
+        void requestHotWordResult(List<String> hotWordList);//返回搜索热词数据
 
 
     }

@@ -24,7 +24,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
     private final static String BANNER_URL = "https://www.wanandroid.com/banner/json";
     //首页文章网址
     private final static String FP_ARTICLE_URL = "https://www.wanandroid.com/article/list/";
-
+    //置顶文章网址
     private final static String TOP_ARTICLE_URL = "https://www.wanandroid.com/article/top/json";
 
     private static final String TAG = "BannerModel";

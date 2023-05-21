@@ -11,6 +11,7 @@ import com.example.playandroid.util.WebUtil;
 
 public class SucceedLoginModel extends BaseModelForFragment<SucceedLoginPresenter> implements SucceedLoginContract.M {
 
+    //退出登录网址
     private final static String EXIT_LOGIN_URL = "https://www.wanandroid.com/user/logout/json";
 
     public SucceedLoginModel(SucceedLoginPresenter mPresenter) {
@@ -27,7 +28,8 @@ public class SucceedLoginModel extends BaseModelForFragment<SucceedLoginPresente
 
             @Override
             public void onFailure(Exception e) {
-
+                e.printStackTrace();
+                Log.e("exitLogin", e.toString());
             }
         });
     }

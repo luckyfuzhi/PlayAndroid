@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectModel extends BaseModelForFragment<ProjectPresenter> implements ProjectContract.M {
+
+    //项目种类网址
     private final static String PROJECT_TYPE_URL = "https://www.wanandroid.com/project/tree/json";
-
-
 
     public ProjectModel(ProjectPresenter mPresenter) {
         super(mPresenter);

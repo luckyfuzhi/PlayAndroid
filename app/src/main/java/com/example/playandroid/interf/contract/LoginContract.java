@@ -8,15 +8,15 @@ public interface LoginContract {
 
     interface M{
 
-        void requestLoginData(String account, String password) throws Exception;
+        void requestLoginData(String account, String password) throws Exception;//返回登录数据
 
     }
 
     interface VP{
 
-        void requestLogin(String account, String password);
+        void requestLogin(String account, String password);//请求登录数据
 
-        void responseLoginResult(boolean loginResult);
+        void responseLoginResult(boolean loginResult);//返回登录数据
 
     }
 

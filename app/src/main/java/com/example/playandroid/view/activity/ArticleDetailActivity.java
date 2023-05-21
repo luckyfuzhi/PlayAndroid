@@ -1,5 +1,6 @@
 package com.example.playandroid.view.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
@@ -15,6 +16,9 @@ import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.presenter.ArticleDetailPresenter;
 
+/**
+ *  文章详情
+ */
 public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> {
     private WebView contentWebView;
     private Button back;
@@ -22,6 +26,8 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
 
     private String articleLink;
     private ProgressBar progressBar;
+
+    private ProgressDialog progressDialog;
 
     class MyWebViewClient extends WebViewClient{
         @Override
@@ -32,8 +38,9 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             // 页面开始加载方法
-            progressBar.setVisibility(View.VISIBLE);
-            progressBar.setProgress(0);
+//            progressBar.setVisibility(View.VISIBLE);
+//            progressBar.setProgress(0);
+            progressDialog.show();
             super.onPageStarted(view, url, favicon);
         }
 
@@ -41,6 +48,7 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         public void onPageFinished(WebView view, String url) {
             // 页面加载完成方法
             super.onPageFinished(view, url);
+            progressDialog.dismiss();
             progressBar.setProgress(100);
             progressBar.setVisibility(View.GONE);
             articleTitle.setText(getArticleTitle());
@@ -56,6 +64,10 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         contentWebView.getSettings().setJavaScriptEnabled(true);
         contentWebView.setWebViewClient(new MyWebViewClient());
         back.setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("正在加载数据");
+
     }
 
     @Override
@@ -112,8 +124,6 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.article_back){
-//            Intent intent = new Intent(this, BottomActivity.class);
-//            startActivity(intent);
             finish();
         }
     }

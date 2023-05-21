@@ -96,6 +96,5 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
 
     @Override
     public void exitLoginResult() {
-
     }
 }

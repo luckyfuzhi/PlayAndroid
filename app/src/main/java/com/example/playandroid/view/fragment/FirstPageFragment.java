@@ -111,6 +111,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     public void initView() {
         progressDialog = new ProgressDialog(requireActivity());
         progressDialog.setMessage("正在努力加载页面");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         nestedScrollView = root.findViewById(R.id.fp_scroll_view);
         bannerViewPager = requireActivity().findViewById(R.id.banner);

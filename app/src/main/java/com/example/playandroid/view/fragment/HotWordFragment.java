@@ -20,9 +20,6 @@ import java.util.List;
 public class HotWordFragment extends Fragment {
 
     private TextView hotWordText;
-    private TextView hotWordTipText;
-
-    private ImageView fireImg;
 
     private List<String> hotWordList = new ArrayList<>();
 
@@ -36,8 +33,6 @@ public class HotWordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hot_word_fragment, container, false);
         hotWordText = view.findViewById(R.id.hot_word_textview);
-        hotWordTipText = view.findViewById(R.id.hot_word_tip);
-        fireImg = view.findViewById(R.id.fire_img);
         showHotWord();
         return view;
     }

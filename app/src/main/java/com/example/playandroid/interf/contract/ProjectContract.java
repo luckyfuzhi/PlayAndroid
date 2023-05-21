@@ -7,15 +7,15 @@ import java.util.List;
 public interface ProjectContract {
 
     interface M {
-        void requestProjectTypeData();
+        void requestProjectTypeData();//返回项目文章类型数据
 
     }
 
     interface VP {
 
-        void requestProjectTypeData();
+        void requestProjectTypeData();//请求项目文章类型数据
 
-        void requestProjectTypeDataResult(List<ProjectType> projectTypeList);
+        void requestProjectTypeDataResult(List<ProjectType> projectTypeList);//返回项目文章类型数据
 
 
     }

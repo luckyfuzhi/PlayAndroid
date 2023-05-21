@@ -72,7 +72,8 @@ public class SearchModel extends BaseModel<SearchPresenter> implements SearchCon
 
             @Override
             public void onFailure(Exception e) {
-
+                e.printStackTrace();
+                Log.e("requestHotWord", e.toString());
             }
         });
     }

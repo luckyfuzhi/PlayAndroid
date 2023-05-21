@@ -28,6 +28,7 @@
             android:layout_weight="9"
             android:textColor="@color/white"
             android:theme="@style/MyEditStyle"
+            android:inputType="text"
             android:maxLines="1"
             android:hint="输入点什么吧~"
             />

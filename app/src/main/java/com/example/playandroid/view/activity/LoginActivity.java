@@ -37,15 +37,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        String username = accountEdit.getText().toString();
-        String password = passwordEdit.getText().toString();
-        outState.putString("username", username);
-        outState.putString("password", password);
-    }
-
-    @Override
     public void initView() {
         accountEdit = findViewById(R.id.account_edit);
         passwordEdit = findViewById(R.id.password_edit);
@@ -56,12 +47,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void initData() {
-        if (mSavedInstanceState != null){
-            String username = mSavedInstanceState.getString("username");
-            String password = mSavedInstanceState.getString("password");
-            accountEdit.setText(username);
-            passwordEdit.setText(password);
-        }
 
     }
 

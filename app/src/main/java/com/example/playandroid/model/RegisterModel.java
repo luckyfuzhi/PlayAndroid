@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class RegisterModel extends BaseModel<RegisterPresenter> implements RegisterContract.M {
 
+    //注册网址
     private final static String REGISTER_URL = "https://www.wanandroid.com/user/register";
 
     private final static int PSW_LENGTH_LACK = -1;

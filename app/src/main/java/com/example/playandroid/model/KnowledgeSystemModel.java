@@ -18,9 +18,13 @@ import java.util.List;
 
 public class KnowledgeSystemModel extends BaseModelForFragment<KnowledgeSystemPresenter> implements KnowledgeSystemContract.M {
 
+    //知识体系网址
     private final String KS_DATA = "https://www.wanandroid.com/tree/json";
 
 
+    /**
+     * 获取知识体系种类数据
+     */
     public void getKsTypeData(){
         WebUtil.getDataFromWeb(KS_DATA, new DataCallBack() {
             @Override
@@ -49,6 +53,11 @@ public class KnowledgeSystemModel extends BaseModelForFragment<KnowledgeSystemPr
         });
     }
 
+    /**
+     *  解析知识体系种类数据
+     * @param data 知识体系种类数据
+     * @param callBackForKnowledgeType 接口回调
+     */
     public void parseKsTypeData(String data, DataCallBackForKnowledgeType callBackForKnowledgeType){
         List<KnowledgeType> knowledgeTypeList = new ArrayList<>();
         try {

@@ -20,6 +20,10 @@ import com.example.playandroid.view.activity.KsChildActivity;
 
 import java.util.List;
 
+
+/**
+ *  知识体系的种类RecyclerView的适配器
+ */
 public class KsTypeRecyclerAdapter extends RecyclerView.Adapter<KsTypeRecyclerAdapter.ViewHolder> {
 
     private List<KnowledgeType> mKnowledgeTypeList;

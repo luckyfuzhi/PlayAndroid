@@ -11,7 +11,8 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/new_splash_img"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/app_img"
+        android:roundIcon="@drawable/new_splash_img"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/ImageTranslucentTheme"
         tools:targetApi="31">

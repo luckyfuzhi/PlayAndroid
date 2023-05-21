@@ -18,6 +18,7 @@ import java.util.List;
 
 public class ProjectContentModel extends BaseModelForFragment<ProjectContentPresenter> implements ProjectArticleContract.M {
 
+    //项目文章数据
     private final static String PROJECT_URL = "https://www.wanandroid.com/project/list/";
 
     private static final String TAG = "ProjectContentModel";

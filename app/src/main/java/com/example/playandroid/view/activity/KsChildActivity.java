@@ -51,6 +51,7 @@ public class KsChildActivity extends BaseActivity<KsChildPresenter>{
             ksChildContentFragmentList.add(new KsChildContentFragment(knowledgeType.getId()));
         }
 
+        title.setText(mKnowledgeType.getName());
         childArticleVp.setAdapter(new FragmentPagerAdapter(this.getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull

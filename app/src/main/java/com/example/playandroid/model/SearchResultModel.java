@@ -19,6 +19,7 @@ import java.util.Map;
 
 public class SearchResultModel extends BaseModelForFragment<SearchResultPresenter> implements SearchResultContract.M {
 
+    //获取搜索结果网址
     private final static String SEARCH_RESULT_URL = "https://www.wanandroid.com/article/query/";
 
     public SearchResultModel(SearchResultPresenter mPresenter) {

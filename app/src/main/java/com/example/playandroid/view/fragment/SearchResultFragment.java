@@ -1,6 +1,7 @@
 package com.example.playandroid.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,7 +10,9 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,9 +42,15 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     private ProgressBar progressBar;
     private TextView noResultTV;
 
+    private ImageView noResultImg;
+
+    private RelativeLayout noResult;
+
     private List<Article> articleList = new ArrayList<>();
 
     private Map<String, String> paramMap = new HashMap<>();
+
+    private ProgressDialog progressDialog;
 
     private FragmentActivity mActivity;
     private Context mContext;
@@ -80,9 +89,15 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_result_fragment, container ,false);
+        progressDialog = new ProgressDialog(mContext);
+        progressDialog.setMessage("正在努力加载文章数据");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         resultRecyclerView = view.findViewById(R.id.search_result_rv);
         progressBar = view.findViewById(R.id.search_result_progressBar);
         noResultTV = view.findViewById(R.id.no_result_text);
+        noResultImg = view.findViewById(R.id.no_result_img);
+        noResult = view.findViewById(R.id.no_result_relative);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         resultRecyclerView.setLayoutManager(mLayoutManager);
         resultRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity,
@@ -114,7 +129,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     //加载更多文章数据
     public void loadMoreArticle(Map<String, String> paramMap) {
-        progressBar.setVisibility(View.VISIBLE);
+        progressDialog.show();
         page++;
         requestArticleData(page, paramMap);
     }
@@ -135,6 +150,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             switch (msg.what) {
                 case UPDATE_RESULT_ARTICLE:
                     resultRecyclerAdapter.notifyDataSetChanged();//刷新界面
+                    progressDialog.dismiss();
                     break;
                 default:
                     break;
@@ -145,12 +161,14 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     @Override
     public void requestArticleDataResult(List<Article> articleList) {
         this.articleList.addAll(articleList);
-        if(this.articleList.size() != 0) {
+        if(articleList.size() != 0) {
             Message message = new Message();
             message.what = UPDATE_RESULT_ARTICLE;
             handler.sendMessage(message);
         } else {
-            noResultTV.setVisibility(View.VISIBLE);
+            progressDialog.dismiss();
+            noResult.setVisibility(View.VISIBLE);
+
         }
     }
 }

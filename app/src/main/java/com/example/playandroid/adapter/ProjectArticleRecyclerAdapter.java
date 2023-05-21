@@ -19,6 +19,10 @@ import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.List;
 
+
+/**
+ *  项目文章recyclerView的适配器
+ */
 public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectArticleRecyclerAdapter.ViewHolder>{
 
     List<Project> mProjectArticleList;
@@ -26,7 +30,6 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
     List<Bitmap> bitmapList ;
 
     private Context mContext;
-    //private FragmentActivity context=(FragmentActivity)MyApplication.getContext();
 
     public ProjectArticleRecyclerAdapter(List<Project> projectList, List<Bitmap> bitmapList) {
         this.mProjectArticleList = projectList;
