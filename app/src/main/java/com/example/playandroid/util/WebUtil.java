@@ -168,19 +168,19 @@ public class WebUtil {
                     outputStream = connection.getOutputStream();
                     outputStream.write(paramData.getBytes());
 
+
                     InputStream inputStream = connection.getInputStream();
                     reader = new BufferedReader(new InputStreamReader(inputStream));
                     String line;
                     while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
-
                     callBack.onSuccess(response.toString());
-                    Log.d("test1234", response.toString());
+                    Log.d("test3434", response.toString());
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(TAG, "postDataToWeb: 发送数据错误");
+                    Log.e(TAG, "postDataToWeb: 发送数据错误/" + e);
                     callBack.onFailure(e);
                 } finally {
                     if (reader != null) {
@@ -226,7 +226,6 @@ public class WebUtil {
 
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 
-        Log.d("test1231", stringBuilder.toString());
         return stringBuilder.toString();
     }
 

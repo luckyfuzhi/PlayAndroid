@@ -48,6 +48,10 @@
             android:name=".view.activity.LoginActivity"
             android:exported="true"/>
 
+        <activity
+            android:name=".view.activity.RegisterActivity"
+            android:exported="true"
+            />
 
     </application>
 
