@@ -25,6 +25,7 @@ import com.example.playandroid.view.fragment.BottomDrawerLoginFragment;
 import com.example.playandroid.view.fragment.FirstPageFragment;
 import com.example.playandroid.view.fragment.KnowledgeSystemFragment;
 import com.example.playandroid.view.fragment.ProjectFragment;
+import com.example.playandroid.view.fragment.SucceedLoginFragment;
 
 
 /**
@@ -72,7 +73,17 @@ public class BottomActivity extends BaseActivity {
         menuButton = findViewById(R.id.menu_button);
         mDrawerLayout = findViewById(R.id.bottom_drawer_layout);
 
-        replaceFragment(new BottomDrawerLoginFragment());
+
+        if (getIntent().getBooleanExtra("isSuccessLogin", false)){//如果成功登录则切换侧滑栏视图
+            replaceFragment(new SucceedLoginFragment(getIntent().getStringExtra("username")));
+        }else {
+            replaceFragment(new BottomDrawerLoginFragment());
+        }
+
+        if (getIntent().getBooleanExtra("exitLogin", false)){//如果退出登录则切换侧滑栏视图
+            replaceFragment(new BottomDrawerLoginFragment());
+            Toast.makeText(this, "已退出登录", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

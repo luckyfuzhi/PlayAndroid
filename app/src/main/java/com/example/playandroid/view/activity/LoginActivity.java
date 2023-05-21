@@ -19,6 +19,8 @@ import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.presenter.LoginPresenter;
 
+import java.util.Collection;
+
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.VP {
 
     private EditText accountEdit;
@@ -115,7 +117,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         public void handleMessage(@NonNull Message msg) {
             if(msg.what == 1){
                 Toast.makeText(mActivity, "登录成功", Toast.LENGTH_SHORT).show();
-                finish();
+                Intent intent = new Intent(mActivity, BottomActivity.class);
+                intent.putExtra("isSuccessLogin", true);
+                intent.putExtra("username", accountEdit.getText().toString());
+                startActivity(intent);
+                ActivityCollector.removeActivity(mActivity);
+
             } else if (msg.what == 0) {
                 Toast.makeText(mActivity, "账号或者密码不正确", Toast.LENGTH_SHORT).show();
             }
