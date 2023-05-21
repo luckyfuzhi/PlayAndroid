@@ -21,13 +21,13 @@ import java.util.List;
 
 
 /**
- *  项目文章recyclerView的适配器
+ * 项目文章recyclerView的适配器
  */
-public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectArticleRecyclerAdapter.ViewHolder>{
+public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectArticleRecyclerAdapter.ViewHolder> {
 
     List<Project> mProjectArticleList;
 
-    List<Bitmap> bitmapList ;
+    List<Bitmap> bitmapList;
 
     private Context mContext;
 
@@ -36,7 +36,7 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
         this.bitmapList = bitmapList;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         View projectView;
         TextView title;
@@ -79,7 +79,7 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
         holder.author.setText("作者：" + projectArticle.getAuthor());
         holder.desc.setText(projectArticle.getDesc());
         holder.time.setText("时间：" + projectArticle.getNiceShareDate());
-        if (bitmapList.size()>position){
+        if (bitmapList.size() > position) {
             holder.projectImg.setImageBitmap(bitmapList.get(position));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
