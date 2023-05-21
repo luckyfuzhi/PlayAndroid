@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.base.BasePresenter;
+import com.example.playandroid.view.fragment.BottomDrawerLoginFragment;
 import com.example.playandroid.view.fragment.FirstPageFragment;
 import com.example.playandroid.view.fragment.KnowledgeSystemFragment;
 import com.example.playandroid.view.fragment.ProjectFragment;
@@ -44,7 +45,7 @@ public class BottomActivity extends BaseActivity {
     private LinearLayout firstPage;
     private LinearLayout knowledgeSystem;
     private LinearLayout project;
-    private RelativeLayout loginEntry;
+
 
     private DrawerLayout mDrawerLayout;
 
@@ -70,8 +71,8 @@ public class BottomActivity extends BaseActivity {
         searchButton = findViewById(R.id.main_search_button);
         menuButton = findViewById(R.id.menu_button);
         mDrawerLayout = findViewById(R.id.bottom_drawer_layout);
-        loginEntry = findViewById(R.id.login_entry);
 
+        replaceFragment(new BottomDrawerLoginFragment());
     }
 
     @Override
@@ -103,7 +104,7 @@ public class BottomActivity extends BaseActivity {
         project.setOnClickListener(this);
         searchButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
-        loginEntry.setOnClickListener(this);
+
     }
 
     @Override
@@ -147,9 +148,6 @@ public class BottomActivity extends BaseActivity {
             startActivity(intent);
         } else if (id == R.id.menu_button) {
             mDrawerLayout.openDrawer(GravityCompat.START);
-        } else if (id == R.id.login_entry) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
         }
 
 
@@ -186,11 +184,11 @@ public class BottomActivity extends BaseActivity {
         }
     }
 
-//    public void replaceFragment(Fragment fragment) {
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.replace(R.id.content_frag, fragment);
-//        transaction.commit();
-//    }
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.user_drawer_content, fragment);
+        transaction.commit();
+    }
 
 
     //替换上面的replaceFragment方法
