@@ -1,5 +1,6 @@
 package com.example.playandroid.view.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +36,8 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
 
     private List<String> oneChildNameList = new ArrayList<>();
 
+    private ProgressDialog progressDialog;
+
     private KsTypeRecyclerAdapter ksTypeRecyclerAdapter = new KsTypeRecyclerAdapter(knowledgeTypeList, childNameList);
 
 
@@ -63,7 +66,9 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
 
     @Override
     public void initView() {
-
+        progressDialog = new ProgressDialog(requireContext());
+        progressDialog.setMessage("正在努力加载中");
+        progressDialog.show();
     }
 
     private Handler handler = new Handler(Looper.getMainLooper()) {
@@ -72,6 +77,7 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
             switch (message.what){
                 case UPDATE_TYPE_RV:
                     ksTypeRecyclerAdapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
                     break;
                 default:
                     break;

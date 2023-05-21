@@ -1,5 +1,6 @@
 package com.example.playandroid.view.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     private final static int UPDATE_PROJECT_ARTICLE = 1;
 
+    private ProgressDialog progressDialog;
     private FragmentActivity mActivity;
     private Context mContext;
     private RecyclerView articleRecycleView;
@@ -67,6 +69,9 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     @Override
     public void initView() {
+        progressDialog = new ProgressDialog(requireContext());
+        progressDialog.setMessage("正在努力加载中");
+
     }
 
 
@@ -108,6 +113,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
                 }
             }
         });
+
         return view;
 
     }
@@ -119,6 +125,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
             switch (msg.what) {
                 case UPDATE_PROJECT_ARTICLE:
                     articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+                    progressDialog.dismiss();
                     break;
                 default:
                     break;
@@ -133,7 +140,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     //加载更多文章数据
     public void loadMoreProject(int typeId) {
-        progressBar.setVisibility(View.VISIBLE);
+        progressDialog.show();
         page++;
         requestProjectData(page, typeId);
     }

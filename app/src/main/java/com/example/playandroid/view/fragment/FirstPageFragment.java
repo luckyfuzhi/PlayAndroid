@@ -1,6 +1,7 @@
 package com.example.playandroid.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ import com.example.playandroid.entity.Article;
 import com.example.playandroid.presenter.FirstPagePresenter;
 import com.example.playandroid.util.WebUtil;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
+import com.example.playandroid.view.activity.BottomActivity;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -54,6 +56,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private ProgressBar progressBar;
     private BannerAdapter bannerAdapter;
     private ViewPager bannerViewPager;
+
+    private ProgressDialog progressDialog;
 
     private NestedScrollView nestedScrollView;
     private RecyclerView articleRecyclerView;
@@ -105,6 +109,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
      */
     @Override
     public void initView() {
+        progressDialog = new ProgressDialog(requireActivity());
+        progressDialog.setMessage("正在努力加载页面");
+        progressDialog.show();
         nestedScrollView = root.findViewById(R.id.fp_scroll_view);
         bannerViewPager = requireActivity().findViewById(R.id.banner);
         progressBar = requireActivity().findViewById(R.id.progressBar);
@@ -180,6 +187,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                         public void run() {
                             if(articleRecyclerAdapter != null) {
                                 articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
+                                progressDialog.dismiss();
                             }
                         }
                     });

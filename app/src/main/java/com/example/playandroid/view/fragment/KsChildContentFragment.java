@@ -1,5 +1,6 @@
 package com.example.playandroid.view.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,7 @@ public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter
 
     private List<Article> mArticleList = new ArrayList<>();
 
+    private ProgressDialog progressDialog;
     private RecyclerView articleRecyclerView;
     private ProgressBar progressBar;
 
@@ -97,6 +99,8 @@ public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter
 
     @Override
     public void initView() {
+        progressDialog = new ProgressDialog(requireContext());
+        progressDialog.setMessage("正在努力加载中");
 
     }
 
@@ -107,7 +111,7 @@ public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter
 
     //加载更多文章数据
     public void loadMoreArticle(int typeId) {
-        progressBar.setVisibility(View.VISIBLE);
+        progressDialog.show();
         page++;
         requestArticleData(page, typeId);
     }
@@ -123,6 +127,7 @@ public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter
             switch (msg.what) {
                 case UPDATE_ARTICLE:
                     articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+                    progressDialog.dismiss();
                     break;
                 default:
                     break;

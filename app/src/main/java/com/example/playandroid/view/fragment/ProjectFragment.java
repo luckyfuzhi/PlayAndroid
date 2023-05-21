@@ -1,5 +1,6 @@
 package com.example.playandroid.view.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,10 +27,11 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
 
     private final static int SET_PROJECT_TYPE = 0;
 
-
     private FragmentActivity mActivity;
 
     private TabLayout projectTypeTl;
+
+    private ProgressDialog progressDialog;
 
     private ViewPager projectArticleVp;
 
@@ -54,6 +56,9 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
 
     @Override
     public void initView() {
+        progressDialog = new ProgressDialog(requireContext());
+        progressDialog.setMessage("正在努力加载");
+        progressDialog.show();
         projectTypeTl = mActivity.findViewById(R.id.project_type_tl);
         projectArticleVp = mActivity.findViewById(R.id.project_content_vp);
         requestProjectTypeData();
@@ -98,6 +103,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
                     //设置TabLayout和ViewPager的联动
                     projectTypeTl.setupWithViewPager(projectArticleVp);
 
+                    progressDialog.dismiss();
                     break;
                 default:
                     break;
