@@ -41,7 +41,7 @@ public class BottomActivity extends BaseActivity {
     private TextView knowledgeSystemText;
     private TextView projectText;
     private Button searchButton;
-    
+
     private Button menuButton;
     private LinearLayout firstPage;
     private LinearLayout knowledgeSystem;
@@ -74,13 +74,13 @@ public class BottomActivity extends BaseActivity {
         mDrawerLayout = findViewById(R.id.bottom_drawer_layout);
 
 
-        if (getIntent().getBooleanExtra("isSuccessLogin", false)){//如果成功登录则切换侧滑栏视图
+        if (getIntent().getBooleanExtra("isSuccessLogin", false)) {//如果成功登录则切换侧滑栏视图
             replaceFragment(new SucceedLoginFragment(getIntent().getStringExtra("username")));
-        }else {
+        } else {
             replaceFragment(new BottomDrawerLoginFragment());
         }
 
-        if (getIntent().getBooleanExtra("exitLogin", false)){//如果退出登录则切换侧滑栏视图
+        if (getIntent().getBooleanExtra("exitLogin", false)) {//如果退出登录则切换侧滑栏视图
             replaceFragment(new BottomDrawerLoginFragment());
             Toast.makeText(this, "已退出登录", Toast.LENGTH_SHORT).show();
         }
@@ -196,7 +196,8 @@ public class BottomActivity extends BaseActivity {
     }
 
     /**
-     *  切换碎片
+     * 切换碎片
+     *
      * @param fragment 要切换的碎片
      */
     public void replaceFragment(Fragment fragment) {
@@ -208,6 +209,7 @@ public class BottomActivity extends BaseActivity {
 
     /**
      * 用于切换程序三大模块的碎片
+     *
      * @param fragment 要切换的碎片
      */
     //替换上面的replaceFragment方法，防止出现碎片切换空白问题

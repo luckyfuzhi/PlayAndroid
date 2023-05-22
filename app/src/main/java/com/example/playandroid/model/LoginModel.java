@@ -29,7 +29,7 @@ public class LoginModel extends BaseModel<LoginPresenter> implements LoginContra
         WebUtil.postDataToWeb(LOGIN_URL, paramMap, new DataCallBack() {
             @Override
             public void onSuccess(String data) {
-                if(data.contains("账号密码不匹配")){
+                if (data.contains("账号密码不匹配")) {
                     mPresenter.responseLoginResult(false);
                 } else {
                     mPresenter.responseLoginResult(true);

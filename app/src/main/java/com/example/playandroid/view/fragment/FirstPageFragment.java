@@ -186,7 +186,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(articleRecyclerAdapter != null) {
+                            if (articleRecyclerAdapter != null) {
                                 articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
                                 progressDialog.dismiss();
                             }

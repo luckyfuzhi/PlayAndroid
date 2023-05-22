@@ -21,7 +21,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KsChildActivity extends BaseActivity<KsChildPresenter>{
+public class KsChildActivity extends BaseActivity<KsChildPresenter> {
 
     private Button backImg;
 
@@ -35,7 +35,6 @@ public class KsChildActivity extends BaseActivity<KsChildPresenter>{
 
     private List<String> childNameList = new ArrayList<>();
     private List<KsChildContentFragment> ksChildContentFragmentList = new ArrayList<>();
-
 
 
     @Override
@@ -82,10 +81,10 @@ public class KsChildActivity extends BaseActivity<KsChildPresenter>{
     }
 
     //获取父知识体系分类
-    public KnowledgeType getKnowledgeType(){
+    public KnowledgeType getKnowledgeType() {
         Intent intent = getIntent();
         KnowledgeType knowledgeType = null;
-        if("sendKnowledgeType".equals(intent.getAction())){
+        if ("sendKnowledgeType".equals(intent.getAction())) {
             knowledgeType = (KnowledgeType) intent.getSerializableExtra("KnowledgeTypeData");
         }
         return knowledgeType;
@@ -119,7 +118,7 @@ public class KsChildActivity extends BaseActivity<KsChildPresenter>{
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.ks_article_back){
+        if (view.getId() == R.id.ks_article_back) {
             finish();
         }
     }

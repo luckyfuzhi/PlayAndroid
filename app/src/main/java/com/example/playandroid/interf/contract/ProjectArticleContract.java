@@ -4,6 +4,9 @@ import com.example.playandroid.entity.Project;
 
 import java.util.List;
 
+/**
+ * 项目文章模块契约接口
+ */
 public interface ProjectArticleContract {
 
 

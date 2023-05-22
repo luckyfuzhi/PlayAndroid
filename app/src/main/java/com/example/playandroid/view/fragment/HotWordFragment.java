@@ -23,7 +23,7 @@ public class HotWordFragment extends Fragment {
 
     private List<String> hotWordList = new ArrayList<>();
 
-    public HotWordFragment(List<String> hotWordList){
+    public HotWordFragment(List<String> hotWordList) {
         this.hotWordList = hotWordList;
     }
 
@@ -41,7 +41,7 @@ public class HotWordFragment extends Fragment {
     /**
      * 展示热词
      */
-    public void showHotWord(){
+    public void showHotWord() {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String hotWord : hotWordList) {

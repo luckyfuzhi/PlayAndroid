@@ -23,7 +23,7 @@ public class SucceedLoginModel extends BaseModelForFragment<SucceedLoginPresente
         WebUtil.getDataFromWeb(EXIT_LOGIN_URL, new DataCallBack() {
             @Override
             public void onSuccess(String data) {
-                Log.d("test4545", data);
+                //Log.d("test4545", data);  只做了退出登录功能，没有对退出登录返回的数据处理
             }
 
             @Override

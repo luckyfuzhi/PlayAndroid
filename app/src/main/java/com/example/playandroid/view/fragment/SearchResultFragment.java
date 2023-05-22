@@ -59,7 +59,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     private ArticleRecyclerAdapter resultRecyclerAdapter = new ArticleRecyclerAdapter(articleList);
 
-    public SearchResultFragment(String key){
+    public SearchResultFragment(String key) {
         paramMap.put("k", key);
     }
 
@@ -88,7 +88,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_result_fragment, container ,false);
+        View view = inflater.inflate(R.layout.search_result_fragment, container, false);
         progressDialog = new ProgressDialog(mContext);
         progressDialog.setMessage("正在努力加载文章数据");
         progressDialog.setCancelable(false);
@@ -161,7 +161,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     @Override
     public void requestArticleDataResult(List<Article> articleList) {
         this.articleList.addAll(articleList);
-        if(articleList.size() != 0) {
+        if (articleList.size() != 0) {
             Message message = new Message();
             message.what = UPDATE_RESULT_ARTICLE;
             handler.sendMessage(message);

@@ -10,9 +10,10 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.playandroid.R;
 import com.example.playandroid.view.activity.ActivityCollector;
 
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements View.OnClickListener{
+public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements View.OnClickListener {
 
     public P mPresenter;
 
@@ -26,12 +27,15 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mSavedInstanceState = savedInstanceState;
         mPresenter = getPresenterInstance();
 
-
-        WindowManager.LayoutParams lp = this.getWindow().getAttributes();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(getResources().getColor(R.color.deep_blue));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        this.getWindow().setAttributes(lp);
 
 
         ActivityCollector.addActivity(this);
@@ -39,7 +43,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         initData();
         initListener();
 
-        if(mPresenter != null) {
+        if (mPresenter != null) {
             mPresenter.bindView(this);
         }
     }
@@ -65,7 +69,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     public abstract int getContentViewId();
 
     /**
-     *  获取Presenter实例
+     * 获取Presenter实例
+     *
      * @return Presenter实例
      */
     public abstract P getPresenterInstance();
@@ -84,9 +89,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     /**
      * 异常时调用
-     * @param error ERROR对象
+     *
+     * @param error     ERROR对象
      * @param throwable 异常对象
-     * @param <ERROR> Error
+     * @param <ERROR>   Error
      */
     public abstract <ERROR extends Object> void responseError(ERROR error, Throwable throwable);
 

@@ -5,6 +5,9 @@ import com.example.playandroid.entity.Article;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 搜索结果模块契约接口
+ */
 public interface SearchResultContract {
 
     interface M {

@@ -7,9 +7,10 @@ import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.model.LoginModel;
 import com.example.playandroid.view.activity.LoginActivity;
 
-public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel>  implements LoginContract.VP {
+public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel> implements LoginContract.VP {
 
     private static final String TAG = "LoginPresenter";
+
     @Override
     public LoginModel getModelInstance() {
         return new LoginModel(this);

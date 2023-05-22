@@ -15,9 +15,8 @@ import androidx.fragment.app.Fragment;
 import com.example.playandroid.R;
 import com.example.playandroid.view.activity.LoginActivity;
 
-public class BottomDrawerLoginFragment extends Fragment implements View.OnClickListener{
+public class BottomDrawerLoginFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout loginEntry;
-
 
 
     @SuppressLint("MissingInflatedId")
@@ -32,7 +31,7 @@ public class BottomDrawerLoginFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-         if (view.getId() == R.id.login_entry) {
+        if (view.getId() == R.id.login_entry) {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
         }

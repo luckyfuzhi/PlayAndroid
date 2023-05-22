@@ -25,7 +25,7 @@ public class KnowledgeSystemModel extends BaseModelForFragment<KnowledgeSystemPr
     /**
      * 获取知识体系种类数据
      */
-    public void getKsTypeData(){
+    public void getKsTypeData() {
         WebUtil.getDataFromWeb(KS_DATA, new DataCallBack() {
             @Override
             public void onSuccess(String data) {
@@ -54,11 +54,12 @@ public class KnowledgeSystemModel extends BaseModelForFragment<KnowledgeSystemPr
     }
 
     /**
-     *  解析知识体系种类数据
-     * @param data 知识体系种类数据
+     * 解析知识体系种类数据
+     *
+     * @param data                     知识体系种类数据
      * @param callBackForKnowledgeType 接口回调
      */
-    public void parseKsTypeData(String data, DataCallBackForKnowledgeType callBackForKnowledgeType){
+    public void parseKsTypeData(String data, DataCallBackForKnowledgeType callBackForKnowledgeType) {
         List<KnowledgeType> knowledgeTypeList = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(data);

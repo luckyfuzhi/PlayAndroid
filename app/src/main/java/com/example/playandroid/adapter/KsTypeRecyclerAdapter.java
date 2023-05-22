@@ -22,7 +22,7 @@ import java.util.List;
 
 
 /**
- *  知识体系的种类RecyclerView的适配器
+ * 知识体系的种类RecyclerView的适配器
  */
 public class KsTypeRecyclerAdapter extends RecyclerView.Adapter<KsTypeRecyclerAdapter.ViewHolder> {
 
@@ -32,12 +32,12 @@ public class KsTypeRecyclerAdapter extends RecyclerView.Adapter<KsTypeRecyclerAd
     private Context mContext;
 
 
-    public KsTypeRecyclerAdapter(List<KnowledgeType> mKnowledgeTypeList, List<String> childNameList){
+    public KsTypeRecyclerAdapter(List<KnowledgeType> mKnowledgeTypeList, List<String> childNameList) {
         this.mKnowledgeTypeList = mKnowledgeTypeList;
         this.mChildNameList = childNameList;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         View typeView;
         TextView name;

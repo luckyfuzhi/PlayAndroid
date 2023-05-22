@@ -21,9 +21,9 @@ import java.util.List;
 
 
 /**
- *  文章RecyclerView的适配器
+ * 文章RecyclerView的适配器
  */
-public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecyclerAdapter.ViewHolder>{
+public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecyclerAdapter.ViewHolder> {
 
     List<Article> mArticleList;
 
@@ -33,7 +33,7 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
         this.mArticleList = articleList;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         View articleView;
         TextView title;
@@ -57,7 +57,7 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_item, parent,
-                 false);
+                false);
         ViewHolder holder = new ViewHolder(view);
         mContext = parent.getContext();
         return holder;

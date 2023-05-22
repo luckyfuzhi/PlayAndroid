@@ -81,22 +81,22 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.search_back){
+        if (view.getId() == R.id.search_back) {
             finish();
         } else if (view.getId() == R.id.search_activity_button) {
-            if(editText.length() != 0) {
+            if (editText.length() != 0) {
                 replaceFragment(new SearchResultFragment(editText.getText().toString()));
-            }else {
+            } else {
                 Toast.makeText(this, "输入不能为空哦", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
 
-    private Handler handler = new Handler(Looper.getMainLooper()){
+    private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case SHOW_HOT_WORD:
                     replaceFragment(hotWordFragment);
                     break;
@@ -106,7 +106,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         }
     };
 
-    public void replaceFragment(Fragment fragment){
+    public void replaceFragment(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.search_content, fragment);
         transaction.commit();

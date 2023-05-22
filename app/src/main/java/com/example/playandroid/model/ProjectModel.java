@@ -26,7 +26,7 @@ public class ProjectModel extends BaseModelForFragment<ProjectPresenter> impleme
     }
 
 
-    public void getProjectTypeData(){
+    public void getProjectTypeData() {
         WebUtil.getDataFromWeb(PROJECT_TYPE_URL, new DataCallBack() {
             @Override
             public void onSuccess(String data) {

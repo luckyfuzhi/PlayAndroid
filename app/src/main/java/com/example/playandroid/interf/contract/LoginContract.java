@@ -6,13 +6,13 @@ package com.example.playandroid.interf.contract;
  */
 public interface LoginContract {
 
-    interface M{
+    interface M {
 
         void requestLoginData(String account, String password) throws Exception;//返回登录数据
 
     }
 
-    interface VP{
+    interface VP {
 
         void requestLogin(String account, String password);//请求登录数据
 

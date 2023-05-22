@@ -28,7 +28,7 @@ import com.example.playandroid.presenter.KsChildContentPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter> implements KsChildContract.VP{
+public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter> implements KsChildContract.VP {
 
     private final static int UPDATE_ARTICLE = 1;
 

@@ -1,7 +1,6 @@
 package com.example.playandroid.interf.contract;
 
 
-
 public interface SucceedLoginContract {
     interface M {
 

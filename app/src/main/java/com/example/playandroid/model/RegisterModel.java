@@ -29,7 +29,7 @@ public class RegisterModel extends BaseModel<RegisterPresenter> implements Regis
         WebUtil.postDataToWeb(REGISTER_URL, paramMap, new DataCallBack() {
             @Override
             public void onSuccess(String data) {
-                if(data.contains("密码长度必须大于6位！")){
+                if (data.contains("密码长度必须大于6位！")) {
                     mPresenter.responseRegisterResult(PSW_LENGTH_LACK);
                 } else if (data.contains("用户名已经被注册!")) {
                     mPresenter.responseRegisterResult(USERNAME_REGISTERED);

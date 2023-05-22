@@ -4,6 +4,9 @@ import com.example.playandroid.entity.Article;
 
 import java.util.List;
 
+/**
+ * 知识体系的子模块契约接口
+ */
 public interface KsChildContract {
 
     interface M {

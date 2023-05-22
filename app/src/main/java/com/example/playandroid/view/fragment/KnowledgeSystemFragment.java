@@ -75,7 +75,7 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message message) {
-            switch (message.what){
+            switch (message.what) {
                 case UPDATE_TYPE_RV:
                     ksTypeRecyclerAdapter.notifyDataSetChanged();
                     progressDialog.dismiss();
@@ -96,7 +96,9 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
     public void requestKsData() {
         mPresenter.requestKsData();
     }
-int k = 0;
+
+    int k = 0;
+
     @Override
     public void requestKsDataResult(List<KnowledgeType> knowledgeTypeList) {
 

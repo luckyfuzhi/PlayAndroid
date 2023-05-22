@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/new_splash_img"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/ImageTranslucentTheme"
+        android:theme="@style/Base.Theme.PlayAndroid"
         tools:targetApi="31">
         <activity
             android:name=".view.activity.SplashActivity"

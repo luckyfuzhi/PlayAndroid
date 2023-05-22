@@ -2,6 +2,9 @@ package com.example.playandroid.interf.contract;
 
 import java.util.List;
 
+/**
+ * 搜索模块契约接口
+ */
 public interface SearchContract {
 
     interface M {

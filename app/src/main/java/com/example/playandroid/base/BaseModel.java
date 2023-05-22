@@ -1,6 +1,6 @@
 package com.example.playandroid.base;
 
-public abstract class BaseModel<P extends BasePresenter>{
+public abstract class BaseModel<P extends BasePresenter> {
 
     public P mPresenter;
 

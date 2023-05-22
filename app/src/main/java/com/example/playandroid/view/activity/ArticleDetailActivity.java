@@ -17,7 +17,7 @@ import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.presenter.ArticleDetailPresenter;
 
 /**
- *  文章详情
+ * 文章详情
  */
 public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> {
     private WebView contentWebView;
@@ -29,12 +29,13 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
 
     private ProgressDialog progressDialog;
 
-    class MyWebViewClient extends WebViewClient{
+    class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             view.loadUrl(request.getUrl().toString());
             return super.shouldOverrideUrlLoading(view, request);
         }
+
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             // 页面开始加载方法
@@ -76,19 +77,19 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         contentWebView.loadUrl(articleLink);
     }
 
-    public String getArticleLink(){
+    public String getArticleLink() {
         Intent intent = getIntent();
         String data = null;
-        if("sendArticleData".equals(intent.getAction())){
+        if ("sendArticleData".equals(intent.getAction())) {
             data = intent.getStringExtra("articleLink");
         }
         return data;
     }
 
-    public String getArticleTitle(){
+    public String getArticleTitle() {
         Intent intent = getIntent();
         String data = null;
-        if("sendArticleData".equals(intent.getAction())){
+        if ("sendArticleData".equals(intent.getAction())) {
             data = intent.getStringExtra("title");
         }
         return data;
@@ -123,7 +124,7 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.article_back){
+        if (view.getId() == R.id.article_back) {
             finish();
         }
     }

@@ -66,11 +66,10 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
     }
 
 
-
-    private Handler handler = new Handler(Looper.getMainLooper()){
+    private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case SET_PROJECT_TYPE:
                     for (int i = 0; i < mProjectTypeList.size(); i++) {
                         projectTypeTl.addTab(projectTypeTl.newTab().setText(mProjectTypeList.get(i).getName()));

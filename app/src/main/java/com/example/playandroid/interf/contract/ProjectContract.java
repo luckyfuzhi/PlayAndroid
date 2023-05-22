@@ -4,6 +4,9 @@ import com.example.playandroid.entity.ProjectType;
 
 import java.util.List;
 
+/**
+ * 项目模块契约接口
+ */
 public interface ProjectContract {
 
     interface M {

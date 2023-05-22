@@ -11,11 +11,12 @@ import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.base.BasePresenter;
 
 /**
- *  启动画面
+ * 启动画面
  */
 public class SplashActivity extends BaseActivity {
 
     public static int SPLASH_DISPLAY_LENGTH = 1000;
+
     @Override
     public void initView() {
         new Handler().postDelayed(new Runnable() {

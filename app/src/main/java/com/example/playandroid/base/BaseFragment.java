@@ -21,7 +21,7 @@ public abstract class BaseFragment<P extends BasePresenterForFragment> extends F
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = getPresenterInstance();
-        if(mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.bindView(this);
         }
     }

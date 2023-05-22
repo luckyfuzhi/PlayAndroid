@@ -24,21 +24,21 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     private final static int PSW_LENGTH_LACK = -1;
     private final static int REGISTER_SUCCESS = 1;
     private final static int USERNAME_REGISTERED = -2;
-    
+
     private EditText usernameEdit;
-    
+
     private EditText passwordEdit;
-    
+
     private EditText ensurePswEdit;
-    
+
     private Button registerButton;
-    
+
     private Button backButton;
 
     private Activity mActivity = this;
 
     private Map<String, String> paramMap = new HashMap<>();
-    
+
     @Override
     public void initView() {
         usernameEdit = findViewById(R.id.register_username_edit);
@@ -81,7 +81,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.register_back){
+        if (view.getId() == R.id.register_back) {
             finish();
         } else if (view.getId() == R.id.register_activity_button) {
             String username = usernameEdit.getText().toString();
@@ -92,21 +92,21 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             paramMap.put("password", password);
             paramMap.put("repassword", ensurePassword);
 
-            if(usernameEdit.length() == 0 || passwordEdit.length() == 0 || ensurePswEdit.length() == 0){
+            if (usernameEdit.length() == 0 || passwordEdit.length() == 0 || ensurePswEdit.length() == 0) {
                 Toast.makeText(mActivity, "账号或者密码或者确认密码栏不能为空！", Toast.LENGTH_SHORT).show();
             } else if (!password.equals(ensurePassword)) {
                 Toast.makeText(mActivity, "两次密码输入应该一致！", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 sendRegisterData(paramMap);
             }
 
         }
     }
 
-    private Handler handler = new Handler(Looper.getMainLooper()){
+    private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case PSW_LENGTH_LACK:
                     Toast.makeText(mActivity, "密码长度必须大于6位！", Toast.LENGTH_SHORT).show();
                     break;

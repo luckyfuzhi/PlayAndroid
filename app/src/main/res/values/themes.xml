@@ -9,27 +9,27 @@
     </style>
     >
 
-    <style name="MyEditStyle">
+<!--    <style name="MyEditStyle">-->
 
-        <item name="android:textColorHint">@color/peal_white</item>
-        <item name="colorControlNormal"> @color/white</item>
-    </style>
+<!--        <item name="android:textColorHint">@color/peal_white</item>-->
+<!--        <item name="colorControlNormal"> @color/white</item>-->
+<!--    </style>-->
 
-    <style name="ImageTranslucentTheme" parent="Base.Theme.PlayAndroid">
-        <!--设置顶部状态栏是否为透明-->
-        <item name="android:windowTranslucentStatus">false</item>
+<!--    <style name="ImageTranslucentTheme" parent="Base.Theme.PlayAndroid">-->
+<!--        &lt;!&ndash;设置顶部状态栏是否为透明&ndash;&gt;-->
+<!--        <item name="android:windowTranslucentStatus">false</item>-->
 
-        <!--Android 5.x开始需要把颜色设置透明，否则顶部导航栏会呈现系统默认的浅灰色-->
-        <item name="android:statusBarColor">@android:color/transparent</item>
+<!--        &lt;!&ndash;Android 5.x开始需要把颜色设置透明，否则顶部导航栏会呈现系统默认的浅灰色&ndash;&gt;-->
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
 
-        <!--设置顶部状态栏和底部导航栏是否为透明-->
-        <item name="android:windowTranslucentNavigation">true</item>
+<!--        &lt;!&ndash;设置顶部状态栏和底部导航栏是否为透明&ndash;&gt;-->
+<!--        <item name="android:windowTranslucentNavigation">true</item>-->
 
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
 
-        <item name="android:windowFullscreen">true</item>
-    </style>
+<!--        <item name="android:windowFullscreen">false</item>-->
+<!--    </style>-->
 
 
 </resources>

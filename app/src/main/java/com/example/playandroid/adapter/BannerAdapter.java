@@ -10,7 +10,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import java.util.List;
 
 /**
- *  banner轮播图的PagerView的适配器
+ * banner轮播图的PagerView的适配器
  */
 public class BannerAdapter extends PagerAdapter {
 

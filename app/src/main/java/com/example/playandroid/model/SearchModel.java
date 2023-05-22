@@ -28,10 +28,11 @@ public class SearchModel extends BaseModel<SearchPresenter> implements SearchCon
 
     /**
      * 解析热词数据
-     * @param data 热词json数据
+     *
+     * @param data             热词json数据
      * @param callBackForWords 接口回调
      */
-    public void parseHotWord(String data, DataCallBackForWords callBackForWords){
+    public void parseHotWord(String data, DataCallBackForWords callBackForWords) {
         List<String> hotWordList = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(data);
@@ -77,7 +78,6 @@ public class SearchModel extends BaseModel<SearchPresenter> implements SearchCon
             }
         });
     }
-
 
 
 }
