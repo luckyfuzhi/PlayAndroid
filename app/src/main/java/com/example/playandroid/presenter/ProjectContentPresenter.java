@@ -1,5 +1,7 @@
 package com.example.playandroid.presenter;
 
+import android.graphics.Bitmap;
+
 import com.example.playandroid.base.BasePresenterForFragment;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
@@ -22,5 +24,10 @@ public class ProjectContentPresenter extends BasePresenterForFragment<ProjectCon
     @Override
     public void requestProjectDataResult(List<Project> projectList) {
         mView.requestProjectDataResult(projectList);
+    }
+
+    @Override
+    public void requestProjectImgResult(Bitmap bitmap) {
+        mView.requestProjectImgResult(bitmap);
     }
 }

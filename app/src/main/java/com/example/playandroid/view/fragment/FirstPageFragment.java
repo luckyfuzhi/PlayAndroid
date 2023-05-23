@@ -256,7 +256,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                     @Override
                     public void onPageScrollStateChanged(int state) {
                         if (state == 1) {
-                            mHandler.removeCallbacksAndMessages(null);
+                            mHandler.removeCallbacksAndMessages(null);//移除当前handler的所有消息
                             isStop = 1;
                         } else if (state == 0 && isStop == 1) {
                             mHandler.sendEmptyMessageDelayed(MSG_RECYCLE_VIEW, 2000);

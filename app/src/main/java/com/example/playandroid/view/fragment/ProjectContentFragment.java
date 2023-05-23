@@ -42,18 +42,20 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     private RecyclerView articleRecycleView;
     private ProgressBar progressBar;
 
-    private List<Project> projectList = new ArrayList<>();
-    private List<Bitmap> bitmapList = new ArrayList<>();
+    private final List<Project> projectList = new ArrayList<>();
+    private final List<Bitmap> mBitmapList = new ArrayList<>();
+
+    private final List<String> imgUrlList = new ArrayList<>();
 
     private int page = 0;
 
-    private int typeId;
+    private final int typeId;
 
     public ProjectContentFragment(int typeId) {
         this.typeId = typeId;
     }
 
-    private ProjectArticleRecyclerAdapter articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, bitmapList);
+    private final ProjectArticleRecyclerAdapter articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mBitmapList);
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -103,6 +105,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
 
+                    assert layoutManager != null;
                     lastPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
 
                     if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 1) {
@@ -119,16 +122,13 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     }
 
 
-    private Handler handler = new Handler(Looper.getMainLooper()) {
+    private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case UPDATE_PROJECT_ARTICLE:
-                    articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
-                    progressDialog.dismiss();
-                    break;
-                default:
-                    break;
+            if (msg.what == UPDATE_PROJECT_ARTICLE) {
+                articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
             }
         }
     };
@@ -140,6 +140,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     //加载更多文章数据
     public void loadMoreProject(int typeId) {
+        progressBar.setVisibility(View.VISIBLE);
         progressDialog.show();
         page++;
         requestProjectData(page, typeId);
@@ -152,30 +153,22 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     @Override
     public void requestProjectDataResult(List<Project> projectList) {
-        for (int i = 0; i < projectList.size(); i++) {
-            WebUtil.getImageData(projectList.get(i).getImgLink(), new DataCallBackForBitmap() {//设置图片资源（原本在适配器中直接解析，但是这样图片无法正常显示）
-                @Override
-                public void onSuccess(Bitmap data) {
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            bitmapList.add(data);
-                            articleRecyclerAdapter.notifyItemChanged(bitmapList.size() - 1);//刷新界面
-                        }
-                    });
-                }
 
-                @Override
-                public void onFailure(Exception e) {
-                    e.printStackTrace();
-                    Log.e("requestPDataResult", "onFailure:获取图片数据失败/ " + e);
-                }
-            });
-        }
         this.projectList.addAll(projectList);
         Message message = new Message();
         message.what = UPDATE_PROJECT_ARTICLE;
         handler.sendMessage(message);
+    }
+
+    @Override
+    public void requestProjectImgResult(Bitmap bitmap) {
+        mBitmapList.add(bitmap);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                articleRecyclerAdapter.notifyItemChanged(mBitmapList.size() - 1);//刷新界面
+            }
+        });
     }
 
 }

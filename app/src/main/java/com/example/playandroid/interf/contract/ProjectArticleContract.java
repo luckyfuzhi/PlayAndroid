@@ -1,5 +1,7 @@
 package com.example.playandroid.interf.contract;
 
+import android.graphics.Bitmap;
+
 import com.example.playandroid.entity.Project;
 
 import java.util.List;
@@ -18,10 +20,11 @@ public interface ProjectArticleContract {
 
     interface VP {
 
-
         void requestProjectData(int page, int typeId);//请求项目文章数据
 
         void requestProjectDataResult(List<Project> projectList);//返回项目文章数据
+
+        void requestProjectImgResult(Bitmap bitmap);//返回项目文章图片
 
     }
 

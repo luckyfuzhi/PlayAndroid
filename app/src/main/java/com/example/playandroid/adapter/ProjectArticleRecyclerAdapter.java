@@ -57,6 +57,7 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
             time = itemView.findViewById(R.id.project_article_time);
             loveImg = itemView.findViewById(R.id.project_article_love);
             projectImg = itemView.findViewById(R.id.project_article_img);
+            
         }
     }
 
@@ -80,7 +81,9 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
         holder.desc.setText(projectArticle.getDesc());
         holder.time.setText("时间：" + projectArticle.getNiceShareDate());
         if (bitmapList.size() > position) {
-            holder.projectImg.setImageBitmap(bitmapList.get(position));
+            if (bitmapList.get(position) != null){
+                holder.projectImg.setImageBitmap(bitmapList.get(position));
+            }
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

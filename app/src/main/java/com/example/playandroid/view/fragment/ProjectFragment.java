@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -88,12 +89,14 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
                             return mProjectList.size();
                         }
 
+
                         @Nullable
                         @Override
                         public CharSequence getPageTitle(int position) {
                             return mProjectTypeList.get(position).getName();
                         }
                     });
+
 
                     //设置TabLayout和ViewPager的联动
                     projectTypeTl.setupWithViewPager(projectArticleVp);

@@ -1,9 +1,11 @@
 package com.example.playandroid.model;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.example.playandroid.base.BaseModelForFragment;
 import com.example.playandroid.interf.datacallback.DataCallBack;
+import com.example.playandroid.interf.datacallback.DataCallBackForBitmap;
 import com.example.playandroid.interf.datacallback.DataCallBackForProjectArticle;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
@@ -39,6 +41,25 @@ public class ProjectContentModel extends BaseModelForFragment<ProjectContentPres
                     @Override
                     public void onSuccess(List<Project> projectArticleList) {
                         mPresenter.requestProjectDataResult(projectArticleList);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (Project projectArticle : projectArticleList) {
+                                    WebUtil.getImageData(projectArticle.getImgLink(), new DataCallBackForBitmap() {
+                                        @Override
+                                        public void onSuccess(Bitmap bitmap) {
+                                            mPresenter.requestProjectImgResult(bitmap);
+                                        }
+
+                                        @Override
+                                        public void onFailure(Exception e) {
+                                            e.printStackTrace();
+                                            Log.e(TAG, "getImageData: 解析图片数据错误/" + e);
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
                     }
 
                     @Override
