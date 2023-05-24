@@ -31,6 +31,7 @@ import com.example.playandroid.util.WebUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter> implements ProjectArticleContract.VP {
 
@@ -45,7 +46,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     private final List<Project> projectList = new ArrayList<>();
     private final List<Bitmap> mBitmapList = new ArrayList<>();
 
-    private final List<String> imgUrlList = new ArrayList<>();
+    private final Timer timer = new Timer();
 
     private int page = 0;
 

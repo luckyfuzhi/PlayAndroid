@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +36,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
     private ViewPager projectArticleVp;
 
     private List<ProjectType> mProjectTypeList = new ArrayList<>();
-    private List<ProjectContentFragment> mProjectList = new ArrayList<>();
+    private final List<ProjectContentFragment> mProjectList = new ArrayList<>();
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -67,44 +66,40 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
     }
 
 
-    private Handler handler = new Handler(Looper.getMainLooper()) {
+    private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case SET_PROJECT_TYPE:
-                    for (int i = 0; i < mProjectTypeList.size(); i++) {
-                        projectTypeTl.addTab(projectTypeTl.newTab().setText(mProjectTypeList.get(i).getName()));
-                        mProjectList.add(new ProjectContentFragment(mProjectTypeList.get(i).getId()));
+            if (msg.what == SET_PROJECT_TYPE) {
+                for (int i = 0; i < mProjectTypeList.size(); i++) {
+                    projectTypeTl.addTab(projectTypeTl.newTab().setText(mProjectTypeList.get(i).getName()));
+                    mProjectList.add(new ProjectContentFragment(mProjectTypeList.get(i).getId()));
+                }
+                projectArticleVp.setAdapter(new FragmentPagerAdapter(mActivity.getSupportFragmentManager(),
+                        FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+                    @NonNull
+                    @Override
+                    public Fragment getItem(int position) {
+                        return mProjectList.get(position);
                     }
-                    projectArticleVp.setAdapter(new FragmentPagerAdapter(mActivity.getSupportFragmentManager(),
-                            FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-                        @NonNull
-                        @Override
-                        public Fragment getItem(int position) {
-                            return mProjectList.get(position);
-                        }
 
-                        @Override
-                        public int getCount() {
-                            return mProjectList.size();
-                        }
+                    @Override
+                    public int getCount() {
+                        return mProjectList.size();
+                    }
 
 
-                        @Nullable
-                        @Override
-                        public CharSequence getPageTitle(int position) {
-                            return mProjectTypeList.get(position).getName();
-                        }
-                    });
+                    @Nullable
+                    @Override
+                    public CharSequence getPageTitle(int position) {
+                        return mProjectTypeList.get(position).getName();
+                    }
+                });
 
 
-                    //设置TabLayout和ViewPager的联动
-                    projectTypeTl.setupWithViewPager(projectArticleVp);
+                //设置TabLayout和ViewPager的联动
+                projectTypeTl.setupWithViewPager(projectArticleVp);
 
-                    progressDialog.dismiss();
-                    break;
-                default:
-                    break;
+                progressDialog.dismiss();
             }
         }
     };

@@ -17,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
 
 /**
@@ -26,6 +27,8 @@ public class WebUtil {
 
     private static final String TAG = "WebUtil";
 
+    private final static ExecutorService threadPoolExecutor = ThreadPoolUtil.getInstance();
+
     /**
      * 从网络上获取数据
      * @param urlString 网址字符串
@@ -33,7 +36,7 @@ public class WebUtil {
      */
     public static void getDataFromWeb(String urlString, DataCallBack dataCallBack) {
         StringBuilder response = new StringBuilder();
-        new Thread(new Runnable() {
+        threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
@@ -70,11 +73,9 @@ public class WebUtil {
                     }
                 }
             }
-        }).start();
+        });
 
 
-//        Log.v("Json解析", response.toString());
-//        return response.toString();
     }
 
     /**
@@ -84,7 +85,7 @@ public class WebUtil {
      */
     public static void getImageData(String imageUrl, DataCallBackForImage callBack){
         final InputStream[] inputStream = new InputStream[1];
-        new Thread(new Runnable() {
+        threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
@@ -107,7 +108,7 @@ public class WebUtil {
                     }
                 }
             }
-        }).start();
+        });
 
     }
 
@@ -145,7 +146,7 @@ public class WebUtil {
      */
     public static void postDataToWeb(String urlString, Map<String, String> paramMap, DataCallBack callBack){
         StringBuilder response = new StringBuilder();
-        new Thread(new Runnable() {
+        threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
@@ -200,7 +201,7 @@ public class WebUtil {
                     }
                 }
             }
-        }).start();
+        });
     }
 
     /**
