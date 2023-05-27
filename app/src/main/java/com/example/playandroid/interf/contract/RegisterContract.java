@@ -16,7 +16,7 @@ public interface RegisterContract {
 
         void sendRegisterData(Map<String, String> paramMap);//发送注册数据
 
-        void responseRegisterResult(int registerResult);//返回注册数据
+        void responseRegisterResult(String registerResult);//返回注册数据
 
     }
 

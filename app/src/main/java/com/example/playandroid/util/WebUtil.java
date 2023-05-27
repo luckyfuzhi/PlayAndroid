@@ -173,7 +173,7 @@ public class WebUtil {
                         response.append(line);
                     }
                     callBack.onSuccess(response.toString());
-                    Log.d("test3434", response.toString());
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

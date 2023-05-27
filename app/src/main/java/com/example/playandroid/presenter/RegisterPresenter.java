@@ -19,7 +19,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity, RegisterM
     }
 
     @Override
-    public void responseRegisterResult(int registerResult) {
+    public void responseRegisterResult(String registerResult) {
         mView.responseRegisterResult(registerResult);
     }
 }

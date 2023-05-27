@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,9 +22,9 @@ import java.util.Map;
 
 public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.VP {
 
-    private final static int PSW_LENGTH_LACK = -1;
+    private final static int PSW_LENGTH_LACK = -2;
     private final static int REGISTER_SUCCESS = 1;
-    private final static int USERNAME_REGISTERED = -2;
+    private final static int USERNAME_REGISTERED = -1;
 
     private EditText usernameEdit;
 
@@ -103,34 +104,23 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         }
     }
 
-    private Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case PSW_LENGTH_LACK:
-                    Toast.makeText(mActivity, "密码长度必须大于6位！", Toast.LENGTH_SHORT).show();
-                    break;
-                case USERNAME_REGISTERED:
-                    Toast.makeText(mActivity, "用户名已被注册！", Toast.LENGTH_SHORT).show();
-                    break;
-                case REGISTER_SUCCESS:
-                    Toast.makeText(mActivity, "注册成功！", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
     @Override
     public void sendRegisterData(Map<String, String> paramMap) {
         mPresenter.sendRegisterData(paramMap);
     }
 
     @Override
-    public void responseRegisterResult(int registerResult) {
-        Message message = new Message();
-        message.what = registerResult;
-        handler.sendMessage(message);
+    public void responseRegisterResult(String registerResult) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (registerResult.equals("")){
+                    Toast.makeText(mActivity, "注册成功！", Toast.LENGTH_SHORT).show();
+                    finish();
+                }else {
+                    Toast.makeText(mActivity, registerResult, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
