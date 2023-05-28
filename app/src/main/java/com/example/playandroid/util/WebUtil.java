@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -165,15 +166,18 @@ public class WebUtil {
                     outputStream = connection.getOutputStream();
                     outputStream.write(paramData.getBytes());
 
-
                     InputStream inputStream = connection.getInputStream();
                     reader = new BufferedReader(new InputStreamReader(inputStream));
                     String line;
                     while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
-                    callBack.onSuccess(response.toString());
 
+                    Map<String, List<String>> cookies = connection.getHeaderFields();
+                    List<String> setCookies = cookies.get("Set-Cookie");
+
+                    callBack.onSuccess(response.toString());
+                    callBack.getCookie(setCookies);
 
                 } catch (Exception e) {
                     e.printStackTrace();

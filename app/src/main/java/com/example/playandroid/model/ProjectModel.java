@@ -51,6 +51,11 @@ public class ProjectModel extends BaseModelForFragment<ProjectPresenter> impleme
                 e.printStackTrace();
                 Log.e("getProjectTypeData", "onFailure: 获取网络数据失败");
             }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
+            }
         });
     }
 

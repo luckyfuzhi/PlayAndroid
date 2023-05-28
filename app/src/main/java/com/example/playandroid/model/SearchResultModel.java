@@ -53,6 +53,11 @@ public class SearchResultModel extends BaseModelForFragment<SearchResultPresente
                 e.printStackTrace();
                 Log.e("requestArticleData", "onFailure: 获取网络数据失败/" + e);
             }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
+            }
         });
     }
 

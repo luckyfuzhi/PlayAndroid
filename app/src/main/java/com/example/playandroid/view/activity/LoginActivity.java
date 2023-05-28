@@ -20,6 +20,7 @@ import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.presenter.LoginPresenter;
 
 import java.util.Collection;
+import java.util.List;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.VP {
 
@@ -129,5 +130,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             message.what = 0;
         }
        handler.sendMessage(message);
+    }
+
+    @Override
+    public void responseCookie(List<String> setCookies) {
+
     }
 }

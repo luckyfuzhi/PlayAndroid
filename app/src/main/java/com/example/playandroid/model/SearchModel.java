@@ -76,6 +76,11 @@ public class SearchModel extends BaseModel<SearchPresenter> implements SearchCon
                 e.printStackTrace();
                 Log.e("requestHotWord", e.toString());
             }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
+            }
         });
     }
 

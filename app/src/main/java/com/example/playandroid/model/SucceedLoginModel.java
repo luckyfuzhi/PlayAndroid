@@ -9,6 +9,8 @@ import com.example.playandroid.interf.datacallback.DataCallBack;
 import com.example.playandroid.presenter.SucceedLoginPresenter;
 import com.example.playandroid.util.WebUtil;
 
+import java.util.List;
+
 public class SucceedLoginModel extends BaseModelForFragment<SucceedLoginPresenter> implements SucceedLoginContract.M {
 
     //退出登录网址
@@ -30,6 +32,11 @@ public class SucceedLoginModel extends BaseModelForFragment<SucceedLoginPresente
             public void onFailure(Exception e) {
                 e.printStackTrace();
                 Log.e("exitLogin", e.toString());
+            }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
             }
         });
     }

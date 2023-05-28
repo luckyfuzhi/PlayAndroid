@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -35,36 +36,22 @@ public class RegisterModel extends BaseModel<RegisterPresenter> implements Regis
         WebUtil.postDataToWeb(REGISTER_URL, paramMap, new DataCallBack() {
             @Override
             public void onSuccess(String data) {
-//                Log.d("test12313", data);
-//                if (data.contains("密码长度必须大于6位！")) {
-//                    mPresenter.responseRegisterResult(PSW_LENGTH_LACK);
-//                } else if (data.contains("用户名已经被注册!")) {
-//                    mPresenter.responseRegisterResult(USERNAME_REGISTERED);
-//                } else if(data.contains("注册成功")){
-//                    mPresenter.responseRegisterResult(REGISTER_SUCCESS);
-//                }
+
                 Map<String, Object> parsedData = parseRegisterData(data);
 
                 mPresenter.responseRegisterResult(parsedData.get("errorMsg").toString());
 
-//                if(parsedData.get("errorMsg") != null){
-//
-//                    if (Objects.equals(Objects.requireNonNull(parsedData.get("errorMsg")).toString(), "密码长度必须大于6位")) {
-//                        mPresenter.responseRegisterResult(PSW_LENGTH_LACK);
-//                    } else if (Objects.equals(Objects.requireNonNull(parsedData.get("errorMsg")).toString(), "用户名已经被注册")) {
-//                        Log.d("test222", Objects.requireNonNull(parsedData.get("errorMsg")).toString());
-//                        mPresenter.responseRegisterResult(USERNAME_REGISTERED);
-//
-//                    }
-//                } else {
-//                    mPresenter.responseRegisterResult(REGISTER_SUCCESS);
-//                }
             }
 
             @Override
             public void onFailure(Exception e) {
                 e.printStackTrace();
                 Log.e("sendRegisterData", e.toString());
+            }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
             }
         });
     }

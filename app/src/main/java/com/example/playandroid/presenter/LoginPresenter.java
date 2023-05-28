@@ -7,6 +7,8 @@ import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.model.LoginModel;
 import com.example.playandroid.view.activity.LoginActivity;
 
+import java.util.List;
+
 public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel> implements LoginContract.VP {
 
     private static final String TAG = "LoginPresenter";
@@ -30,5 +32,10 @@ public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel> imp
     @Override
     public void responseLoginResult(boolean loginResult) {
         mView.responseLoginResult(loginResult);
+    }
+
+    @Override
+    public void responseCookie(List<String> setCookies) {
+        mView.responseCookie(setCookies);
     }
 }

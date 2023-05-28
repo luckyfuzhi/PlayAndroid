@@ -50,6 +50,11 @@ public class KnowledgeSystemModel extends BaseModelForFragment<KnowledgeSystemPr
             public void onFailure(Exception e) {
 
             }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
+            }
         });
     }
 

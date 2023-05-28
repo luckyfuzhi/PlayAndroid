@@ -75,6 +75,11 @@ public class ProjectContentModel extends BaseModelForFragment<ProjectContentPres
                 e.printStackTrace();
                 Log.e(TAG, "onFailure: " + e);
             }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
+            }
         });
     }
 

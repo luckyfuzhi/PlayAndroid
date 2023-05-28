@@ -9,6 +9,7 @@ import com.example.playandroid.presenter.LoginPresenter;
 import com.example.playandroid.util.WebUtil;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginModel extends BaseModel<LoginPresenter> implements LoginContract.M {
@@ -40,6 +41,11 @@ public class LoginModel extends BaseModel<LoginPresenter> implements LoginContra
             public void onFailure(Exception e) {
                 e.printStackTrace();
                 Log.e("requestLoginData", "登录异常/" + e);
+            }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+                mPresenter.responseCookie(setCookieList);
             }
         });
     }

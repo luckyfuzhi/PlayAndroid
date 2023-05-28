@@ -63,6 +63,11 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
             public void onFailure(Exception e) {
                 Log.e(TAG, "" + e);
             }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
+            }
         });
     }
 
@@ -98,6 +103,11 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
                 e.printStackTrace();
                 Log.e(TAG, "onFailure: 获取网络数据失败/" + e);
             }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
+            }
         });
     }
 
@@ -131,6 +141,11 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
             public void onFailure(Exception e) {
                 e.printStackTrace();
                 Log.e(TAG, "onFailure: 获取网络数据失败" + e);
+            }
+
+            @Override
+            public void getCookie(List<String> setCookieList) {
+
             }
         });
     }
