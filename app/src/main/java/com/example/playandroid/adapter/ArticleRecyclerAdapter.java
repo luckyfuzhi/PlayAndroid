@@ -81,6 +81,18 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
                 mContext.startActivity(intent);
             }
         });
+        holder.loveImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.loveImg.isSelected()){//爱心亮了
+
+                    holder.loveImg.setSelected(false);
+                } else {//爱心没亮
+
+                    holder.loveImg.setSelected(true);
+                }
+            }
+        });
     }
 
     @Override

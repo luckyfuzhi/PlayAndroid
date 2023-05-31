@@ -67,7 +67,7 @@ public class RegisterModel extends BaseModel<RegisterPresenter> implements Regis
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("KsChildModel", "parseArticleData: 解析数据出现异常");
+            Log.e("RegisterModel", "parseRegisterData: 解析数据出现异常");
         }
         return msgMap;
     }

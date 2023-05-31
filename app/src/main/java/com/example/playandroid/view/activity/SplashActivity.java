@@ -1,6 +1,7 @@
 package com.example.playandroid.view.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, BottomActivity.class);
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 destroy();
             }

@@ -1,5 +1,6 @@
 package com.example.playandroid.model;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.playandroid.base.BaseModel;
@@ -7,6 +8,8 @@ import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.interf.datacallback.DataCallBack;
 import com.example.playandroid.presenter.LoginPresenter;
 import com.example.playandroid.util.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +33,11 @@ public class LoginModel extends BaseModel<LoginPresenter> implements LoginContra
         WebUtil.postDataToWeb(LOGIN_URL, paramMap, new DataCallBack() {
             @Override
             public void onSuccess(String data) {
-                if (data.contains("账号密码不匹配")) {
-                    mPresenter.responseLoginResult(false);
-                } else {
-                    mPresenter.responseLoginResult(true);
-                }
+
+                Map<String, Object> parsedData = parseLoginData(data);
+
+                mPresenter.responseLoginResult(parsedData.get("errorMsg").toString());
+
             }
 
             @Override
@@ -45,8 +48,27 @@ public class LoginModel extends BaseModel<LoginPresenter> implements LoginContra
 
             @Override
             public void getCookie(List<String> setCookieList) {
+
                 mPresenter.responseCookie(setCookieList);
             }
         });
     }
+
+    public Map<String, Object> parseLoginData(String data){
+        Map<String, Object> msgMap = new HashMap<>();
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+
+            msgMap.put("data", jsonObject.getString("data"));
+            msgMap.put("errorCode", jsonObject.getInt("errorCode"));
+            msgMap.put("errorMsg", jsonObject.getString("errorMsg"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("LoginModel", "parseLoginData: 解析数据出现异常");
+        }
+        return msgMap;
+    }
+
+
 }

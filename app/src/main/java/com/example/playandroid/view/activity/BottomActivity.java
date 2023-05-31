@@ -1,9 +1,14 @@
 package com.example.playandroid.view.activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,12 +17,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.playandroid.MyApplication;
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.base.BasePresenter;
@@ -82,7 +89,28 @@ public class BottomActivity extends BaseActivity {
 
         if (getIntent().getBooleanExtra("exitLogin", false)) {//如果退出登录则切换侧滑栏视图
             replaceFragment(new BottomDrawerLoginFragment());
+
+            //删除SharePreference中的cookie数据
+            SharedPreferences sharedPreferences = getSharedPreferences("cookies_prefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+
             Toast.makeText(this, "已退出登录", Toast.LENGTH_SHORT).show();
+        }
+
+        if(getIntent().getBooleanExtra("isAutoLogin", false)){
+            String cookie = getIntent().getStringExtra("cookie");
+            String[] arr = cookie.split(";");
+            String userName = null;
+            for (String s : arr) {
+                if(s.contains("loginUserName") && !s.contains("loginUserName_")){
+                    int index = s.indexOf("=");
+                    userName = s.substring(index + 1);
+                    break;
+                }
+            }
+            replaceFragment(new SucceedLoginFragment(userName));
         }
     }
 
@@ -106,6 +134,7 @@ public class BottomActivity extends BaseActivity {
             showFragment(firstPageFragment);
             setSelectedState(R.id.first_page_img);
         }
+
     }
 
     @Override
@@ -116,6 +145,31 @@ public class BottomActivity extends BaseActivity {
         searchButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("退出应用")
+                .setMessage("确定要退出应用吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击确定按钮，退出应用
+                        ActivityCollector.finishAll();
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+        Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        if (positiveButton != null){
+            positiveButton.setTextColor(Color.BLACK);
+        }
+        Button negativeButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        if (negativeButton != null){
+            negativeButton.setTextColor(Color.BLACK);
+        }
     }
 
     @Override
@@ -164,6 +218,8 @@ public class BottomActivity extends BaseActivity {
 
     }
 
+
+
     /**
      * 设置选中状态
      *
@@ -190,7 +246,6 @@ public class BottomActivity extends BaseActivity {
         } else if (id == R.id.project_img) {
             projectButton.setSelected(true);
             projectText.setTextColor(getResources().getColor(R.color.blue));
-
 
         }
     }

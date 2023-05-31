@@ -30,7 +30,7 @@ public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel> imp
     }
 
     @Override
-    public void responseLoginResult(boolean loginResult) {
+    public void responseLoginResult(String loginResult) {
         mView.responseLoginResult(loginResult);
     }
 
@@ -38,4 +38,6 @@ public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel> imp
     public void responseCookie(List<String> setCookies) {
         mView.responseCookie(setCookies);
     }
+
+
 }

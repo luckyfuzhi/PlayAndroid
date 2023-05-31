@@ -47,6 +47,12 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.succeed_login_fragment, container, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         succeedLoginSymbol = view.findViewById(R.id.succeed_login_symbol);
         usernameTv = view.findViewById(R.id.username);
         exitLogin = view.findViewById(R.id.exit_login);
@@ -55,7 +61,7 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
         mActivity = requireActivity();
 
         usernameTv.setText(username);
-        exitLoginBtn.setOnClickListener(new View.OnClickListener() {
+        exitLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 exitLogin();

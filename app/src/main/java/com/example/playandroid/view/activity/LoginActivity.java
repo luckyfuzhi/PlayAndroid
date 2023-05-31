@@ -2,6 +2,7 @@ package com.example.playandroid.view.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,7 +21,9 @@ import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.presenter.LoginPresenter;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.VP {
 
@@ -34,8 +37,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     
     private Button backButton;
 
-    private Activity mActivity = this;
+    private final Activity mActivity = this;
 
+    private SharedPreferences sharedPreferences;
+
+    private SharedPreferences.Editor editor;
 
     @Override
     public void initView() {
@@ -48,7 +54,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void initData() {
-
+        sharedPreferences = getSharedPreferences("cookies_prefs", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        if(sharedPreferences.contains("cookie")){//检验是否已经存在cookie，若存在则自动登录
+            Intent intent = new Intent(this, BottomActivity.class);
+            intent.putExtra("isAutoLogin", true);
+            intent.putExtra("cookie", sharedPreferences.getString("cookie", ""));
+            startActivity(intent);
+        } else if(!getIntent().getBooleanExtra("isFromBottomActivity",false)){
+            //检验是否从主界面跳转过来的，不是则执行下面逻辑（在刚打开程序，如果之前未登录则执行这种情况）
+            Intent intent = new Intent(this, BottomActivity.class);
+            intent.putExtra("isAutoLogin", false);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -98,7 +116,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
-    private Handler handler = new Handler(Looper.getMainLooper()){
+
+    private final Handler handler = new Handler(Looper.getMainLooper()){
         @Override
         public void handleMessage(@NonNull Message msg) {
             if(msg.what == 1){
@@ -108,9 +127,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 intent.putExtra("username", accountEdit.getText().toString());
                 startActivity(intent);
                 ActivityCollector.removeActivity(mActivity);
+                finish();
 
-            } else if (msg.what == 0) {
-                Toast.makeText(mActivity, "账号或者密码不正确", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -122,18 +140,58 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    public void responseLoginResult(boolean loginResult) {
+    public void responseLoginResult(String loginResult) {
         Message message = new Message();
-        if(loginResult){
+        if(loginResult.equals("")){
             message.what = 1;
         } else {
-            message.what = 0;
+            Toast.makeText(this, loginResult, Toast.LENGTH_SHORT).show();
         }
        handler.sendMessage(message);
     }
 
     @Override
     public void responseCookie(List<String> setCookies) {
-
+        saveCookie(setCookies);
     }
+
+
+    public void saveCookie(List<String> setCookies){//保存cookie
+        String cookie = encodeCookie(setCookies);
+        editor.putString("cookie", cookie);
+        editor.apply();
+    }
+
+    /**
+     * 整合cookie为唯一字符串
+     */
+    private String encodeCookie(List<String> cookies) {
+        StringBuilder sb = new StringBuilder();
+        Set<String> set = new HashSet<>();
+        if(cookies != null){
+            for (String cookie : cookies) {
+                String[] arr = cookie.split(";");
+                for (String s : arr) {
+                    if (set.contains(s)) {
+                        continue;
+                    }
+                    set.add(s);
+
+                }
+            }
+
+            for (String cookie : set) {
+                sb.append(cookie).append(";");
+            }
+
+            int last = sb.lastIndexOf(";");
+            if (sb.length() - 1 == last) {
+                sb.deleteCharAt(last);
+            }
+
+        }
+
+        return sb.toString();
+    }
+
 }

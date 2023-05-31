@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="230dp"
+    android:layout_height="180dp"
     android:orientation="horizontal">
     
     <ImageView
@@ -29,7 +29,7 @@
             android:lines="2"
             android:paddingTop="7dp"
             android:paddingLeft="7dp"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/project_article_desc"
@@ -40,7 +40,7 @@
             android:lines="3"
             android:paddingLeft="7dp"
             android:textColor="@color/gray"
-            android:textSize="15dp" />
+            android:textSize="13dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="7dp"
-                    android:textSize="15dp"
+                    android:textSize="13dp"
                     android:text="作者："
                     android:textColor="@color/light_blue"
                     />
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="7dp"
-                    android:textSize="15dp"
+                    android:textSize="13dp"
                     android:layout_below="@id/project_article_author"
                     android:textColor="@color/light_blue"
                     android:text="时间："

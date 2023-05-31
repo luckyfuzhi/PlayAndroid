@@ -12,15 +12,17 @@ public interface LoginContract {
 
         void requestLoginData(String account, String password) throws Exception;//返回登录数据
 
+
     }
 
     interface VP {
 
         void requestLogin(String account, String password);//请求登录数据
 
-        void responseLoginResult(boolean loginResult);//返回登录数据
+        void responseLoginResult(String loginResult);//返回登录结果
 
         void responseCookie(List<String> setCookies);//返回cookie数据
+
     }
 
 }

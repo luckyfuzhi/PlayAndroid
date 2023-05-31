@@ -208,6 +208,71 @@ public class WebUtil {
         });
     }
 
+//    /**
+//     *  发送数据到网络
+//     * @param urlString 网络路径
+//     * @param cookie cookie值
+//     * @return 发送是否成功
+//     */
+//    public static void postDataToWeb(String urlString, String cookie, DataCallBack callBack){
+//        StringBuilder response = new StringBuilder();
+//        threadPoolExecutor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                HttpURLConnection connection = null;
+//                OutputStream outputStream = null;
+//                BufferedReader reader = null;
+//                try {
+//                    URL url = new URL(urlString);
+//                    connection = (HttpURLConnection) url.openConnection();
+//
+//                    connection.setRequestMethod("POST");
+//                    connection.setConnectTimeout(8000);
+//                    connection.setRequestProperty("Cookie", cookie);
+//
+//                    InputStream inputStream = connection.getInputStream();
+//                    reader = new BufferedReader(new InputStreamReader(inputStream));
+//                    String line;
+//                    while ((line = reader.readLine()) != null) {
+//                        response.append(line);
+//                    }
+//
+//                    Map<String, List<String>> cookies = connection.getHeaderFields();
+//                    List<String> setCookies = cookies.get("Set-Cookie");
+//
+//
+//                    callBack.onSuccess(null);
+//                    callBack.getCookie(null);
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    Log.e(TAG, "postDataToWeb: 发送数据错误/" + e);
+//                    callBack.onFailure(e);
+//                } finally {
+//                    if (reader != null) {
+//                        try {
+//                            reader.close();
+//                        } catch (IOException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//
+//                    if (outputStream != null) {
+//                        try {
+//                            outputStream.close();
+//                        } catch (IOException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//
+//                    if (connection != null){
+//                        connection.disconnect();
+//                    }
+//                }
+//            }
+//        });
+//    }
+
     /**
      *  将post数据转换为相应格式字符串
      * @param paramMap post数据
