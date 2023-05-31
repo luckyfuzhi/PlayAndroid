@@ -97,6 +97,7 @@ public class ProjectContentModel extends BaseModelForFragment<ProjectContentPres
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Project projectArticle = new Project();
+                projectArticle.setId(jsonObject.optInt("id"));
                 projectArticle.setChapterId(jsonObject.getInt("chapterId"));
                 projectArticle.setAuthor(jsonObject.getString("author"));
                 projectArticle.setDesc(jsonObject.getString("desc"));

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playandroid.R;
 import com.example.playandroid.entity.Article;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.List;
@@ -27,10 +28,13 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
 
     List<Article> mArticleList;
 
+    DataCallBackForArticleAdapter dataCallBack;
+
     private Context mContext;
 
-    public ArticleRecyclerAdapter(List<Article> articleList) {
+    public ArticleRecyclerAdapter(List<Article> articleList, DataCallBackForArticleAdapter dataCallBack) {
         this.mArticleList = articleList;
+        this.dataCallBack = dataCallBack;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -81,18 +85,8 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
                 mContext.startActivity(intent);
             }
         });
-        holder.loveImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.loveImg.isSelected()){//爱心亮了
+        dataCallBack.getLoveImg(holder.loveImg);
 
-                    holder.loveImg.setSelected(false);
-                } else {//爱心没亮
-
-                    holder.loveImg.setSelected(true);
-                }
-            }
-        });
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.example.playandroid.adapter.ArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
 import com.example.playandroid.entity.Article;
 import com.example.playandroid.interf.contract.SearchResultContract;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.presenter.SearchResultPresenter;
 
 import java.util.ArrayList;
@@ -57,7 +58,23 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     private int page = 0;
 
-    private ArticleRecyclerAdapter resultRecyclerAdapter = new ArticleRecyclerAdapter(articleList);
+    private ArticleRecyclerAdapter resultRecyclerAdapter = new ArticleRecyclerAdapter(articleList, new DataCallBackForArticleAdapter() {
+        @Override
+        public void getLoveImg(ImageView loveImg) {
+            loveImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (loveImg.isSelected()){//爱心亮了
+
+                        loveImg.setSelected(false);
+                    } else {//爱心没亮
+
+                        loveImg.setSelected(true);
+                    }
+                }
+            });
+        }
+    });
 
     public SearchResultFragment(String key) {
         paramMap.put("k", key);

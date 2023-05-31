@@ -9,6 +9,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.example.playandroid.adapter.ArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
 import com.example.playandroid.interf.contract.KsChildContract;
 import com.example.playandroid.entity.Article;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.presenter.KsChildContentPresenter;
 
 import java.util.ArrayList;
@@ -41,7 +43,23 @@ public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter
     private RecyclerView articleRecyclerView;
     private ProgressBar progressBar;
 
-    private ArticleRecyclerAdapter articleRecyclerAdapter = new ArticleRecyclerAdapter(mArticleList);
+    private ArticleRecyclerAdapter articleRecyclerAdapter = new ArticleRecyclerAdapter(mArticleList, new DataCallBackForArticleAdapter() {
+        @Override
+        public void getLoveImg(ImageView loveImg) {
+            loveImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (loveImg.isSelected()){//爱心亮了
+
+                        loveImg.setSelected(false);
+                    } else {//爱心没亮
+
+                        loveImg.setSelected(true);
+                    }
+                }
+            });
+        }
+    });
 
     private int page = 0;
 

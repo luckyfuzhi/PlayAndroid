@@ -27,6 +27,7 @@ import com.example.playandroid.R;
 import com.example.playandroid.adapter.BannerAdapter;
 import com.example.playandroid.adapter.ArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.interf.datacallback.DataCallBackForImage;
 import com.example.playandroid.interf.contract.FirstPageContract;
 import com.example.playandroid.entity.Banner;
@@ -144,7 +145,23 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         articleRecyclerView.setLayoutManager(mLayoutManager);
         articleRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(),
                 DividerItemDecoration.VERTICAL));//设置分界线
-        articleRecyclerAdapter = new ArticleRecyclerAdapter(finalArticleList);
+        articleRecyclerAdapter = new ArticleRecyclerAdapter(finalArticleList, new DataCallBackForArticleAdapter() {
+            @Override
+            public void getLoveImg(ImageView loveImg) {
+                loveImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (loveImg.isSelected()){//爱心亮了
+
+                            loveImg.setSelected(false);
+                        } else {//爱心没亮
+
+                            loveImg.setSelected(true);
+                        }
+                    }
+                });
+            }
+        });
         articleRecyclerView.setAdapter(articleRecyclerAdapter);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @SuppressLint("NotifyDataSetChanged")

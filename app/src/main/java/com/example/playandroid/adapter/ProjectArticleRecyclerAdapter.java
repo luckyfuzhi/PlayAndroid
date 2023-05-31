@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playandroid.R;
 import com.example.playandroid.entity.Project;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.List;
@@ -29,11 +30,14 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
 
     List<Bitmap> bitmapList;
 
+    DataCallBackForArticleAdapter dataCallBack;
+
     private Context mContext;
 
-    public ProjectArticleRecyclerAdapter(List<Project> projectList, List<Bitmap> bitmapList) {
+    public ProjectArticleRecyclerAdapter(List<Project> projectList, List<Bitmap> bitmapList, DataCallBackForArticleAdapter dataCallBack) {
         this.mProjectArticleList = projectList;
         this.bitmapList = bitmapList;
+        this.dataCallBack = dataCallBack;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +61,6 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
             time = itemView.findViewById(R.id.project_article_time);
             loveImg = itemView.findViewById(R.id.project_article_love);
             projectImg = itemView.findViewById(R.id.project_article_img);
-            
         }
     }
 
@@ -95,6 +98,9 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
                 mContext.startActivity(intent);
             }
         });
+
+        dataCallBack.getLoveImg(holder.loveImg);
+
     }
 
     @Override

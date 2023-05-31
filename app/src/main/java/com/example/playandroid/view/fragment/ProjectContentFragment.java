@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.playandroid.R;
 import com.example.playandroid.adapter.ProjectArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.interf.datacallback.DataCallBackForBitmap;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
@@ -56,7 +58,23 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         this.typeId = typeId;
     }
 
-    private final ProjectArticleRecyclerAdapter articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mBitmapList);
+    private final ProjectArticleRecyclerAdapter articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mBitmapList, new DataCallBackForArticleAdapter() {
+        @Override
+        public void getLoveImg(ImageView loveImg) {
+            loveImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (loveImg.isSelected()){//爱心亮了
+
+                        loveImg.setSelected(false);
+                    } else {//爱心没亮
+
+                        loveImg.setSelected(true);
+                    }
+                }
+            });
+        }
+    });
 
     @Override
     public void onAttach(@NonNull Context context) {

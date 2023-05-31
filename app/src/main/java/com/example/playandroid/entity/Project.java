@@ -3,6 +3,7 @@ package com.example.playandroid.entity;
 public class Project {
 
     private int chapterId;
+    private int id;
     private String superChapterName;
     private String chapterName;
     private String title;
@@ -12,6 +13,14 @@ public class Project {
     private String niceShareDate;
 
     private String imgLink;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getImgLink() {
         return imgLink;
