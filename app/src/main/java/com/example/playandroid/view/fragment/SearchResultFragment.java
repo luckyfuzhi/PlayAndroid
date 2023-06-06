@@ -161,7 +161,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         mPresenter.requestArticleData(page, paramMap);
     }
 
-    private Handler handler = new Handler(Looper.getMainLooper()) {
+    private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {

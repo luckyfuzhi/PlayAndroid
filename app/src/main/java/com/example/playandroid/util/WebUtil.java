@@ -19,6 +19,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -40,39 +47,66 @@ public class WebUtil {
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
+//                HttpURLConnection connection = null;
+//                BufferedReader reader = null;
+//                try {
+//                    URL url = new URL(urlString);
+//                    connection = (HttpURLConnection) url.openConnection();
+//                    connection.setRequestMethod("GET");
+//                    connection.setConnectTimeout(8000);
+//                    connection.setReadTimeout(8000);
+//                    InputStream inputStream = connection.getInputStream();
+//                    reader = new BufferedReader(new InputStreamReader(inputStream));
+//                    String line;
+//                    while ((line = reader.readLine()) != null) {
+//                        response.append(line);
+//                    }
+//                    dataCallBack.onSuccess(response.toString());
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    Log.e(TAG, "getDataFromWeb: 网络访问错误");
+//                    dataCallBack.onFailure(e);
+//                } finally {
+//                    if (reader != null) {
+//                        try {
+//                            reader.close();
+//                        } catch (IOException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//
+//                    if (connection != null){
+//                        connection.disconnect();
+//                    }
+//                }
+
+
+
+
+
+                //----------运用okHttp-----------------
                 try {
-                    URL url = new URL(urlString);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    InputStream inputStream = connection.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(inputStream));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    dataCallBack.onSuccess(response.toString());
+                    OkHttpClient client = new OkHttpClient.Builder()
+                            .connectTimeout(8, TimeUnit.SECONDS)
+                            .readTimeout(10, TimeUnit.SECONDS)
+                            .writeTimeout(15, TimeUnit.SECONDS)
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(urlString)
+                            .build();
+
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    dataCallBack.onSuccess(responseData);
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(TAG, "getDataFromWeb: 网络访问错误");
+                    Log.e(TAG, "getDataFromWeb:网络访问错误/" + e);
                     dataCallBack.onFailure(e);
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    if (connection != null){
-                        connection.disconnect();
-                    }
                 }
+
+
             }
         });
 
@@ -89,25 +123,58 @@ public class WebUtil {
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                HttpURLConnection connection = null;
+//                HttpURLConnection connection = null;
+//
+//                try {
+//                    URL url = new URL(imageUrl);
+//                    connection = (HttpURLConnection) url.openConnection();
+//                    connection.setRequestMethod("GET");
+//                    connection.setConnectTimeout(8000);
+//                    connection.setReadTimeout(8000);
+//                    inputStream[0] = connection.getInputStream();
+//                    callBack.onSuccess(inputStream[0]);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    Log.e(TAG, "getImageData: 图片访问错误");
+//                    callBack.onFailure(e);
+//                } finally {
+//                    if (connection != null){
+//                        connection.disconnect();
+//                    }
+//                }
 
+
+
+
+                //----------运用okHttp-----------------
                 try {
-                    URL url = new URL(imageUrl);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    inputStream[0] = connection.getInputStream();
+                    OkHttpClient client = new OkHttpClient.Builder()
+                            .connectTimeout(8, TimeUnit.SECONDS)
+                            .readTimeout(10, TimeUnit.SECONDS)
+                            .writeTimeout(15, TimeUnit.SECONDS)
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(imageUrl)
+                            .build();
+
+                    Response response = client.newCall(request).execute();
+                    inputStream[0] = response.body().byteStream();
                     callBack.onSuccess(inputStream[0]);
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(TAG, "getImageData: 图片访问错误");
+                    Log.e(TAG, "getDataFromWeb:网络访问错误/" + e);
                     callBack.onFailure(e);
                 } finally {
-                    if (connection != null){
-                        connection.disconnect();
+                    try {
+                        inputStream[0].close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
+
+
+
             }
         });
 
@@ -115,25 +182,49 @@ public class WebUtil {
 
     public static void getImageData(String imageUrl, DataCallBackForBitmap callBack){
 
-        HttpURLConnection connection = null;
+        InputStream inputStream = null;
+
+//        HttpURLConnection connection = null;
         try {
-            URL url = new URL(imageUrl);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(8000);
-            connection.setReadTimeout(8000);
-            InputStream inputStream = connection.getInputStream();
+//            URL url = new URL(imageUrl);
+//            connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("GET");
+//            connection.setConnectTimeout(8000);
+//            connection.setReadTimeout(8000);
+//            InputStream inputStream = connection.getInputStream();
+
+
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(8, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(15, TimeUnit.SECONDS)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(imageUrl)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            inputStream = response.body().byteStream();
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            System.out.println(bitmap);
+
             callBack.onSuccess(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "getImageData: 图片访问错误");
             callBack.onFailure(e);
         } finally {
-            if (connection != null){
-                connection.disconnect();
+//            if (connection != null){
+//                connection.disconnect();
+//            }
+            if (inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
+
+
         }
 
     }
@@ -204,6 +295,25 @@ public class WebUtil {
                         connection.disconnect();
                     }
                 }
+
+
+
+                //------------利用okHttp---------------
+//                OkHttpClient client = new OkHttpClient.Builder()
+//                        .connectTimeout(8, TimeUnit.SECONDS)
+//                        .writeTimeout(10, TimeUnit.SECONDS)
+//                        .readTimeout(15, TimeUnit.SECONDS)
+//                        .build();
+//
+//                RequestBody requestBody = new FormBody.Builder()
+//                        .add("username", paramMap.get("username"))
+//                        .add("password", )
+//
+//
+//                Request request = new Request.Builder()
+//                        .url(urlString)
+//                        .
+
             }
         });
     }

@@ -99,12 +99,12 @@ public class BottomActivity extends BaseActivity {
             Toast.makeText(this, "已退出登录", Toast.LENGTH_SHORT).show();
         }
 
-        if(getIntent().getBooleanExtra("isAutoLogin", false)){
+        if (getIntent().getBooleanExtra("isAutoLogin", false)) {//如果自动登录成功就切换侧滑栏视图
             String cookie = getIntent().getStringExtra("cookie");
             String[] arr = cookie.split(";");
             String userName = null;
             for (String s : arr) {
-                if(s.contains("loginUserName") && !s.contains("loginUserName_")){
+                if (s.contains("loginUserName") && !s.contains("loginUserName_")) {
                     int index = s.indexOf("=");
                     userName = s.substring(index + 1);
                     break;
@@ -149,7 +149,7 @@ public class BottomActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {//重写back点击方法，防止点击back之后已登录状态又变回未登录状态
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("退出应用")
                 .setMessage("确定要退出应用吗？")
@@ -163,11 +163,11 @@ public class BottomActivity extends BaseActivity {
                 .setNegativeButton("取消", null)
                 .show();
         Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        if (positiveButton != null){
+        if (positiveButton != null) {
             positiveButton.setTextColor(Color.BLACK);
         }
         Button negativeButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        if (negativeButton != null){
+        if (negativeButton != null) {
             negativeButton.setTextColor(Color.BLACK);
         }
     }
@@ -217,7 +217,6 @@ public class BottomActivity extends BaseActivity {
 
 
     }
-
 
 
     /**

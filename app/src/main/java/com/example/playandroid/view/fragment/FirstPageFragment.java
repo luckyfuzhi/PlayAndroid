@@ -65,7 +65,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private ArticleRecyclerAdapter articleRecyclerAdapter;
 
     private int page = 0;
-    private List<Banner> bannerList;
     private List<ImageView> imageViewList;
 
     private List<Article> finalArticleList;
@@ -75,9 +74,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private int i = 0;
     private int j = 0;
     private int k = 0;
-    private List<Bitmap> bitmapList = new ArrayList<>();
-    private List<String> urlList = new ArrayList<>();
-    private List<String> titleList = new ArrayList<>();
+    private final List<Bitmap> bitmapList = new ArrayList<>();
+    private final List<String> urlList = new ArrayList<>();
+    private final List<String> titleList = new ArrayList<>();
 
 
     private static final String TAG = "FirstPageFragment";
@@ -139,7 +138,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         };
         articleRecyclerView.setLayoutManager(mLayoutManager);
@@ -186,7 +185,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     /**
      * 消息处理器
      */
-    private Handler handler = new Handler(Looper.getMainLooper()) {
+    private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message message) {
             switch (message.what) {
@@ -201,6 +200,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                     }
 
                     mActivity.runOnUiThread(new Runnable() {
+                        @SuppressLint("NotifyDataSetChanged")
                         @Override
                         public void run() {
                             if (articleRecyclerAdapter != null) {
@@ -329,7 +329,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Override
     public void requestBannerDataResult(List<Banner> bannerList) {
-        this.bannerList = bannerList;
         for (Banner banner : bannerList) {
             setImageData(banner.getImagePath(), banner.getUrl(), banner.getTitle());
         }
