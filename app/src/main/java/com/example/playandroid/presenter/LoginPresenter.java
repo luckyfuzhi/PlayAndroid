@@ -24,7 +24,7 @@ public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel> imp
         try {
             mModel.requestLoginData(account, password);
         } catch (Exception e) {
-            Log.e(TAG, "requestLogin: 登录数据请求失败");
+            Log.e(TAG, "requestLogin: 登录数据请求失败/" + e);
             e.printStackTrace();
         }
     }
@@ -37,6 +37,11 @@ public class LoginPresenter extends BasePresenter<LoginActivity, LoginModel> imp
     @Override
     public void responseCookie(List<String> setCookies) {
         mView.responseCookie(setCookies);
+    }
+
+    @Override
+    public void responseLoginState(int errorCode, String errorMessage) {
+        mView.responseLoginState(errorCode, errorMessage);
     }
 
 

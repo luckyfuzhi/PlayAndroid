@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.ConnectException;
+import java.net.HttpRetryException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -252,6 +254,7 @@ public class WebUtil {
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(8000);
                     connection.setRequestProperty("Content_Length", String.valueOf(paramData.length()));
+
                     connection.setDoOutput(true);
 
                     outputStream = connection.getOutputStream();

@@ -1,10 +1,13 @@
 package com.example.playandroid.view.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.view.View;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -33,7 +36,7 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             view.loadUrl(request.getUrl().toString());
-            return super.shouldOverrideUrlLoading(view, request);
+            return false;
         }
 
         @Override
@@ -41,7 +44,7 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
             // 页面开始加载方法
 //            progressBar.setVisibility(View.VISIBLE);
 //            progressBar.setProgress(0);
-            progressDialog.show();
+//            progressDialog.show();
             super.onPageStarted(view, url, favicon);
         }
 
@@ -49,13 +52,14 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         public void onPageFinished(WebView view, String url) {
             // 页面加载完成方法
             super.onPageFinished(view, url);
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
             progressBar.setProgress(100);
             progressBar.setVisibility(View.GONE);
             articleTitle.setText(getArticleTitle());
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void initView() {
         back = findViewById(R.id.article_back);
@@ -65,9 +69,20 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         contentWebView.getSettings().setJavaScriptEnabled(true);
         contentWebView.setWebViewClient(new MyWebViewClient());
         back.setOnClickListener(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("正在加载数据");
+
+
+        WebSettings settings = contentWebView.getSettings();
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        settings.setJavaScriptEnabled(true);//启用js
+        settings.setBlockNetworkImage(false);//解决图片不显示
+        // 开启DOM缓存，开启LocalStorage存储（html5的本地存储方式）
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setTextZoom(90);
+
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setCancelable(true);
+//        progressDialog.setMessage("正在加载数据");
 
     }
 

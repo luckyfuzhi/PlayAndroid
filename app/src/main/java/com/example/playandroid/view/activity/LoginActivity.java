@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.playandroid.MyApplication;
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseActivity;
 import com.example.playandroid.interf.contract.LoginContract;
@@ -32,9 +33,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private EditText passwordEdit;
 
     private Button loginButton;
-    
+
     private Button registerButton;
-    
+
     private Button backButton;
 
     private final Activity mActivity = this;
@@ -56,13 +57,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void initData() {
         sharedPreferences = getSharedPreferences("cookies_prefs", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        if(sharedPreferences.contains("cookie")){//检验是否已经存在cookie，若存在则自动登录
+        if (sharedPreferences.contains("cookie")) {//检验是否已经存在cookie，若存在则自动登录
             Intent intent = new Intent(this, BottomActivity.class);
             intent.putExtra("isAutoLogin", true);
             intent.putExtra("cookie", sharedPreferences.getString("cookie", ""));
             startActivity(intent);
-        } else if(!getIntent().getBooleanExtra("isFromBottomActivity",false)){
-            //检验是否从主界面跳转过来的，不是则执行下面逻辑（在刚打开程序，如果之前未登录则执行这种情况）
+        } else if (!getIntent().getBooleanExtra("isFromBottomActivity", false)) {
+            //检验是否从主界面跳转过来的，不是则执行下面逻辑（在刚打开程序，如果之前未登录的话要登陆则执行这种情况）
             Intent intent = new Intent(this, BottomActivity.class);
             intent.putExtra("isAutoLogin", false);
             startActivity(intent);
@@ -100,15 +101,21 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.login_button) {
+        if (view.getId() == R.id.login_button) {
             String account = accountEdit.getText().toString();
             String password = passwordEdit.getText().toString();
-            if(accountEdit.length() != 0 && passwordEdit.length() != 0) {
+            if (accountEdit.length() != 0 && passwordEdit.length() != 0) {
                 requestLogin(account, password);
             } else {
                 Toast.makeText(this, "账号或者密码输入不能为空！", Toast.LENGTH_SHORT).show();
             }
         } else if (view.getId() == R.id.login_back) {
+            if (getIntent().getBooleanExtra("isLoginAgain", false)) {
+                //重新登录的时候未登录成功又直接返回退出，则执行下面的代码
+                Intent intent = new Intent(this, BottomActivity.class);
+                intent.putExtra("exitLogin", true);
+                startActivity(intent);
+            }
             finish();
         } else if (view.getId() == R.id.register_button) {
             Intent intent = new Intent(this, RegisterActivity.class);
@@ -117,10 +124,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
 
-    private final Handler handler = new Handler(Looper.getMainLooper()){
+    private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            if(msg.what == 1){
+            if (msg.what == 1) {
                 Toast.makeText(mActivity, "登录成功", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mActivity, BottomActivity.class);
                 intent.putExtra("isSuccessLogin", true);
@@ -128,7 +135,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 startActivity(intent);
                 ActivityCollector.removeActivity(mActivity);
                 finish();
-
+            } else {
+                Toast.makeText(getBaseContext(), "账号密码不匹配", Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -142,12 +150,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void responseLoginResult(String loginResult) {
         Message message = new Message();
-        if(loginResult.equals("")){
+        if (loginResult.equals("")) {
             message.what = 1;
         } else {
-            Toast.makeText(this, loginResult, Toast.LENGTH_SHORT).show();
+            message.what = 0;
         }
-       handler.sendMessage(message);
+        handler.sendMessage(message);
     }
 
     @Override
@@ -155,9 +163,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         saveCookie(setCookies);
     }
 
+    @Override
+    public void responseLoginState(int errorCode, String errorMessage) {
+        if (!(errorCode == 200 && errorMessage.equals("OK"))) {
+            editor.remove("cookie");//清除cookie
+            editor.commit();
+            Toast.makeText(MyApplication.getContext(), "登录失效，请重新登录", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("isLoginAgain", true);
+            startActivity(intent);
+        }
+    }
 
-    public void saveCookie(List<String> setCookies){//保存cookie
+
+    public void saveCookie(List<String> setCookies) {//保存cookie
         String cookie = encodeCookie(setCookies);
+        Log.d("cookie", cookie);
         editor.putString("cookie", cookie);
         editor.apply();
     }
@@ -167,20 +188,20 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     private String encodeCookie(List<String> cookies) {
         StringBuilder sb = new StringBuilder();
-        Set<String> set = new HashSet<>();
-        if(cookies != null){
+        Set<String> cookieSet = new HashSet<>();
+        if (cookies != null) {
             for (String cookie : cookies) {
                 String[] arr = cookie.split(";");
                 for (String s : arr) {
-                    if (set.contains(s)) {
+                    if (cookieSet.contains(s)) {
                         continue;
                     }
-                    set.add(s);
+                    cookieSet.add(s);
 
                 }
             }
 
-            for (String cookie : set) {
+            for (String cookie : cookieSet) {
                 sb.append(cookie).append(";");
             }
 

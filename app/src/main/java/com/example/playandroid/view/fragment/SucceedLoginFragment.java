@@ -1,5 +1,6 @@
 package com.example.playandroid.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -30,7 +31,7 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
 
     private ImageView exitLoginImg;
 
-    private Button exitLoginBtn;
+    private TextView exitLoginBtn;
 
     private String username;
 
@@ -43,20 +44,16 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
     }
 
 
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.succeed_login_fragment, container, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
         succeedLoginSymbol = view.findViewById(R.id.succeed_login_symbol);
         usernameTv = view.findViewById(R.id.username);
         exitLogin = view.findViewById(R.id.exit_login);
-        exitLoginBtn = view.findViewById(R.id.exit_login_button);
+        exitLoginBtn = view.findViewById(R.id.exit_login_text);
         exitLoginImg = view.findViewById(R.id.exit_login_img);
         mActivity = requireActivity();
 

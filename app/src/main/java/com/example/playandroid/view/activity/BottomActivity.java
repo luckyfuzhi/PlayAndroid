@@ -152,7 +152,7 @@ public class BottomActivity extends BaseActivity {
     public void onBackPressed() {//重写back点击方法，防止点击back之后已登录状态又变回未登录状态
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("退出应用")
-                .setMessage("确定要退出应用吗？")
+                .setMessage("确定要退出玩安卓吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

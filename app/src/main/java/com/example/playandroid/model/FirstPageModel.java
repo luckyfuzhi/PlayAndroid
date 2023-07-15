@@ -8,21 +8,18 @@ import com.example.playandroid.base.BaseModelForFragment;
 import com.example.playandroid.entity.ArticleResponse;
 import com.example.playandroid.entity.DataResponse;
 import com.example.playandroid.entity.SingleDataResponse;
-import com.example.playandroid.interf.datacallback.DataCallBack;
 import com.example.playandroid.interf.datacallback.DataCallBackForArticle;
 import com.example.playandroid.interf.datacallback.DataCallBackForBanner;
 import com.example.playandroid.interf.contract.FirstPageContract;
 import com.example.playandroid.entity.Banner;
 import com.example.playandroid.entity.Article;
-import com.example.playandroid.interf.service.ApiService;
+import com.example.playandroid.interf.service.FpApiService;
 import com.example.playandroid.presenter.FirstPagePresenter;
 import com.example.playandroid.util.RetrofitUtil;
-import com.example.playandroid.util.WebUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +38,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
 
     private static final String TAG = "BannerModel";
 
-    private final ApiService apiService = RetrofitUtil.getRetrofitInstance().create(ApiService.class);
+    private final FpApiService apiService = RetrofitUtil.getRetrofitInstance().create(FpApiService.class);
 
     public FirstPageModel(FirstPagePresenter mPresenter) {
         super(mPresenter);
@@ -90,7 +87,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
         call.enqueue(new Callback<DataResponse<Banner>>() {
             @Override
             public void onResponse(@NonNull Call<DataResponse<Banner>> call, @NonNull Response<DataResponse<Banner>> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     DataResponse<Banner> dataResponse = response.body();
                     assert dataResponse != null;
                     List<Banner> bannerList = dataResponse.getData();
@@ -104,7 +101,6 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
                 Log.e("getBannerData", "fail/" + t);
             }
         });
-
 
 
     }
@@ -153,9 +149,9 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
         call.enqueue(new Callback<SingleDataResponse<ArticleResponse>>() {
             @Override
             public void onResponse(Call<SingleDataResponse<ArticleResponse>> call, Response<SingleDataResponse<ArticleResponse>> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     SingleDataResponse<ArticleResponse> dataResponse = response.body();
-                    if (dataResponse != null){
+                    if (dataResponse != null) {
                         ArticleResponse articleResponse = dataResponse.getData();
                         List<Article> articleList = articleResponse.getDatas();
                         mPresenter.requestArticleDataResult(articleList);
@@ -170,7 +166,7 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
             }
 
             @Override
-            public void onFailure(Call<SingleDataResponse<ArticleResponse>> call, Throwable t) {
+            public void onFailure(@NonNull Call<SingleDataResponse<ArticleResponse>> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 Log.e("getFpArticleData", "fail/" + t);
             }
@@ -184,38 +180,61 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
      */
     public void getTopArticleData() {
 
-        WebUtil.getDataFromWeb(TOP_ARTICLE_URL, new DataCallBack() {
-            @Override
-            public void onSuccess(String data) {
-                int startIndex = data.indexOf("[");
-                int endIndex = data.lastIndexOf("]");
-                //解析获取到的数据
-                parseArticleData(data.substring(startIndex, endIndex + 1), new DataCallBackForArticle() {
-                    @Override
-                    public void onSuccess(List<Article> articleList) {
-                        //若成功解析，则返回获取到的置顶文章对象集合数据
-                        mPresenter.requestTopArticleDataResult(articleList);
-                    }
+//        WebUtil.getDataFromWeb(TOP_ARTICLE_URL, new DataCallBack() {
+//            @Override
+//            public void onSuccess(String data) {
+//                int startIndex = data.indexOf("[");
+//                int endIndex = data.lastIndexOf("]");
+//                //解析获取到的数据
+//                parseArticleData(data.substring(startIndex, endIndex + 1), new DataCallBackForArticle() {
+//                    @Override
+//                    public void onSuccess(List<Article> articleList) {
+//                        //若成功解析，则返回获取到的置顶文章对象集合数据
+//                        mPresenter.requestTopArticleDataResult(articleList);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Exception e) {
+//                        e.printStackTrace();
+//                        Log.e(TAG, "onFailure: 获取置顶文章数据失败/" + e);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure(Exception e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "onFailure: 获取网络数据失败" + e);
+//            }
+//
+//            @Override
+//            public void getCookie(List<String> setCookieList) {
+//
+//            }
+//        });
 
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e(TAG, "onFailure: 获取置顶文章数据失败/" + e);
-                    }
-                });
+
+        Call<DataResponse<Article>> call = apiService.getTopArticle();
+        call.enqueue(new Callback<DataResponse<Article>>() {
+            @Override
+            public void onResponse(@NonNull Call<DataResponse<Article>> call, @NonNull Response<DataResponse<Article>> response) {
+                if (response.isSuccessful()) {
+                    DataResponse<Article> dataResponse = response.body();
+                    assert dataResponse != null;
+                    List<Article> topArticleList = dataResponse.getData();
+                    mPresenter.requestTopArticleDataResult(topArticleList);
+                } else {
+                    Log.d("getTopArticleData", "响应失败");
+                }
             }
 
             @Override
-            public void onFailure(Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, "onFailure: 获取网络数据失败" + e);
-            }
-
-            @Override
-            public void getCookie(List<String> setCookieList) {
-
+            public void onFailure(@NonNull Call<DataResponse<Article>> call, @NonNull Throwable t) {
+                t.printStackTrace();
+                Log.e(TAG, "onFailure: 获取网络数据失败" + t);
             }
         });
+
     }
 
     /**

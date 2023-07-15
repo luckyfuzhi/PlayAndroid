@@ -12,7 +12,6 @@ public interface LoginContract {
 
         void requestLoginData(String account, String password) throws Exception;//返回登录数据
 
-
     }
 
     interface VP {
@@ -23,6 +22,7 @@ public interface LoginContract {
 
         void responseCookie(List<String> setCookies);//返回cookie数据
 
+        void responseLoginState(int errorCode, String errorMessage);//返回状态码和状态信息
     }
 
 }

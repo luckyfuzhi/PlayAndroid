@@ -193,6 +193,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                     flag1++;
                 case NORMAL_ARTICLE_READY:
                     flag++;
+                    if(flag == 1 && flag1 == 0){ //说明是首页文章先加载好而置顶文章还未加载好
+                        break;
+                    }
                     if (flag == 1 && flag1 == 1) {//说明是首次加载文章数据
                         flag1 = 0;
                         progressBar.setVisibility(View.VISIBLE);
@@ -205,8 +208,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                         public void run() {
                             if (articleRecyclerAdapter != null) {
                                 articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
-                                progressDialog.dismiss();
                             }
+                            progressDialog.dismiss();
+                            Log.d("test111", "6666");
                         }
                     });
                     break;

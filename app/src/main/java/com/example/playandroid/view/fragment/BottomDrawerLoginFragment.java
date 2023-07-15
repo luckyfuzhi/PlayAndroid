@@ -24,11 +24,6 @@ public class BottomDrawerLoginFragment extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_drawer_fragment, container, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
 
         loginEntry = view.findViewById(R.id.login_entry);
         loginEntry.setOnClickListener(this);
