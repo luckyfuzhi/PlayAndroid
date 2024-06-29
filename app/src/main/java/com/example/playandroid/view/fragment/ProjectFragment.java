@@ -122,4 +122,10 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
         handler.sendMessage(message);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mProjectList.clear();
+        projectArticleVp.setAdapter(null);
+    }
 }

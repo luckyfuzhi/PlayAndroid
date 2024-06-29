@@ -3,6 +3,7 @@ package com.example.playandroid.view.fragment;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,12 +26,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.playandroid.R;
 import com.example.playandroid.adapter.ProjectArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
+import com.example.playandroid.interf.clicklistener.ProjectArticleItemListener;
 import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.interf.datacallback.DataCallBackForBitmap;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
 import com.example.playandroid.presenter.ProjectContentPresenter;
 import com.example.playandroid.util.WebUtil;
+import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +46,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     private ProgressDialog progressDialog;
     private FragmentActivity mActivity;
     private Context mContext;
-    private ProgressBar progressBar;
+//    private ProgressBar progressBar;
 
     private final List<Project> projectList = new ArrayList<>();
     private final List<Bitmap> mBitmapList = new ArrayList<>();
@@ -58,23 +61,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         this.typeId = typeId;
     }
 
-    private final ProjectArticleRecyclerAdapter articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mBitmapList, new DataCallBackForArticleAdapter() {
-        @Override
-        public void getLoveImg(ImageView loveImg) {
-            loveImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (loveImg.isSelected()){//爱心亮了
-
-                        loveImg.setSelected(false);
-                    } else {//爱心没亮
-
-                        loveImg.setSelected(true);
-                    }
-                }
-            });
-        }
-    });
+    private ProjectArticleRecyclerAdapter articleRecyclerAdapter;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -108,7 +95,33 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         View view = inflater.inflate(R.layout.project_content_fragment, container, false);
         RecyclerView articleRecycleView = view.findViewById(R.id.project_article_rv);//每加载一次碎片就重新加载recyclerView的适配器，解决切换页面变为空白的问题
 
-        progressBar = view.findViewById(R.id.project_progressBar);
+//        progressBar = view.findViewById(R.id.project_progressBar);
+
+//        articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mBitmapList, new DataCallBackForArticleAdapter() {
+//            @Override
+//            public void getLoveImg(ImageView loveImg) {
+//                loveImg.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        if (loveImg.isSelected()){//爱心亮了
+//
+//                            loveImg.setSelected(false);
+//                        } else {//爱心没亮
+//
+//                            loveImg.setSelected(true);
+//                        }
+//                    }
+//                });
+//            }
+//        });
+        articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mBitmapList);
+        articleRecyclerAdapter.setOnRecyclerItemClickListener((position, mProjectArticleList) -> {
+            Intent intent = new Intent(requireActivity(), ArticleDetailActivity.class);
+            intent.setAction("sendArticleData");
+            intent.putExtra("articleLink", mProjectArticleList.get(position).getLink());
+            intent.putExtra("title", mProjectArticleList.get(position).getTitle());
+            startActivity(intent);
+        });
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         articleRecycleView.setLayoutManager(mLayoutManager);
@@ -147,9 +160,8 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         @Override
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == UPDATE_PROJECT_ARTICLE) {
-                articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+//                articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
                 progressDialog.dismiss();
-                progressBar.setVisibility(View.GONE);
             }
         }
     };
@@ -161,7 +173,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     //加载更多文章数据
     public void loadMoreProject(int typeId) {
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
         progressDialog.show();
         page++;
         requestProjectData(page, typeId);
@@ -184,12 +196,17 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     @Override
     public void requestProjectImgResult(Bitmap bitmap) {
         mBitmapList.add(bitmap);
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                articleRecyclerAdapter.notifyItemChanged(mBitmapList.size() - 1);//刷新界面
-            }
-        });
+//        mActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                articleRecyclerAdapter.notifyItemChanged(mBitmapList.size() - 1);//刷新界面
+//            }
+//        });
     }
 
+    @Override
+    public void onDestroyView() {
+        articleRecyclerAdapter = null;
+        super.onDestroyView();
+    }
 }

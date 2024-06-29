@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playandroid.R;
 import com.example.playandroid.entity.Project;
+import com.example.playandroid.interf.clicklistener.ProjectArticleItemListener;
 import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 
@@ -30,14 +33,19 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
 
     List<Bitmap> bitmapList;
 
-    DataCallBackForArticleAdapter dataCallBack;
+    private ProjectArticleItemListener mProjectArticleItemListener;
 
-    private Context mContext;
+//    private final DataCallBackForArticleAdapter dataCallBack;
 
-    public ProjectArticleRecyclerAdapter(List<Project> projectList, List<Bitmap> bitmapList, DataCallBackForArticleAdapter dataCallBack) {
+
+    public ProjectArticleRecyclerAdapter(List<Project> projectList, List<Bitmap> bitmapList) {
         this.mProjectArticleList = projectList;
         this.bitmapList = bitmapList;
-        this.dataCallBack = dataCallBack;
+//        this.dataCallBack = new WeakReference<>(dataCallBack).get();
+    }
+
+    public void setOnRecyclerItemClickListener(ProjectArticleItemListener projectArticleItemListener) {
+        this.mProjectArticleItemListener = projectArticleItemListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,7 +78,6 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_article_item, parent,
                 false);
         ViewHolder holder = new ViewHolder(view);
-        mContext = parent.getContext();
         return holder;
     }
 
@@ -86,20 +93,19 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
         if (bitmapList.size() > position) {
             if (bitmapList.get(position) != null){
                 holder.projectImg.setImageBitmap(bitmapList.get(position));
+            } else {
+                holder.projectImg.setImageResource(R.drawable.no_img);
             }
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        int itemPosition = position;
+        holder.projectView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ArticleDetailActivity.class);
-                intent.setAction("sendArticleData");
-                intent.putExtra("articleLink", projectArticle.getLink());
-                intent.putExtra("title", projectArticle.getTitle());
-                mContext.startActivity(intent);
+                mProjectArticleItemListener.onItemClick(itemPosition, mProjectArticleList);
             }
         });
 
-        dataCallBack.getLoveImg(holder.loveImg);
+//        dataCallBack.getLoveImg(holder.loveImg);
 
     }
 
