@@ -9,6 +9,7 @@ import com.example.playandroid.entity.User;
 import com.example.playandroid.interf.contract.LoginContract;
 import com.example.playandroid.interf.datacallback.DataCallBack;
 import com.example.playandroid.interf.service.LoginApiService;
+import com.example.playandroid.manager.TokenManager;
 import com.example.playandroid.presenter.LoginPresenter;
 import com.example.playandroid.util.RetrofitUtil;
 import com.example.playandroid.util.WebUtil;
@@ -69,7 +70,12 @@ public class LoginModel extends BaseModel<LoginPresenter> implements LoginContra
 //            }
 //        });
 
+
+
         Call<SingleDataResponse<User>> userCall = apiService.getLoginInfo(account, password);
+        //这里没有保存Cookie是因为PersistentCookieJar包已经自动帮我们保存了，并且在下一次要用到Cookie的时候它会
+        //自动帮我们交给OkHttp，所以我们只需要处理服务器收到Cookie后的响应报文就好了
+
         userCall.enqueue(new Callback<SingleDataResponse<User>>() {
             @Override
             public void onResponse(Call<SingleDataResponse<User>> call, Response<SingleDataResponse<User>> response) {
@@ -84,6 +90,12 @@ public class LoginModel extends BaseModel<LoginPresenter> implements LoginContra
                     int errorCode = response.code();
                     String errorMessage = response.message();
                     mPresenter.responseLoginState(errorCode, errorMessage);
+
+
+                    //如果有token就用下面的方法获取token
+                    String authorizationHeader = response.headers().get("Authorization");
+                    String token = extractTokenFromAuthorizationHeader(authorizationHeader);
+                    TokenManager.saveTokenToStorage(token);
 
                 } else {
                     // 请求失败，处理错误响应
@@ -108,9 +120,22 @@ public class LoginModel extends BaseModel<LoginPresenter> implements LoginContra
     }
 
 
+    /**
+     *  从Header的Authorization字段的值中提取出token
+     * @param authorizationHeader Authorization字段的值中
+     * @return token
+     */
+    private String extractTokenFromAuthorizationHeader(String authorizationHeader){
+        if (authorizationHeader != null && authorizationHeader.startsWith("bearer ")){
+            return authorizationHeader.substring(7);
+        }
+        return null;
+    }
+
+
 
     /**
-     * 整合cookie为唯一字符串
+     * 整合cookie为唯一字符串(现在有了PersistentCookieJar之后这个方法就没用了)
      */
     private String encodeCookie(List<String> cookies) {
         StringBuilder sb = new StringBuilder();
@@ -142,7 +167,7 @@ public class LoginModel extends BaseModel<LoginPresenter> implements LoginContra
     }
 
     /**
-     *  把cookie字符串转换为cookie对象的集合
+     *  把cookie字符串转换为cookie对象的集合（这个也没用了）
      * @param cookieString cookie字符串
      * @return cookie对象的集合
      */

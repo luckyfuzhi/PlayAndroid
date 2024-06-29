@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class BannerAdapter extends PagerAdapter {
 
-    private List<ImageView> mImageViewList;
+    private final List<ImageView> mImageViewList;
 
     public BannerAdapter(List<ImageView> mImageViewList) {
         this.mImageViewList = mImageViewList;
@@ -40,6 +40,6 @@ public class BannerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View) object);
+        container.removeView(mImageViewList.get(position));
     }
 }

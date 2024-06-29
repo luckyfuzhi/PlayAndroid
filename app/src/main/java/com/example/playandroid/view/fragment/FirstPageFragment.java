@@ -134,13 +134,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
      * 设置首页文章列表展示
      */
     public void setArticleRecyclerView() {
-        //设置整屏不能滚动
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return true;
-            }
-        };
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
         articleRecyclerView.setLayoutManager(mLayoutManager);
         articleRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(),
                 DividerItemDecoration.VERTICAL));//设置分界线
@@ -210,7 +205,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                                 articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
                             }
                             progressDialog.dismiss();
-                            Log.d("test111", "6666");
+
                         }
                     });
                     break;

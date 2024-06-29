@@ -1,5 +1,6 @@
 package com.example.playandroid.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -42,7 +43,6 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     private ProgressDialog progressDialog;
     private FragmentActivity mActivity;
     private Context mContext;
-    private RecyclerView articleRecycleView;
     private ProgressBar progressBar;
 
     private final List<Project> projectList = new ArrayList<>();
@@ -106,9 +106,10 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.project_content_fragment, container, false);
+        RecyclerView articleRecycleView = view.findViewById(R.id.project_article_rv);//每加载一次碎片就重新加载recyclerView的适配器，解决切换页面变为空白的问题
 
-        articleRecycleView = view.findViewById(R.id.project_article_rv);//每加载一次碎片就重新加载recyclerView的适配器，解决切换页面变为空白的问题
         progressBar = view.findViewById(R.id.project_progressBar);
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         articleRecycleView.setLayoutManager(mLayoutManager);
         articleRecycleView.addItemDecoration(new DividerItemDecoration(mActivity,
@@ -142,6 +143,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
 
     private final Handler handler = new Handler(Looper.getMainLooper()) {
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == UPDATE_PROJECT_ARTICLE) {

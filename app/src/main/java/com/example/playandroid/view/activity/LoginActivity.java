@@ -168,7 +168,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (!(errorCode == 200 && errorMessage.equals("OK"))) {
             editor.remove("cookie");//清除cookie
             editor.commit();
-            Toast.makeText(MyApplication.getContext(), "登录失效，请重新登录", Toast.LENGTH_LONG).show();
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MyApplication.getContext(), "登录失效，请重新登录",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("isLoginAgain", true);
             startActivity(intent);
