@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.playandroid.R;
 import com.example.playandroid.entity.Project;
 import com.example.playandroid.interf.clicklistener.ProjectArticleItemListener;
@@ -22,6 +24,7 @@ import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -31,16 +34,13 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
 
     List<Project> mProjectArticleList;
 
-    List<Bitmap> bitmapList;
-
     private ProjectArticleItemListener mProjectArticleItemListener;
 
 //    private final DataCallBackForArticleAdapter dataCallBack;
 
 
-    public ProjectArticleRecyclerAdapter(List<Project> projectList, List<Bitmap> bitmapList) {
+    public ProjectArticleRecyclerAdapter(List<Project> projectList) {
         this.mProjectArticleList = projectList;
-        this.bitmapList = bitmapList;
 //        this.dataCallBack = new WeakReference<>(dataCallBack).get();
     }
 
@@ -90,12 +90,13 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
         holder.author.setText("作者：" + projectArticle.getAuthor());
         holder.desc.setText(projectArticle.getDesc());
         holder.time.setText("时间：" + projectArticle.getNiceShareDate());
-        if (bitmapList.size() > position) {
-            if (bitmapList.get(position) != null){
-                holder.projectImg.setImageBitmap(bitmapList.get(position));
-            } else {
-                holder.projectImg.setImageResource(R.drawable.no_img);
-            }
+        if (projectArticle.getImgLink() == null || Objects.equals(projectArticle.getImgLink(), "")) {
+            holder.projectImg.setImageResource(R.drawable.no_img);
+        } else {
+            Glide.with(holder.projectImg)
+                    .applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.no_img))
+                    .load(projectArticle.getImgLink())
+                    .into(holder.projectImg);
         }
         int itemPosition = position;
         holder.projectView.setOnClickListener(new View.OnClickListener() {

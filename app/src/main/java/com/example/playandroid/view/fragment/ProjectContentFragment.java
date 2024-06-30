@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,13 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.playandroid.R;
 import com.example.playandroid.adapter.ProjectArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
-import com.example.playandroid.interf.clicklistener.ProjectArticleItemListener;
-import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
-import com.example.playandroid.interf.datacallback.DataCallBackForBitmap;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
 import com.example.playandroid.presenter.ProjectContentPresenter;
-import com.example.playandroid.util.WebUtil;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
 import java.util.ArrayList;
@@ -49,11 +43,12 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 //    private ProgressBar progressBar;
 
     private final List<Project> projectList = new ArrayList<>();
-    private final List<Bitmap> mBitmapList = new ArrayList<>();
 
     private final Timer timer = new Timer();
 
     private int page = 0;
+
+    private boolean over;
 
     private final int typeId;
 
@@ -114,7 +109,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 //                });
 //            }
 //        });
-        articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mBitmapList);
+        articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList);
         articleRecyclerAdapter.setOnRecyclerItemClickListener((position, mProjectArticleList) -> {
             Intent intent = new Intent(requireActivity(), ArticleDetailActivity.class);
             intent.setAction("sendArticleData");
@@ -160,7 +155,9 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         @Override
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == UPDATE_PROJECT_ARTICLE) {
-//                articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+                if (articleRecyclerAdapter != null) {
+                    articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+                }
                 progressDialog.dismiss();
             }
         }
@@ -174,9 +171,12 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     //加载更多文章数据
     public void loadMoreProject(int typeId) {
 //        progressBar.setVisibility(View.VISIBLE);
-        progressDialog.show();
-        page++;
-        requestProjectData(page, typeId);
+        if (!over) {
+            progressDialog.show();
+            page++;
+            requestProjectData(page, typeId);
+        }
+
     }
 
     @Override
@@ -185,23 +185,12 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     }
 
     @Override
-    public void requestProjectDataResult(List<Project> projectList) {
-
+    public void requestProjectDataResult(List<Project> projectList, boolean over) {
+        this.over = over;
         this.projectList.addAll(projectList);
         Message message = new Message();
         message.what = UPDATE_PROJECT_ARTICLE;
         handler.sendMessage(message);
-    }
-
-    @Override
-    public void requestProjectImgResult(Bitmap bitmap) {
-        mBitmapList.add(bitmap);
-//        mActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                articleRecyclerAdapter.notifyItemChanged(mBitmapList.size() - 1);//刷新界面
-//            }
-//        });
     }
 
     @Override

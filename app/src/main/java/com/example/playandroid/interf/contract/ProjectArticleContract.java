@@ -22,9 +22,7 @@ public interface ProjectArticleContract {
 
         void requestProjectData(int page, int typeId);//请求项目文章数据
 
-        void requestProjectDataResult(List<Project> projectList);//返回项目文章数据
-
-        void requestProjectImgResult(Bitmap bitmap);//返回项目文章图片
+        void requestProjectDataResult(List<Project> projectList, boolean over);//返回项目文章数据
 
     }
 

@@ -22,12 +22,8 @@ public class ProjectContentPresenter extends BasePresenterForFragment<ProjectCon
     }
 
     @Override
-    public void requestProjectDataResult(List<Project> projectList) {
-        mView.requestProjectDataResult(projectList);
+    public void requestProjectDataResult(List<Project> projectList, boolean over) {
+        mView.requestProjectDataResult(projectList, over);
     }
 
-    @Override
-    public void requestProjectImgResult(Bitmap bitmap) {
-        mView.requestProjectImgResult(bitmap);
-    }
 }

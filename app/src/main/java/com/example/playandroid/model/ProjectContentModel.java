@@ -9,7 +9,10 @@ import com.example.playandroid.interf.datacallback.DataCallBackForBitmap;
 import com.example.playandroid.interf.datacallback.DataCallBackForProjectArticle;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
+import com.example.playandroid.interf.service.ProjectService;
 import com.example.playandroid.presenter.ProjectContentPresenter;
+import com.example.playandroid.util.RetrofitUtil;
+import com.example.playandroid.util.StringUtil;
 import com.example.playandroid.util.WebUtil;
 
 import org.json.JSONArray;
@@ -17,11 +20,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ProjectContentModel extends BaseModelForFragment<ProjectContentPresenter> implements ProjectArticleContract.M {
 
     //项目文章数据
     private final static String PROJECT_URL = "https://www.wanandroid.com/project/list/";
+    private final ProjectService apiService = RetrofitUtil.getRetrofitInstance().create(ProjectService.class); //没用上
 
     private static final String TAG = "ProjectContentModel";
 
@@ -35,31 +40,13 @@ public class ProjectContentModel extends BaseModelForFragment<ProjectContentPres
         WebUtil.getDataFromWeb(articleListUrl, new DataCallBack() {
             @Override
             public void onSuccess(String data) {
+                boolean over = Boolean.parseBoolean(Objects.requireNonNull(StringUtil.extractSubstring(data, "\"over\":", ",")));
                 int startIndex = data.indexOf("[");
                 int endIndex = data.lastIndexOf("]");
                 parseProjectListData(data.substring(startIndex, endIndex + 1), new DataCallBackForProjectArticle() {
                     @Override
                     public void onSuccess(List<Project> projectArticleList) {
-                        mPresenter.requestProjectDataResult(projectArticleList);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                for (Project projectArticle : projectArticleList) {
-                                    WebUtil.getImageData(projectArticle.getImgLink(), new DataCallBackForBitmap() {
-                                        @Override
-                                        public void onSuccess(Bitmap bitmap) {
-                                            mPresenter.requestProjectImgResult(bitmap);
-                                        }
-
-                                        @Override
-                                        public void onFailure(Exception e) {
-                                            e.printStackTrace();
-                                            Log.e(TAG, "getImageData: 解析图片数据错误/" + e);
-                                        }
-                                    });
-                                }
-                            }
-                        }).start();
+                        mPresenter.requestProjectDataResult(projectArticleList, over);
                     }
 
                     @Override
@@ -82,6 +69,7 @@ public class ProjectContentModel extends BaseModelForFragment<ProjectContentPres
             }
         });
     }
+
 
     /**
      * 解析ProjectArticleList的Json数据

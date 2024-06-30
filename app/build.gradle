@@ -45,4 +45,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.github.franmontiel:PersistentCookieJar:1.0.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
 }
