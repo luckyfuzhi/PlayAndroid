@@ -1,5 +1,7 @@
 package com.example.playandroid.entity;
 
+import androidx.annotation.NonNull;
+
 public class Project {
 
     private int chapterId;
@@ -12,7 +14,7 @@ public class Project {
     private String author;
     private String niceShareDate;
 
-    private String imgLink;
+    private String envelopePic;
 
     public int getId() {
         return id;
@@ -22,12 +24,12 @@ public class Project {
         this.id = id;
     }
 
-    public String getImgLink() {
-        return imgLink;
+    public String getEnvelopePic() {
+        return envelopePic;
     }
 
-    public void setImgLink(String imgLink) {
-        this.imgLink = imgLink;
+    public void setEnvelopePic(String envelopePic) {
+        this.envelopePic = envelopePic;
     }
 
     public String getSuperChapterName() {
@@ -92,5 +94,11 @@ public class Project {
 
     public void setNiceShareDate(String niceShareDate) {
         this.niceShareDate = niceShareDate;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "[" + chapterName + "|" + envelopePic + "]";
     }
 }

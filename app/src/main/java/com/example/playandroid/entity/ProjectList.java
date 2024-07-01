@@ -58,13 +58,13 @@ public class ProjectList {
     }
 
     public List<Project> getData() {
-        return data;
+        return datas;
     }
 
     public void setData(List<Project> data) {
-        this.data = data;
+        this.datas = data;
     }
 
     private int total;
-    private List<Project> data;
+    private List<Project> datas;
 }

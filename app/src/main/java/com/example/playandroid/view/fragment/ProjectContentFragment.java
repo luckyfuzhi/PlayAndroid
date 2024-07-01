@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.playandroid.R;
 import com.example.playandroid.adapter.ProjectArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
@@ -37,6 +40,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     private final static int UPDATE_PROJECT_ARTICLE = 1;
 
+    private RecyclerView articleRecycleView;
     private ProgressDialog progressDialog;
     private FragmentActivity mActivity;
     private Context mContext;
@@ -88,7 +92,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.project_content_fragment, container, false);
-        RecyclerView articleRecycleView = view.findViewById(R.id.project_article_rv);//每加载一次碎片就重新加载recyclerView的适配器，解决切换页面变为空白的问题
+        articleRecycleView = view.findViewById(R.id.project_article_rv);//每加载一次碎片就重新加载recyclerView的适配器，解决切换页面变为空白的问题
 
 //        progressBar = view.findViewById(R.id.project_progressBar);
 
@@ -150,18 +154,18 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     }
 
 
-    private final Handler handler = new Handler(Looper.getMainLooper()) {
-        @SuppressLint("NotifyDataSetChanged")
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            if (msg.what == UPDATE_PROJECT_ARTICLE) {
-                if (articleRecyclerAdapter != null) {
-                    articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
-                }
-                progressDialog.dismiss();
-            }
-        }
-    };
+//    private final Handler handler = new Handler(Looper.getMainLooper()) {
+//        @SuppressLint("NotifyDataSetChanged")
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            if (msg.what == UPDATE_PROJECT_ARTICLE) {
+//                if (articleRecyclerAdapter != null) {
+//                    articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+//                }
+//                progressDialog.dismiss();
+//            }
+//        }
+//    };
 
     @Override
     public ProjectContentPresenter getPresenterInstance() {
@@ -170,8 +174,8 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     //加载更多文章数据
     public void loadMoreProject(int typeId) {
-//        progressBar.setVisibility(View.VISIBLE);
         if (!over) {
+//            progressBar.setVisibility(View.VISIBLE);
             progressDialog.show();
             page++;
             requestProjectData(page, typeId);
@@ -188,13 +192,19 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     public void requestProjectDataResult(List<Project> projectList, boolean over) {
         this.over = over;
         this.projectList.addAll(projectList);
-        Message message = new Message();
-        message.what = UPDATE_PROJECT_ARTICLE;
-        handler.sendMessage(message);
+//        Message message = new Message();
+//        message.what = UPDATE_PROJECT_ARTICLE;
+//        handler.sendMessage(message);
+        if (articleRecyclerAdapter != null) {
+            articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+        }
+        progressDialog.dismiss();
     }
 
     @Override
     public void onDestroyView() {
+        Glide.with(this).clear(articleRecycleView);
+        articleRecycleView = null;
         articleRecyclerAdapter = null;
         super.onDestroyView();
     }

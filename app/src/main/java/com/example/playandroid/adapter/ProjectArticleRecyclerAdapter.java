@@ -1,10 +1,6 @@
 package com.example.playandroid.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.playandroid.R;
 import com.example.playandroid.entity.Project;
 import com.example.playandroid.interf.clicklistener.ProjectArticleItemListener;
-import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
-import com.example.playandroid.view.activity.ArticleDetailActivity;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Objects;
 
@@ -90,12 +83,12 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
         holder.author.setText("作者：" + projectArticle.getAuthor());
         holder.desc.setText(projectArticle.getDesc());
         holder.time.setText("时间：" + projectArticle.getNiceShareDate());
-        if (projectArticle.getImgLink() == null || Objects.equals(projectArticle.getImgLink(), "")) {
+        if (projectArticle.getEnvelopePic() == null || Objects.equals(projectArticle.getEnvelopePic(), "")) {
             holder.projectImg.setImageResource(R.drawable.no_img);
         } else {
-            Glide.with(holder.projectImg)
+            Glide.with(holder.projectView.getContext())
                     .applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.no_img))
-                    .load(projectArticle.getImgLink())
+                    .load(projectArticle.getEnvelopePic())
                     .into(holder.projectImg);
         }
         int itemPosition = position;

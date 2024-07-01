@@ -1,26 +1,28 @@
 package com.example.playandroid.model;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.playandroid.base.BaseModelForFragment;
-import com.example.playandroid.interf.datacallback.DataCallBack;
-import com.example.playandroid.interf.datacallback.DataCallBackForBitmap;
+import com.example.playandroid.entity.ProjectList;
+import com.example.playandroid.entity.SingleDataResponse;
 import com.example.playandroid.interf.datacallback.DataCallBackForProjectArticle;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
 import com.example.playandroid.interf.service.ProjectService;
 import com.example.playandroid.presenter.ProjectContentPresenter;
 import com.example.playandroid.util.RetrofitUtil;
-import com.example.playandroid.util.StringUtil;
-import com.example.playandroid.util.WebUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProjectContentModel extends BaseModelForFragment<ProjectContentPresenter> implements ProjectArticleContract.M {
 
@@ -36,38 +38,59 @@ public class ProjectContentModel extends BaseModelForFragment<ProjectContentPres
 
     @Override
     public void requestProjectData(int page, int typeId) {
-        String articleListUrl = PROJECT_URL + page + "/json?cid=" + typeId;
-        WebUtil.getDataFromWeb(articleListUrl, new DataCallBack() {
-            @Override
-            public void onSuccess(String data) {
-                boolean over = Boolean.parseBoolean(Objects.requireNonNull(StringUtil.extractSubstring(data, "\"over\":", ",")));
-                int startIndex = data.indexOf("[");
-                int endIndex = data.lastIndexOf("]");
-                parseProjectListData(data.substring(startIndex, endIndex + 1), new DataCallBackForProjectArticle() {
-                    @Override
-                    public void onSuccess(List<Project> projectArticleList) {
-                        mPresenter.requestProjectDataResult(projectArticleList, over);
-                    }
+//        String articleListUrl = PROJECT_URL + page + "/json?cid=" + typeId;
+//        WebUtil.getDataFromWeb(articleListUrl, new DataCallBack() {
+//            @Override
+//            public void onSuccess(String data) {
+//                boolean over = Boolean.parseBoolean(Objects.requireNonNull(StringUtil.extractSubstring(data, "\"over\":", ",")));
+//                int startIndex = data.indexOf("[");
+//                int endIndex = data.lastIndexOf("]");
+//                parseProjectListData(data.substring(startIndex, endIndex + 1), new DataCallBackForProjectArticle() {
+//                    @Override
+//                    public void onSuccess(List<Project> projectArticleList) {
+//                        mPresenter.requestProjectDataResult(projectArticleList, over);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Exception e) {
+//                        e.printStackTrace();
+//                        Log.e(TAG, "onFailure: " + e);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure(Exception e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "onFailure: " + e);
+//            }
+//
+//            @Override
+//            public void getCookie(List<String> setCookieList) {
+//
+//            }
+//        });
 
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e(TAG, "onFailure: " + e);
+        apiService.getProjectList(page, typeId).enqueue(new Callback<SingleDataResponse<ProjectList>>() {
+            @Override
+            public void onResponse(@NonNull Call<SingleDataResponse<ProjectList>> call, @NonNull Response<SingleDataResponse<ProjectList>> response) {
+                if (response.isSuccessful()) {
+                    SingleDataResponse<ProjectList> dataResponse = response.body();
+                    if (dataResponse != null) {
+                        mPresenter.requestProjectDataResult(dataResponse.getData().getData(), dataResponse.getData().isOver());
                     }
-                });
+                }
             }
 
             @Override
-            public void onFailure(Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, "onFailure: " + e);
-            }
-
-            @Override
-            public void getCookie(List<String> setCookieList) {
-
+            public void onFailure(@NonNull Call<SingleDataResponse<ProjectList>> call, @NonNull Throwable t) {
+                t.printStackTrace();
+                Log.e("requestProjectData", "fail/" + t);
             }
         });
+
+
+
     }
 
 
@@ -94,7 +117,7 @@ public class ProjectContentModel extends BaseModelForFragment<ProjectContentPres
                 projectArticle.setLink(jsonObject.getString("link"));
                 projectArticle.setTitle(jsonObject.getString("title"));
                 projectArticle.setNiceShareDate(jsonObject.getString("niceShareDate"));
-                projectArticle.setImgLink(jsonObject.getString("envelopePic"));
+                projectArticle.setEnvelopePic(jsonObject.getString("envelopePic"));
                 projectArticleList.add(projectArticle);
             }
             dataCallBack.onSuccess(projectArticleList);

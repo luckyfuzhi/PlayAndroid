@@ -6,9 +6,10 @@ import com.example.playandroid.entity.SingleDataResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ProjectService {
 
-    @GET("project/list/{page}/json?cid={cid}")
-    Call<SingleDataResponse<ProjectList>> getProjectList(@Path("page") int page, @Path("cid") int cid);
+    @GET("project/list/{page}/json")
+    Call<SingleDataResponse<ProjectList>> getProjectList(@Path("page") int page, @Query("cid") int cid);
 }
