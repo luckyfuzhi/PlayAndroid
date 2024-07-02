@@ -50,7 +50,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     private final Timer timer = new Timer();
 
-    private int page = 0;
+    private int page = 1;
 
     private boolean over;
 
@@ -203,7 +203,6 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     @Override
     public void onDestroyView() {
-        Glide.with(this).clear(articleRecycleView);
         articleRecycleView = null;
         articleRecyclerAdapter = null;
         super.onDestroyView();
