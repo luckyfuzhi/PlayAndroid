@@ -203,6 +203,8 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     @Override
     public void onDestroyView() {
+        Glide.with(this).clear(articleRecycleView);
+        projectList.clear();
         articleRecycleView = null;
         articleRecyclerAdapter = null;
         super.onDestroyView();
