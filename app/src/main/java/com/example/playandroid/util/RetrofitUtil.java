@@ -2,10 +2,13 @@ package com.example.playandroid.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -35,6 +38,7 @@ public class RetrofitUtil {
             .readTimeout(12, TimeUnit.SECONDS)
             .cookieJar(cookieJar)
             .addInterceptor(new AuthInterceptor())
+            .addInterceptor(new ReceivedCookiesInterceptor())
             .build();
 
     public static Retrofit getRetrofitInstance() {
@@ -67,6 +71,27 @@ public class RetrofitUtil {
 
             Request newRequest = requestBuilder.build();
             return chain.proceed(newRequest);
+        }
+    }
+
+    // 自定义的ReceivedCookiesInterceptor拦截器
+    private static class ReceivedCookiesInterceptor implements Interceptor {
+        @NonNull
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Response response = chain.proceed(chain.request());
+
+            // 获取Set-Cookie头部
+            if (!response.headers("Set-Cookie").isEmpty()) {
+                HashSet<String> cookies = new HashSet<>(response.headers("Set-Cookie"));
+                // 保存cookies到SharedPreferences
+                SharedPreferences sharedPreferences = MyApplication.getContext().getSharedPreferences("cookies_prefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putStringSet("cookies", cookies);
+                editor.apply();
+            }
+
+            return response;
         }
     }
 

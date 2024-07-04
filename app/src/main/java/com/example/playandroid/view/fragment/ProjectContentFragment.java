@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.example.playandroid.adapter.ProjectArticleRecyclerAdapter;
 import com.example.playandroid.base.BaseFragment;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.presenter.ProjectContentPresenter;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
@@ -95,25 +97,23 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         articleRecycleView = view.findViewById(R.id.project_article_rv);//每加载一次碎片就重新加载recyclerView的适配器，解决切换页面变为空白的问题
 
 //        progressBar = view.findViewById(R.id.project_progressBar);
+        articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, new DataCallBackForArticleAdapter() {
+            @Override
+            public void getLoveImg(ImageView loveImg) {
+                loveImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (loveImg.isSelected()) {//爱心亮了
 
-//        articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, mBitmapList, new DataCallBackForArticleAdapter() {
-//            @Override
-//            public void getLoveImg(ImageView loveImg) {
-//                loveImg.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (loveImg.isSelected()){//爱心亮了
-//
-//                            loveImg.setSelected(false);
-//                        } else {//爱心没亮
-//
-//                            loveImg.setSelected(true);
-//                        }
-//                    }
-//                });
-//            }
-//        });
-        articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList);
+                            loveImg.setSelected(false);
+                        } else {//爱心没亮
+
+                            loveImg.setSelected(true);
+                        }
+                    }
+                });
+            }
+        });
         articleRecyclerAdapter.setOnRecyclerItemClickListener((position, mProjectArticleList) -> {
             Intent intent = new Intent(requireActivity(), ArticleDetailActivity.class);
             intent.setAction("sendArticleData");

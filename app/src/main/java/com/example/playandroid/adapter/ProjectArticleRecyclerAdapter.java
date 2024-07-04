@@ -15,7 +15,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.playandroid.R;
 import com.example.playandroid.entity.Project;
 import com.example.playandroid.interf.clicklistener.ProjectArticleItemListener;
+import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,12 +31,12 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
 
     private ProjectArticleItemListener mProjectArticleItemListener;
 
-//    private final DataCallBackForArticleAdapter dataCallBack;
+    private final DataCallBackForArticleAdapter dataCallBack;
 
 
-    public ProjectArticleRecyclerAdapter(List<Project> projectList) {
+    public ProjectArticleRecyclerAdapter(List<Project> projectList, DataCallBackForArticleAdapter dataCallBack) {
         this.mProjectArticleList = projectList;
-//        this.dataCallBack = new WeakReference<>(dataCallBack).get();
+        this.dataCallBack = dataCallBack;
     }
 
     public void setOnRecyclerItemClickListener(ProjectArticleItemListener projectArticleItemListener) {
@@ -99,7 +101,7 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
             }
         });
 
-//        dataCallBack.getLoveImg(holder.loveImg);
+        dataCallBack.getLoveImg(holder.loveImg);
 
     }
 

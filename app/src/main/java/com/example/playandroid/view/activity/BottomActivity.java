@@ -100,16 +100,7 @@ public class BottomActivity extends BaseActivity {
         }
 
         if (getIntent().getBooleanExtra("isAutoLogin", false)) {//如果自动登录成功就切换侧滑栏视图
-            String cookie = getIntent().getStringExtra("cookie");
-            String[] arr = cookie.split(";");
-            String userName = null;
-            for (String s : arr) {
-                if (s.contains("loginUserName") && !s.contains("loginUserName_")) {
-                    int index = s.indexOf("=");
-                    userName = s.substring(index + 1);
-                    break;
-                }
-            }
+            String userName = getIntent().getStringExtra("userName");
             replaceFragment(new SucceedLoginFragment(userName));
         }
     }

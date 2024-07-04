@@ -57,10 +57,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void initData() {
         sharedPreferences = getSharedPreferences("cookies_prefs", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        if (sharedPreferences.contains("cookie")) {//检验是否已经存在cookie，若存在则自动登录
+        if (sharedPreferences.contains("cookies")) {//检验是否已经存在cookie，若存在则自动登录
             Intent intent = new Intent(this, BottomActivity.class);
             intent.putExtra("isAutoLogin", true);
-            intent.putExtra("cookie", sharedPreferences.getString("cookie", ""));
+            intent.putExtra("userName", getUserNameFromCookies(sharedPreferences.getStringSet("cookies", new HashSet<>())));
             startActivity(intent);
         } else if (!getIntent().getBooleanExtra("isFromBottomActivity", false)) {
             //检验是否从主界面跳转过来的，不是则执行下面逻辑（在刚打开程序，如果之前未登录的话要登陆则执行这种情况）
@@ -68,6 +68,21 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             intent.putExtra("isAutoLogin", false);
             startActivity(intent);
         }
+    }
+
+    private String getUserNameFromCookies(Set<String> cookies) {
+        if (!cookies.isEmpty()) {
+            for (String cookie : cookies) {
+                String[] cookieAttributes = cookie.split(";");
+                for (String attribute : cookieAttributes) {
+                    if (attribute.trim().startsWith("loginUserName=")) {
+                        return attribute.split("=")[1].trim();
+                    }
+                }
+            }
+        }
+        return null; // 如果没有找到 userName 字段，返回 null
+
     }
 
     @Override
@@ -124,22 +139,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
 
-    private final Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            if (msg.what == 1) {
-                Toast.makeText(mActivity, "登录成功", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mActivity, BottomActivity.class);
-                intent.putExtra("isSuccessLogin", true);
-                intent.putExtra("username", accountEdit.getText().toString());
-                startActivity(intent);
-                ActivityCollector.removeActivity(mActivity);
-                finish();
-            } else {
-                Toast.makeText(getBaseContext(), "账号密码不匹配", Toast.LENGTH_LONG).show();
-            }
-        }
-    };
+//    private final Handler handler = new Handler(Looper.getMainLooper()) {
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            if (msg.what == 1) {
+//                Toast.makeText(mActivity, "登录成功", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(mActivity, BottomActivity.class);
+//                intent.putExtra("isSuccessLogin", true);
+//                intent.putExtra("username", accountEdit.getText().toString());
+//                startActivity(intent);
+//                ActivityCollector.removeActivity(mActivity);
+//                finish();
+//            } else {
+//                Toast.makeText(getBaseContext(), "账号密码不匹配", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    };
 
 
     @Override
@@ -149,13 +164,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void responseLoginResult(String loginResult) {
-        Message message = new Message();
-        if (loginResult.equals("")) {
-            message.what = 1;
+        if (loginResult.isEmpty()) {
+            Toast.makeText(mActivity, "登录成功", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(mActivity, BottomActivity.class);
+            intent.putExtra("isSuccessLogin", true);
+            intent.putExtra("username", accountEdit.getText().toString());
+            startActivity(intent);
+            ActivityCollector.removeActivity(mActivity);
+            finish();
         } else {
-            message.what = 0;
+            Toast.makeText(getBaseContext(), "账号密码不匹配", Toast.LENGTH_LONG).show();
         }
-        handler.sendMessage(message);
     }
 
     @Override
@@ -168,13 +187,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (!(errorCode == 200 && errorMessage.equals("OK"))) {
             editor.remove("cookie");//清除cookie
             editor.commit();
-            this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(MyApplication.getContext(), "登录失效，请重新登录",
-                            Toast.LENGTH_LONG).show();
-                }
-            });
+            Toast.makeText(MyApplication.getContext(), "登录失效，请重新登录",
+                    Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("isLoginAgain", true);
             startActivity(intent);
