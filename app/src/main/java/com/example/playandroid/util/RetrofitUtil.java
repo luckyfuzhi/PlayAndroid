@@ -80,15 +80,18 @@ public class RetrofitUtil {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Response response = chain.proceed(chain.request());
+            Request request = chain.request();
 
-            // 获取Set-Cookie头部
-            if (!response.headers("Set-Cookie").isEmpty()) {
-                HashSet<String> cookies = new HashSet<>(response.headers("Set-Cookie"));
-                // 保存cookies到SharedPreferences
-                SharedPreferences sharedPreferences = MyApplication.getContext().getSharedPreferences("cookies_prefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putStringSet("cookies", cookies);
-                editor.apply();
+            if (request.url().toString().contains("login")) {
+                // 获取Set-Cookie头部
+                if (!response.headers("Set-Cookie").isEmpty()) {
+                    HashSet<String> cookies = new HashSet<>(response.headers("Set-Cookie"));
+                    // 保存cookies到SharedPreferences
+                    SharedPreferences sharedPreferences = MyApplication.getContext().getSharedPreferences("cookies_prefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putStringSet("cookies", cookies);
+                    editor.apply();
+                }
             }
 
             return response;

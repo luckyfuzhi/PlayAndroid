@@ -55,9 +55,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void initData() {
-        sharedPreferences = getSharedPreferences("cookies_prefs", MODE_PRIVATE);
+        sharedPreferences = MyApplication.getContext().getSharedPreferences("cookies_prefs", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        if (sharedPreferences.contains("cookies")) {//检验是否已经存在cookie，若存在则自动登录
+        if (sharedPreferences.contains("cookies") && !sharedPreferences.getStringSet("cookies", new HashSet<>()).isEmpty()) {//检验是否已经存在cookie，若存在则自动登录
             Intent intent = new Intent(this, BottomActivity.class);
             intent.putExtra("isAutoLogin", true);
             intent.putExtra("userName", getUserNameFromCookies(sharedPreferences.getStringSet("cookies", new HashSet<>())));

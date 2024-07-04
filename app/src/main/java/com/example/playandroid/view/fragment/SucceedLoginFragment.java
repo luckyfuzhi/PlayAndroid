@@ -2,9 +2,12 @@ package com.example.playandroid.view.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +19,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.playandroid.MyApplication;
 import com.example.playandroid.R;
 import com.example.playandroid.base.BaseFragment;
 import com.example.playandroid.interf.contract.SucceedLoginContract;
 import com.example.playandroid.presenter.SucceedLoginPresenter;
+import com.example.playandroid.util.RetrofitUtil;
 import com.example.playandroid.view.activity.BottomActivity;
+
+import java.util.HashSet;
 
 public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> implements SucceedLoginContract.VP {
     private ImageView succeedLoginSymbol;
@@ -94,6 +101,11 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
 
     @Override
     public void exitLogin() {
+        SharedPreferences sharedPreferences = MyApplication.getContext().getSharedPreferences("cookies_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        Log.d("test111", "cookies2:" + sharedPreferences.getStringSet("cookies", new HashSet<>()));
         mPresenter.exitLogin();
     }
 
