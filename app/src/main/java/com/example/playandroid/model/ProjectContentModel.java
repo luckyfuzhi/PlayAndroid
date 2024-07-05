@@ -5,11 +5,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.playandroid.base.BaseModelForFragment;
+import com.example.playandroid.entity.ArticleResponse;
 import com.example.playandroid.entity.ProjectList;
 import com.example.playandroid.entity.SingleDataResponse;
 import com.example.playandroid.interf.datacallback.DataCallBackForProjectArticle;
 import com.example.playandroid.interf.contract.ProjectArticleContract;
 import com.example.playandroid.entity.Project;
+import com.example.playandroid.interf.service.CollectionService;
 import com.example.playandroid.interf.service.ProjectService;
 import com.example.playandroid.presenter.ProjectContentPresenter;
 import com.example.playandroid.util.RetrofitUtil;
@@ -31,6 +33,30 @@ public class ProjectContentModel extends BaseModelForFragment<ProjectContentPres
     private final ProjectService apiService = RetrofitUtil.getRetrofitInstance().create(ProjectService.class); //没用上
 
     private static final String TAG = "ProjectContentModel";
+    private final CollectionService collectService = RetrofitUtil.getRetrofitInstance().create(CollectionService.class);
+
+    public void collectArticle(int articleId) {
+        Call<SingleDataResponse<ArticleResponse>> call = collectService.collectArticle(articleId);
+        call.enqueue(new Callback<SingleDataResponse<ArticleResponse>>() {
+            @Override
+            public void onResponse(Call<SingleDataResponse<ArticleResponse>> call, Response<SingleDataResponse<ArticleResponse>> response) {
+                if (response.isSuccessful()){
+                    SingleDataResponse<ArticleResponse> dataResponse = response.body();
+                    if (dataResponse != null) {
+                        mPresenter.collectResult(dataResponse.getErrorMsg());
+                    }
+                } else {
+                    mPresenter.collectResult("收藏失败");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SingleDataResponse<ArticleResponse>> call, Throwable t) {
+                mPresenter.collectResult(t.getMessage());
+            }
+        });
+    }
 
     public ProjectContentModel(ProjectContentPresenter mPresenter) {
         super(mPresenter);

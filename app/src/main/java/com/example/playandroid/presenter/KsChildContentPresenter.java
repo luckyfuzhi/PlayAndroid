@@ -25,4 +25,12 @@ public class KsChildContentPresenter extends BasePresenterForFragment<KsChildCon
     public KsChildContentModel getModelInstance() {
         return new KsChildContentModel(this);
     }
+
+    public void collectArticle(int articleId) {
+        mModel.collectArticle(articleId);
+    }
+
+    public void collectResult(String msg) {
+        mView.showCollectResult(msg);
+    }
 }

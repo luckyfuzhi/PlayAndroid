@@ -4,10 +4,15 @@ import android.util.Log;
 
 import com.example.playandroid.base.BaseModelForFragment;
 import com.example.playandroid.entity.Article;
+import com.example.playandroid.entity.ArticleResponse;
+import com.example.playandroid.entity.SingleDataResponse;
 import com.example.playandroid.interf.contract.SearchResultContract;
 import com.example.playandroid.interf.datacallback.DataCallBack;
 import com.example.playandroid.interf.datacallback.DataCallBackForArticle;
+import com.example.playandroid.interf.service.CollectionService;
+import com.example.playandroid.presenter.KsChildContentPresenter;
 import com.example.playandroid.presenter.SearchResultPresenter;
+import com.example.playandroid.util.RetrofitUtil;
 import com.example.playandroid.util.WebUtil;
 
 import org.json.JSONArray;
@@ -17,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SearchResultModel extends BaseModelForFragment<SearchResultPresenter> implements SearchResultContract.M {
 
     //获取搜索结果网址
@@ -24,6 +33,30 @@ public class SearchResultModel extends BaseModelForFragment<SearchResultPresente
 
     public SearchResultModel(SearchResultPresenter mPresenter) {
         super(mPresenter);
+    }
+    private final CollectionService collectService = RetrofitUtil.getRetrofitInstance().create(CollectionService.class);
+
+    public void collectArticle(int articleId) {
+        Call<SingleDataResponse<ArticleResponse>> call = collectService.collectArticle(articleId);
+        call.enqueue(new Callback<SingleDataResponse<ArticleResponse>>() {
+            @Override
+            public void onResponse(Call<SingleDataResponse<ArticleResponse>> call, Response<SingleDataResponse<ArticleResponse>> response) {
+                if (response.isSuccessful()){
+                    SingleDataResponse<ArticleResponse> dataResponse = response.body();
+                    if (dataResponse != null) {
+                        mPresenter.collectResult(dataResponse.getErrorMsg());
+                    }
+                } else {
+                    mPresenter.collectResult("收藏失败");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SingleDataResponse<ArticleResponse>> call, Throwable t) {
+                mPresenter.collectResult(t.getMessage());
+            }
+        });
     }
 
     @Override

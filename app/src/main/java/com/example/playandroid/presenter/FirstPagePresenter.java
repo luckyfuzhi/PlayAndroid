@@ -47,4 +47,12 @@ public class FirstPagePresenter extends BasePresenterForFragment<FirstPageFragme
     public void requestTopArticleDataResult(List<Article> topArticleList) {
         mView.requestTopArticleDataResult(topArticleList);
     }
+
+    public void collectArticle(int articleId) {
+        mModel.collectArticle(articleId);
+    }
+
+    public void collectResult(String msg) {
+        mView.showCollectResult(msg);
+    }
 }

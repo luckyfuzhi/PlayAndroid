@@ -101,7 +101,7 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
             }
         });
 
-        dataCallBack.getLoveImg(holder.loveImg);
+        dataCallBack.getLoveImg(holder.loveImg, projectArticle.getId());
 
     }
 

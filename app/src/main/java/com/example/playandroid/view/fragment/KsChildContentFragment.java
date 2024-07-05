@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +46,7 @@ public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter
 
     private ArticleRecyclerAdapter articleRecyclerAdapter = new ArticleRecyclerAdapter(mArticleList, new DataCallBackForArticleAdapter() {
         @Override
-        public void getLoveImg(ImageView loveImg) {
+        public void getLoveImg(ImageView loveImg, int articleId) {
             loveImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -53,7 +54,7 @@ public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter
 
                         loveImg.setSelected(false);
                     } else {//爱心没亮
-
+                        mPresenter.collectArticle(articleId);
                         loveImg.setSelected(true);
                     }
                 }
@@ -61,6 +62,9 @@ public class KsChildContentFragment extends BaseFragment<KsChildContentPresenter
         }
     });
 
+    public void showCollectResult(String msg) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
+    }
     private int page = 0;
 
 

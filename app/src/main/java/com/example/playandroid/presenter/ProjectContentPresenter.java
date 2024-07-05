@@ -26,4 +26,11 @@ public class ProjectContentPresenter extends BasePresenterForFragment<ProjectCon
         mView.requestProjectDataResult(projectList, over);
     }
 
+    public void collectArticle(int articleId) {
+        mModel.collectArticle(articleId);
+    }
+
+    public void collectResult(String msg) {
+        mView.showCollectResult(msg);
+    }
 }

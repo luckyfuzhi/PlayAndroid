@@ -25,4 +25,12 @@ public class SearchResultPresenter extends BasePresenterForFragment<SearchResult
     public void requestArticleDataResult(List<Article> articleList) {
         mView.requestArticleDataResult(articleList);
     }
+
+    public void collectArticle(int articleId) {
+        mModel.collectArticle(articleId);
+    }
+
+    public void collectResult(String msg) {
+        mView.showCollectResult(msg);
+    }
 }

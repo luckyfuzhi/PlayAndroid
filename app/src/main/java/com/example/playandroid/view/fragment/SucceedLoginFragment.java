@@ -26,6 +26,7 @@ import com.example.playandroid.interf.contract.SucceedLoginContract;
 import com.example.playandroid.presenter.SucceedLoginPresenter;
 import com.example.playandroid.util.RetrofitUtil;
 import com.example.playandroid.view.activity.BottomActivity;
+import com.example.playandroid.view.activity.CollectionActivity;
 
 import java.util.HashSet;
 
@@ -35,6 +36,8 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
     private TextView usernameTv;
 
     private LinearLayout exitLogin;
+
+    private LinearLayout collection;
 
     private ImageView exitLoginImg;
 
@@ -62,6 +65,7 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
         exitLogin = view.findViewById(R.id.exit_login);
         exitLoginBtn = view.findViewById(R.id.exit_login_text);
         exitLoginImg = view.findViewById(R.id.exit_login_img);
+        collection = view.findViewById(R.id.collection);
         mActivity = requireActivity();
 
         usernameTv.setText(username);
@@ -71,6 +75,13 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
                 exitLogin();
                 Intent intent = new Intent(mActivity, BottomActivity.class);
                 intent.putExtra("exitLogin", true);
+                startActivity(intent);
+            }
+        });
+        collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, CollectionActivity.class);
                 startActivity(intent);
             }
         });
@@ -105,7 +116,6 @@ public class SucceedLoginFragment extends BaseFragment<SucceedLoginPresenter> im
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        Log.d("test111", "cookies2:" + sharedPreferences.getStringSet("cookies", new HashSet<>()));
         mPresenter.exitLogin();
     }
 

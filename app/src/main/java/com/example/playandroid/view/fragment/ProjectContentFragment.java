@@ -89,6 +89,9 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         requestProjectData(0, typeId);
     }
 
+    public void showCollectResult(String msg) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
+    }
 
     @Nullable
     @Override
@@ -99,7 +102,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 //        progressBar = view.findViewById(R.id.project_progressBar);
         articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, new DataCallBackForArticleAdapter() {
             @Override
-            public void getLoveImg(ImageView loveImg) {
+            public void getLoveImg(ImageView loveImg, int articleId) {
                 loveImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -107,7 +110,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
                             loveImg.setSelected(false);
                         } else {//爱心没亮
-
+                            mPresenter.collectArticle(articleId);
                             loveImg.setSelected(true);
                         }
                     }

@@ -85,7 +85,8 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
                 mContext.startActivity(intent);
             }
         });
-        dataCallBack.getLoveImg(holder.loveImg);
+        if (article.isCollect()) holder.loveImg.setSelected(true);
+        dataCallBack.getLoveImg(holder.loveImg, article.getId());
 
     }
 

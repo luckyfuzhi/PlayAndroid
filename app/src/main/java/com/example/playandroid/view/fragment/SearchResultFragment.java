@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,7 +61,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     private ArticleRecyclerAdapter resultRecyclerAdapter = new ArticleRecyclerAdapter(articleList, new DataCallBackForArticleAdapter() {
         @Override
-        public void getLoveImg(ImageView loveImg) {
+        public void getLoveImg(ImageView loveImg, int articleId) {
             loveImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -68,13 +69,16 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
                         loveImg.setSelected(false);
                     } else {//爱心没亮
-
+                        mPresenter.collectArticle(articleId);
                         loveImg.setSelected(true);
                     }
                 }
             });
         }
     });
+    public void showCollectResult(String msg) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
+    }
 
     public SearchResultFragment(String key) {
         paramMap.put("k", key);

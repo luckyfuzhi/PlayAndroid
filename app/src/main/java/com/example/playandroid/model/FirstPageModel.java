@@ -13,6 +13,7 @@ import com.example.playandroid.interf.datacallback.DataCallBackForBanner;
 import com.example.playandroid.interf.contract.FirstPageContract;
 import com.example.playandroid.entity.Banner;
 import com.example.playandroid.entity.Article;
+import com.example.playandroid.interf.service.CollectionService;
 import com.example.playandroid.interf.service.FpApiService;
 import com.example.playandroid.presenter.FirstPagePresenter;
 import com.example.playandroid.util.RetrofitUtil;
@@ -39,9 +40,33 @@ public class FirstPageModel extends BaseModelForFragment<FirstPagePresenter> imp
     private static final String TAG = "BannerModel";
 
     private final FpApiService apiService = RetrofitUtil.getRetrofitInstance().create(FpApiService.class);
+    private final CollectionService collectService = RetrofitUtil.getRetrofitInstance().create(CollectionService.class);
 
     public FirstPageModel(FirstPagePresenter mPresenter) {
         super(mPresenter);
+    }
+
+    public void collectArticle(int articleId) {
+        Call<SingleDataResponse<ArticleResponse>> call = collectService.collectArticle(articleId);
+        call.enqueue(new Callback<SingleDataResponse<ArticleResponse>>() {
+            @Override
+            public void onResponse(Call<SingleDataResponse<ArticleResponse>> call, Response<SingleDataResponse<ArticleResponse>> response) {
+                if (response.isSuccessful()){
+                    SingleDataResponse<ArticleResponse> dataResponse = response.body();
+                    if (dataResponse != null) {
+                        mPresenter.collectResult(dataResponse.getErrorMsg());
+                    }
+                } else {
+                    mPresenter.collectResult("收藏失败");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SingleDataResponse<ArticleResponse>> call, Throwable t) {
+                mPresenter.collectResult(t.getMessage());
+            }
+        });
     }
 
     /**

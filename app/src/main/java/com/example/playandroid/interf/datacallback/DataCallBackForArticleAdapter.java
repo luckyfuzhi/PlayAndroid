@@ -4,6 +4,6 @@ import android.widget.ImageView;
 
 public interface DataCallBackForArticleAdapter {
 
-    void getLoveImg(ImageView loveImg);
+    void getLoveImg(ImageView loveImg, int articleId);
 
 }

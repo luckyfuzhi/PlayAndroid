@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -141,7 +142,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                 DividerItemDecoration.VERTICAL));//设置分界线
         articleRecyclerAdapter = new ArticleRecyclerAdapter(finalArticleList, new DataCallBackForArticleAdapter() {
             @Override
-            public void getLoveImg(ImageView loveImg) {
+            public void getLoveImg(ImageView loveImg, int articleId) {
                 loveImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -149,7 +150,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
                             loveImg.setSelected(false);
                         } else {//爱心没亮
-
+                            mPresenter.collectArticle(articleId);
                             loveImg.setSelected(true);
                         }
                     }
@@ -167,6 +168,10 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
                 }
             }
         });
+    }
+
+    public void showCollectResult(String msg) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     //加载更多文章数据
