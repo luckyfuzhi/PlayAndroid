@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.playandroid.R;
 import com.example.playandroid.entity.Article;
 import com.example.playandroid.entity.CollectArticle;
+import com.example.playandroid.interf.clicklistener.CollectionArticleClickListener;
+import com.example.playandroid.interf.clicklistener.ProjectArticleItemListener;
 import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 
 import java.util.List;
@@ -27,9 +29,15 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<CollectArticle> articleList;
     DataCallBackForArticleAdapter dataCallBack;
 
+    private CollectionArticleClickListener mCollectionArticleClickListener;
+
     public CollectionAdapter(List<CollectArticle> articleList, DataCallBackForArticleAdapter dataCallBack) {
         this.articleList = articleList;
         this.dataCallBack = dataCallBack;
+    }
+
+    public void setOnRecyclerItemClickListener(CollectionArticleClickListener collectionArticleClickListener) {
+        this.mCollectionArticleClickListener = collectionArticleClickListener;
     }
 
     @Override
@@ -61,6 +69,9 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((ArticleViewHolder)holder).time.setText("时间：" + article.getNiceDate());
             ((ArticleViewHolder)holder).title.setText(Html.fromHtml(article.getTitle()));//解决返回带有html代码的数据问题
             ((ArticleViewHolder)holder).loveImg.setSelected(true);
+            int itemPosition = position;
+            ((ArticleViewHolder)holder).articleView.setOnClickListener(view ->
+                    mCollectionArticleClickListener.onItemClick(itemPosition, articleList));
         } else if (holder instanceof LoadingViewHolder) {
             ((LoadingViewHolder) holder).progressBar.setVisibility(View.VISIBLE);
         }

@@ -1,5 +1,7 @@
 package com.example.playandroid.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import com.example.playandroid.entity.Article;
 import com.example.playandroid.entity.ArticleResponse;
 import com.example.playandroid.entity.CollectArticle;
 import com.example.playandroid.entity.SingleDataResponse;
+import com.example.playandroid.interf.clicklistener.CollectionArticleClickListener;
 import com.example.playandroid.interf.contract.CollectionContract;
 import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.presenter.CollectionPresenter;
@@ -32,6 +35,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     private CollectionAdapter collectionAdapter;
     private List<CollectArticle> articleList;
 
+    private final Context mContext = this;
     @Override
     public void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -49,6 +53,16 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(collectionAdapter);
+        collectionAdapter.setOnRecyclerItemClickListener(new CollectionArticleClickListener() {
+            @Override
+            public void onItemClick(int position, List<CollectArticle> mCollectArticleList) {
+                Intent intent = new Intent(mContext, ArticleDetailActivity.class);
+                intent.setAction("sendArticleData");
+                intent.putExtra("articleLink", mCollectArticleList.get(position).getLink());
+                intent.putExtra("title", mCollectArticleList.get(position).getTitle());
+                startActivity(intent);
+            }
+        });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
