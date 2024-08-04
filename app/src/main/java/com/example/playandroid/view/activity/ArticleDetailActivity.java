@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Looper;
+import android.os.MessageQueue;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -46,6 +49,8 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
 //            progressBar.setProgress(0);
 //            progressDialog.show();
             super.onPageStarted(view, url, favicon);
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(0);
         }
 
         @Override
@@ -66,9 +71,6 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         articleTitle = findViewById(R.id.article_detail_title);
         contentWebView = findViewById(R.id.wv_article);
         progressBar = findViewById(R.id.load_bar);
-        contentWebView.getSettings().setJavaScriptEnabled(true);
-        contentWebView.setWebViewClient(new MyWebViewClient());
-        back.setOnClickListener(this);
 
 
         WebSettings settings = contentWebView.getSettings();
@@ -80,6 +82,20 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         settings.setDatabaseEnabled(true);
         settings.setTextZoom(90);
 
+        contentWebView.setWebViewClient(new MyWebViewClient());
+        back.setOnClickListener(this);
+
+        // 注册 IdleHandler 进行预加载
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                // 预加载 URL
+                Log.d("test111", "detail");
+                contentWebView.loadUrl(articleLink);
+                return false; // 返回 false 表示只执行一次
+            }
+        });
+
 //        progressDialog = new ProgressDialog(this);
 //        progressDialog.setCancelable(true);
 //        progressDialog.setMessage("正在加载数据");
@@ -89,7 +105,6 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
     @Override
     public void initData() {
         articleLink = getArticleLink();
-        contentWebView.loadUrl(articleLink);
     }
 
     public String getArticleLink() {
