@@ -1,7 +1,9 @@
 package com.example.playandroid.view.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -33,26 +37,20 @@ import com.example.playandroid.view.fragment.FirstPageFragment;
 import com.example.playandroid.view.fragment.KnowledgeSystemFragment;
 import com.example.playandroid.view.fragment.ProjectFragment;
 import com.example.playandroid.view.fragment.SucceedLoginFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarMenuView;
+import com.google.android.material.navigation.NavigationBarView;
+
+import java.lang.reflect.Field;
 
 
 /**
  * 程序主类，包含各个模块功能的切换入口
  */
 public class BottomActivity extends BaseActivity {
-
-    private ImageView firstPageButton;
-    private ImageView knowledgeSystemButton;
-    private ImageView projectButton;
-
-    private TextView firstPageText;
-    private TextView knowledgeSystemText;
-    private TextView projectText;
     private Button searchButton;
 
     private Button menuButton;
-    private LinearLayout firstPage;
-    private LinearLayout knowledgeSystem;
-    private LinearLayout project;
 
 
     private DrawerLayout mDrawerLayout;
@@ -63,22 +61,18 @@ public class BottomActivity extends BaseActivity {
     private KnowledgeSystemFragment knowledgeSystemFragment;
     private ProjectFragment projectFragment;
 
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     public void initView() {
-        firstPageButton = findViewById(R.id.first_page_img);
-        knowledgeSystemButton = findViewById(R.id.knowledge_system_img);
-        projectButton = findViewById(R.id.project_img);
-        firstPageText = findViewById(R.id.first_page_text);
-        knowledgeSystemText = findViewById(R.id.knowledge_system_text);
-        projectText = findViewById(R.id.project_text);
-        firstPage = findViewById(R.id.home_page);
-        knowledgeSystem = findViewById(R.id.knowledge_system);
-        project = findViewById(R.id.project);
+        bottomNavigationView = findViewById(R.id.navigation);
         currentFragment = new FirstPageFragment();
         fragmentManager = getSupportFragmentManager();
         searchButton = findViewById(R.id.main_search_button);
         menuButton = findViewById(R.id.menu_button);
         mDrawerLayout = findViewById(R.id.bottom_drawer_layout);
+
+        bottomNavigationView.setOnItemSelectedListener(listen);
 
 
         if (getIntent().getBooleanExtra("isSuccessLogin", false)) {//如果成功登录则切换侧滑栏视图
@@ -105,6 +99,25 @@ public class BottomActivity extends BaseActivity {
         }
     }
 
+    private final NavigationBarView.OnItemSelectedListener listen = new NavigationBarView.OnItemSelectedListener() {
+        @SuppressLint("NonConstantResourceId")
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            int id = item.getItemId();
+            if (id == R.id.navigation_home) {
+                showFragment(firstPageFragment);
+            } else if (id == R.id.navigation_knowledge) {
+                showFragment(knowledgeSystemFragment);
+            } else if (id == R.id.navigation_project) {
+                showFragment(projectFragment);
+            } else {
+                showFragment(firstPageFragment);
+            }
+
+            return true;
+        }
+    };
+
     @Override
     public void initData() {
         if (mSavedInstanceState != null) {
@@ -123,20 +136,14 @@ public class BottomActivity extends BaseActivity {
             projectFragment = new ProjectFragment();
 
             showFragment(firstPageFragment);
-            setSelectedState(R.id.first_page_img);
         }
 
     }
 
     @Override
     public void initListener() {
-        firstPage.setOnClickListener(this);
-        knowledgeSystem.setOnClickListener(this);
-        project.setOnClickListener(this);
         searchButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -187,19 +194,7 @@ public class BottomActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.home_page) {
-            setSelectedState(R.id.first_page_img);
-            showFragment(firstPageFragment);
-
-        } else if (id == R.id.knowledge_system) {
-            setSelectedState(R.id.knowledge_system_img);
-            showFragment(knowledgeSystemFragment);
-
-        } else if (id == R.id.project) {
-            setSelectedState(R.id.project_img);
-            showFragment(projectFragment);
-
-        } else if (id == R.id.main_search_button) {
+        if (id == R.id.main_search_button) {
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
         } else if (id == R.id.menu_button) {
@@ -210,35 +205,6 @@ public class BottomActivity extends BaseActivity {
     }
 
 
-    /**
-     * 设置选中状态
-     *
-     * @param id 被选中的控件id
-     */
-    public void setSelectedState(int id) {
-        knowledgeSystemText.setTextColor(getResources().getColor(R.color.black));
-        projectText.setTextColor(getResources().getColor(R.color.black));
-        firstPageText.setTextColor(getResources().getColor(R.color.black));
-        knowledgeSystemButton.setSelected(false);
-        projectButton.setSelected(false);
-        firstPageButton.setSelected(false);
-
-        if (id == R.id.first_page_img) {
-            firstPageButton.setSelected(true);
-            firstPageText.setTextColor(getResources().getColor(R.color.green));
-
-
-        } else if (id == R.id.knowledge_system_img) {
-            knowledgeSystemButton.setSelected(true);
-            knowledgeSystemText.setTextColor(getResources().getColor(R.color.shallow_blue));
-
-
-        } else if (id == R.id.project_img) {
-            projectButton.setSelected(true);
-            projectText.setTextColor(getResources().getColor(R.color.blue));
-
-        }
-    }
 
     /**
      * 切换碎片
