@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.playandroid.R;
+import com.example.playandroid.entity.Article;
 import com.example.playandroid.entity.Project;
 import com.example.playandroid.interf.clicklistener.ProjectArticleItemListener;
 import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
@@ -41,6 +42,12 @@ public class ProjectArticleRecyclerAdapter extends RecyclerView.Adapter<ProjectA
 
     public void setOnRecyclerItemClickListener(ProjectArticleItemListener projectArticleItemListener) {
         this.mProjectArticleItemListener = projectArticleItemListener;
+    }
+
+    public void addProjectArticle(List<Project> articleList) {
+        int size = this.mProjectArticleList.size();
+        this.mProjectArticleList.addAll(articleList);
+        this.notifyItemInserted(size);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

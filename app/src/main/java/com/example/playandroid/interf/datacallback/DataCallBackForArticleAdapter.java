@@ -6,4 +6,6 @@ public interface DataCallBackForArticleAdapter {
 
     void getLoveImg(ImageView loveImg, int articleId);
 
+//    void clickItem(int position)
+
 }

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -43,8 +44,9 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     private final static int UPDATE_PROJECT_ARTICLE = 1;
 
     private RecyclerView articleRecycleView;
-    private ProgressDialog progressDialog;
     private FragmentActivity mActivity;
+
+    private FrameLayout loadingLayout;
     private Context mContext;
 //    private ProgressBar progressBar;
 
@@ -78,14 +80,12 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
 
     @Override
     public void initView() {
-        progressDialog = new ProgressDialog(requireContext());
-        progressDialog.setMessage("正在努力加载中");
-        progressDialog.setCancelable(false);
     }
 
 
     @Override
     public void initData() {
+        Log.d("test111", "projectInit");
         requestProjectData(0, typeId);
     }
 
@@ -98,6 +98,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.project_content_fragment, container, false);
         articleRecycleView = view.findViewById(R.id.project_article_rv);//每加载一次碎片就重新加载recyclerView的适配器，解决切换页面变为空白的问题
+        loadingLayout = view.findViewById(R.id.load_layout);
 
 //        progressBar = view.findViewById(R.id.project_progressBar);
         articleRecyclerAdapter = new ProjectArticleRecyclerAdapter(projectList, new DataCallBackForArticleAdapter() {
@@ -179,7 +180,6 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     public void loadMoreProject(int typeId) {
         if (!over) {
 //            progressBar.setVisibility(View.VISIBLE);
-            progressDialog.show();
             page++;
             requestProjectData(page, typeId);
         }
@@ -194,14 +194,12 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
     @Override
     public void requestProjectDataResult(List<Project> projectList, boolean over) {
         this.over = over;
-        this.projectList.addAll(projectList);
-//        Message message = new Message();
-//        message.what = UPDATE_PROJECT_ARTICLE;
-//        handler.sendMessage(message);
         if (articleRecyclerAdapter != null) {
-            articleRecyclerAdapter.notifyDataSetChanged();//刷新界面
+            articleRecyclerAdapter.addProjectArticle(projectList);
         }
-        progressDialog.dismiss();
+        if (loadingLayout != null) {
+            loadingLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -210,6 +208,7 @@ public class ProjectContentFragment extends BaseFragment<ProjectContentPresenter
         projectList.clear();
         articleRecycleView = null;
         articleRecyclerAdapter = null;
+        loadingLayout = null;
         super.onDestroyView();
     }
 }

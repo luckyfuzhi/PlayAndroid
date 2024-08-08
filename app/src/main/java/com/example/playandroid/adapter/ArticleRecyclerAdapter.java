@@ -32,7 +32,7 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
 
     DataCallBackForArticleAdapter dataCallBack;
 
-    private Context mContext;
+//    private Context mContext;
 
     public ArticleRecyclerAdapter(List<Article> articleList, DataCallBackForArticleAdapter dataCallBack) {
         this.mArticleList = articleList;
@@ -75,7 +75,7 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_item, parent,
                 false);
         ViewHolder holder = new ViewHolder(view);
-        mContext = parent.getContext();
+//        mContext = parent.getContext();
         return holder;
     }
 
@@ -90,11 +90,11 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ArticleDetailActivity.class);
-                intent.setAction("sendArticleData");
-                intent.putExtra("articleLink", article.getLink());
-                intent.putExtra("title", article.getTitle());
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, ArticleDetailActivity.class);
+//                intent.setAction("sendArticleData");
+//                intent.putExtra("articleLink", article.getLink());
+//                intent.putExtra("title", article.getTitle());
+//                mContext.startActivity(intent);
             }
         });
         if (article.isCollect()) holder.loveImg.setSelected(true);

@@ -108,7 +108,9 @@ public class KsChildActivity extends BaseActivity<KsChildPresenter> {
 
     @Override
     public void destroy() {
-
+        ksChildContentFragmentList.clear();
+        ksChildContentFragmentList = null;
+        childArticleVp.setAdapter(null);
     }
 
     @Override

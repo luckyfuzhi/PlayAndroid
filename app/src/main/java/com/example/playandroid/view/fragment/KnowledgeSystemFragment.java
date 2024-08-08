@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,13 +31,14 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
 
     private RecyclerView ksTypeRecyclerView;
 
+    private FrameLayout loadingLayout;
+
     private List<KnowledgeType> knowledgeTypeList = new ArrayList<>();
 
     private List<String> childNameList = new ArrayList<>();
 
     private List<String> oneChildNameList = new ArrayList<>();
 
-    private ProgressDialog progressDialog;
 
     private KsTypeRecyclerAdapter ksTypeRecyclerAdapter = new KsTypeRecyclerAdapter(knowledgeTypeList, childNameList);
 
@@ -51,6 +53,8 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
         ksTypeRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(),
                 DividerItemDecoration.VERTICAL));//设置分界线
         ksTypeRecyclerView.setAdapter(ksTypeRecyclerAdapter);
+
+        loadingLayout = view.findViewById(R.id.load_layout);
         return view;
     }
 
@@ -66,19 +70,15 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemPresent
 
     @Override
     public void initView() {
-        progressDialog = new ProgressDialog(requireContext());
-        progressDialog.setMessage("正在努力加载中");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
     }
 
-    private Handler handler = new Handler(Looper.getMainLooper()) {
+    private final Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message message) {
             switch (message.what) {
                 case UPDATE_TYPE_RV:
+                    loadingLayout.setVisibility(View.GONE);
                     ksTypeRecyclerAdapter.notifyDataSetChanged();
-                    progressDialog.dismiss();
                     break;
                 default:
                     break;

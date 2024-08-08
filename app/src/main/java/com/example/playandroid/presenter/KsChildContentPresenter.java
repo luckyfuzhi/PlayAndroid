@@ -30,7 +30,7 @@ public class KsChildContentPresenter extends BasePresenterForFragment<KsChildCon
         mModel.collectArticle(articleId);
     }
 
-    public void collectResult(String msg) {
-        mView.showCollectResult(msg);
+    public void msgResult(String msg) {
+        mView.showMsgResult(msg);
     }
 }

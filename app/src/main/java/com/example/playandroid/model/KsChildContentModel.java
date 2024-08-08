@@ -10,6 +10,7 @@ import com.example.playandroid.interf.datacallback.DataCallBackForArticle;
 import com.example.playandroid.interf.contract.KsChildContract;
 import com.example.playandroid.entity.Article;
 import com.example.playandroid.interf.service.CollectionService;
+import com.example.playandroid.interf.service.KsService;
 import com.example.playandroid.presenter.KsChildContentPresenter;
 import com.example.playandroid.util.RetrofitUtil;
 import com.example.playandroid.util.WebUtil;
@@ -29,6 +30,7 @@ public class KsChildContentModel extends BaseModelForFragment<KsChildContentPres
     //知识体系某种类的具体文章列表网址
     private final static String KS_CHILD_ARTICLE_URL = "https://www.wanandroid.com/article/list/";
     private final CollectionService collectService = RetrofitUtil.getRetrofitInstance().create(CollectionService.class);
+    private final KsService ksService = RetrofitUtil.getRetrofitInstance().create(KsService.class);
 
     public KsChildContentModel(KsChildContentPresenter mPresenter) {
         super(mPresenter);
@@ -42,54 +44,75 @@ public class KsChildContentModel extends BaseModelForFragment<KsChildContentPres
                 if (response.isSuccessful()){
                     SingleDataResponse<ArticleResponse> dataResponse = response.body();
                     if (dataResponse != null) {
-                        mPresenter.collectResult(dataResponse.getErrorMsg());
+                        mPresenter.msgResult(dataResponse.getErrorMsg());
                     }
                 } else {
-                    mPresenter.collectResult("收藏失败");
+                    mPresenter.msgResult("收藏失败");
                 }
 
             }
 
             @Override
             public void onFailure(Call<SingleDataResponse<ArticleResponse>> call, Throwable t) {
-                mPresenter.collectResult(t.getMessage());
+                mPresenter.msgResult(t.getMessage());
             }
         });
     }
 
     @Override
     public void requestArticleData(int page, int typeId) {
-        WebUtil.getDataFromWeb(KS_CHILD_ARTICLE_URL + page + "/json?cid=" + typeId, new DataCallBack() {
+        Call<SingleDataResponse<ArticleResponse>> call = ksService.getArticle(page, typeId);
+        call.enqueue(new Callback<SingleDataResponse<ArticleResponse>>() {
             @Override
-            public void onSuccess(String data) {
-                int startIndex = data.indexOf("[");
-                int endIndex = data.lastIndexOf("]");
-                parseArticleData(data.substring(startIndex, endIndex + 1), new DataCallBackForArticle() {
-                    @Override
-                    public void onSuccess(List<Article> articleList) {
-                        mPresenter.requestArticleDataResult(articleList);
+            public void onResponse(Call<SingleDataResponse<ArticleResponse>> call, Response<SingleDataResponse<ArticleResponse>> response) {
+                if (response.isSuccessful()) {
+                    SingleDataResponse<ArticleResponse> dataResponse = response.body();
+                    if (dataResponse != null) {
+                        mPresenter.requestArticleDataResult(dataResponse.getData().getDatas());
                     }
-
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e("requestArticleData", "onFailure: 获取置顶文章数据失败/" + e);
-                    }
-                });
-
+                } else {
+                    mPresenter.msgResult("获取数据失败");
+                }
             }
 
             @Override
-            public void onFailure(Exception e) {
-                e.printStackTrace();
-                Log.e("requestArticleData", "onFailure: 获取网络数据失败" + e);
-            }
-
-            @Override
-            public void getCookie(List<String> setCookieList) {
-
+            public void onFailure(Call<SingleDataResponse<ArticleResponse>> call, Throwable t) {
+                mPresenter.msgResult(t.getMessage());
             }
         });
+
+
+//        WebUtil.getDataFromWeb(KS_CHILD_ARTICLE_URL + page + "/json?cid=" + typeId, new DataCallBack() {
+//            @Override
+//            public void onSuccess(String data) {
+//                int startIndex = data.indexOf("[");
+//                int endIndex = data.lastIndexOf("]");
+//                parseArticleData(data.substring(startIndex, endIndex + 1), new DataCallBackForArticle() {
+//                    @Override
+//                    public void onSuccess(List<Article> articleList) {
+//                        mPresenter.requestArticleDataResult(articleList);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Exception e) {
+//                        e.printStackTrace();
+//                        Log.e("requestArticleData", "onFailure: 获取置顶文章数据失败/" + e);
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Exception e) {
+//                e.printStackTrace();
+//                Log.e("requestArticleData", "onFailure: 获取网络数据失败" + e);
+//            }
+//
+//            @Override
+//            public void getCookie(List<String> setCookieList) {
+//
+//            }
+//        });
     }
 
     /**

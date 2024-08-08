@@ -12,6 +12,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -62,7 +63,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     private BannerAdapter bannerAdapter;
     private ViewPager bannerViewPager;
 
-    private ProgressDialog progressDialog;
+    private FrameLayout loadingLayout;
 
     private NestedScrollView nestedScrollView;
     private RecyclerView articleRecyclerView;
@@ -113,15 +114,12 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
      */
     @Override
     public void initView() {
-        progressDialog = new ProgressDialog(requireActivity());
-        progressDialog.setMessage("正在努力加载页面");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
         nestedScrollView = root.findViewById(R.id.fp_scroll_view);
         bannerViewPager = requireActivity().findViewById(R.id.banner);
         progressBar = requireActivity().findViewById(R.id.progressBar);
         articleRecyclerView = root.findViewById(R.id.first_page_recycler);
         bannerAdapter = new BannerAdapter(imageViewList);
+        loadingLayout = root.findViewById(R.id.load_layout);
         setArticleRecyclerView();
         requestBannerData();//请求banner数据
         requestTopArticleData();//请求置顶文章数据
@@ -322,8 +320,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     @Override
     public void requestArticleDataResult(List<Article> articleList) {
         articleRecyclerAdapter.addArticle(articleList);
+        loadingLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-        progressDialog.dismiss();
     }
 
     @Override
