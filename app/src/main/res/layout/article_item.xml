@@ -74,10 +74,10 @@
             android:src="@drawable/love_btn_animator" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/warm_gray"
-        android:alpha="0.1"/>
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/warm_gray"-->
+<!--        android:alpha="0.1"/>-->
 
 </LinearLayout>

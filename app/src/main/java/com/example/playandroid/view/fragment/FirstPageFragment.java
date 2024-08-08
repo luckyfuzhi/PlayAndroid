@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.playandroid.R;
@@ -41,6 +43,7 @@ import com.example.playandroid.view.activity.BottomActivity;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implements FirstPageContract.VP {
 
@@ -119,6 +122,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         progressBar = requireActivity().findViewById(R.id.progressBar);
         articleRecyclerView = root.findViewById(R.id.first_page_recycler);
         bannerAdapter = new BannerAdapter(imageViewList);
+        setArticleRecyclerView();
         requestBannerData();//请求banner数据
         requestTopArticleData();//请求置顶文章数据
         requestArticleData(0);//请求普通文章数据
@@ -140,6 +144,16 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         articleRecyclerView.setLayoutManager(mLayoutManager);
         articleRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(),
                 DividerItemDecoration.VERTICAL));//设置分界线
+        //设置Cache层的缓存大小
+        articleRecyclerView.setItemViewCacheSize(20);
+
+        //设置RecyclerViewPool层的缓存大小
+        RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+        viewPool.setMaxRecycledViews(0, 10);  // 没有设置ViewType，所以默认设置视图类型为0的最大缓存数量为10
+        articleRecyclerView.setRecycledViewPool(viewPool);
+
+        //禁用默认动画
+        ((SimpleItemAnimator) Objects.requireNonNull(articleRecyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
         articleRecyclerAdapter = new ArticleRecyclerAdapter(finalArticleList, new DataCallBackForArticleAdapter() {
             @Override
             public void getLoveImg(ImageView loveImg, int articleId) {
@@ -182,44 +196,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     }
 
 
-    /**
-     * 消息处理器
-     */
-    private final Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message message) {
-            switch (message.what) {
-                case TOP_ARTICLE_READY:
-                    flag1++;
-                case NORMAL_ARTICLE_READY:
-                    flag++;
-                    if(flag == 1 && flag1 == 0){ //说明是首页文章先加载好而置顶文章还未加载好
-                        break;
-                    }
-                    if (flag == 1 && flag1 == 1) {//说明是首次加载文章数据
-                        flag1 = 0;
-                        progressBar.setVisibility(View.VISIBLE);
-                        setArticleRecyclerView();
-                    }
-
-                    mActivity.runOnUiThread(new Runnable() {
-                        @SuppressLint("NotifyDataSetChanged")
-                        @Override
-                        public void run() {
-                            if (articleRecyclerAdapter != null) {
-                                articleRecyclerAdapter.notifyDataSetChanged();//刷新页面
-                            }
-                            progressDialog.dismiss();
-
-                        }
-                    });
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    };
 
 
     /**
@@ -345,10 +321,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Override
     public void requestArticleDataResult(List<Article> articleList) {
-        finalArticleList.addAll(articleList);
-        Message msg = new Message();//发送普通文章数据就绪的信号
-        msg.what = NORMAL_ARTICLE_READY;
-        handler.sendMessage(msg);
+        articleRecyclerAdapter.addArticle(articleList);
+        progressBar.setVisibility(View.VISIBLE);
+        progressDialog.dismiss();
     }
 
     @Override
@@ -358,10 +333,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Override
     public void requestTopArticleDataResult(List<Article> topArticleList) {
-        finalArticleList.addAll(topArticleList);
-        Message msg = new Message();//发送置顶文章数据就绪的信号
-        msg.what = TOP_ARTICLE_READY;
-        handler.sendMessage(msg);
+        articleRecyclerAdapter.addTopArticle(topArticleList);
     }
 
 

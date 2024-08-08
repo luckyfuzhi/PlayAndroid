@@ -18,6 +18,8 @@ import com.example.playandroid.entity.Article;
 import com.example.playandroid.interf.datacallback.DataCallBackForArticleAdapter;
 import com.example.playandroid.view.activity.ArticleDetailActivity;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -35,6 +37,16 @@ public class ArticleRecyclerAdapter extends RecyclerView.Adapter<ArticleRecycler
     public ArticleRecyclerAdapter(List<Article> articleList, DataCallBackForArticleAdapter dataCallBack) {
         this.mArticleList = articleList;
         this.dataCallBack = dataCallBack;
+    }
+
+    public void addArticle(List<Article> articleList) {
+        int size = this.mArticleList.size();
+        this.mArticleList.addAll(articleList);
+        this.notifyItemInserted(size);
+    }
+
+    public void addTopArticle(List<Article> articleList) {
+        this.mArticleList.addAll(0, articleList);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

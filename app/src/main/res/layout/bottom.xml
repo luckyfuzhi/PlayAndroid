@@ -74,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/navigation"
+            tools:layout_editor_absoluteX="-25dp"
             android:background="#FFFFFF"
             app:itemBackground="@color/white"
             app:itemIconTint="@color/nav_icon_selector"
